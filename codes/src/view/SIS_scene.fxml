@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+<HBox fx:id="sceneHBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <BorderPane fx:id="mapBorderPane" prefHeight="400.0" prefWidth="302.0" style="-fx-border-color: black;">
+         <left>
+            <VBox fx:id="zoomVBox" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Button fx:id="zoomPlusButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="103.0" text="Z+" />
+                  <Button fx:id="zoomMinusButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="104.0" text="Z-" />
+               </children>
+            </VBox>
+         </left>
+         <center>
+            <HBox fx:id="mapHBox" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <VBox fx:id="mapVBox" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label fx:id="roomLabel" alignment="CENTER" text="Room" textAlignment="CENTER" />
+                        <Pane fx:id="mapPanel" prefHeight="317.0" prefWidth="212.0" style="-fx-border-color: black;" />
+                        <Slider fx:id="mapHorizontalSlider" />
+                     </children>
+                  </VBox>
+                  <Slider fx:id="mapVerticalSlider" orientation="VERTICAL" />
+               </children>
+            </HBox>
+         </center>
+         <bottom>
+            <Button fx:id="backButton" alignment="CENTER" mnemonicParsing="false" prefHeight="40.0" prefWidth="108.0" text="Back" textAlignment="CENTER" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets bottom="10.0" top="10.0" />
+               </BorderPane.margin>
+            </Button>
+         </bottom>
+      </BorderPane>
+      <HBox fx:id="sisSceneRigthSide" prefHeight="400.0" prefWidth="301.0">
+         <children>
+            <VBox fx:id="interactDialogueVBox" prefHeight="400.0" prefWidth="183.0" style="-fx-border-color: green;">
+               <children>
+                  <VBox fx:id="interactVBox" prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <VBox fx:id="targetVBox" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" style="-fx-border-color: purple;">
+                           <children>
+                              <Label fx:id="targetLabel" text="Player" />
+                              <ProgressBar fx:id="targetHProgressBar" prefWidth="200.0" progress="0.0" />
+                              <ImageView fx:id="targetImageView" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                              <HBox fx:id="staHBox" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-border-color: black;">
+                                 <children>
+                                    <Button fx:id="searchButton" mnemonicParsing="false" text="Search" />
+                                    <Button fx:id="talkButton" mnemonicParsing="false" text="Talk" />
+                                    <Button fx:id="attackButton" mnemonicParsing="false" text="Attack" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </children>
+                  </VBox>
+                  <VBox fx:id="dialogueVBox" prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <TextField fx:id="dialogueTexfield" prefHeight="128.0" prefWidth="200.0" style="-fx-border-color: brown;">
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </TextField>
+                     </children>
+                  </VBox>
+                  <HBox fx:id="slhButton" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-border-color: blue;">
+                     <children>
+                        <Button fx:id="saveButton" mnemonicParsing="false" text="Save" />
+                        <Button fx:id="helpButton" mnemonicParsing="false" text="?" />
+                        <Button fx:id="loadButton" mnemonicParsing="false" text="Load" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox fx:id="inventoryVBox" prefHeight="400.0" prefWidth="165.0">
+               <children>
+                  <Label fx:id="inventoryLabel" text="Inventory" />
+                  <ScrollPane fx:id="inventoryScrollPane" fitToWidth="true" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                    <content>
+                      <AnchorPane fx:id="inventoryScrollPaneAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+                    </content>
+                  </ScrollPane>
+                  <FlowPane fx:id="buttonFlowPane" alignment="CENTER" prefHeight="16.0" prefWidth="97.0">
+                     <children>
+                        <Button fx:id="useButton" mnemonicParsing="false" text="Use" />
+                        <Button fx:id="giveButton" mnemonicParsing="false" text="Give" />
+                        <Button fx:id="dropButton" mnemonicParsing="false" text="Drop" />
+                     </children>
+                  </FlowPane>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</HBox>
