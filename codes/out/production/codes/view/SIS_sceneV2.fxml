@@ -84,7 +84,7 @@
                   </VBox>
                   <VBox fx:id="dialogueVBox" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
                      <children>
-                        <TextField fx:id="dialogueTexfield" editable="false" prefHeight="400.0" prefWidth="200.0" style="-fx-border-color: brown;" VBox.vgrow="ALWAYS">
+                        <TextField fx:id="dialogTextField" editable="false" prefHeight="400.0" prefWidth="200.0" style="-fx-border-color: brown;" VBox.vgrow="ALWAYS">
                            <VBox.margin>
                               <Insets top="10.0" />
                            </VBox.margin>
@@ -97,7 +97,7 @@
                   <HBox fx:id="slhButton" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-border-color: blue;">
                      <children>
                         <Button fx:id="saveButton" mnemonicParsing="false" text="Save" />
-                        <Button fx:id="helpButton" mnemonicParsing="false" text="?" />
+                        <Button fx:id="helpButton" mnemonicParsing="false" onMouseClicked="#printHelp" text="?" />
                         <Button fx:id="loadButton" mnemonicParsing="false" text="Load" />
                      </children>
                      <VBox.margin>
