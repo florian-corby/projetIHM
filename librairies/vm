@@ -1,0 +1,2 @@
+--module-path "../librairies/javafx/lib"
+--add-modules=javafx.controls,javafx.fxml
