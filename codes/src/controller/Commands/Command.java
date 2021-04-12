@@ -112,9 +112,9 @@ public class Command {
 				this.CALLER.getInventory().showItems();
 				break;
 
-			case LOAD:
+			/*case LOAD:
 				this.CALLER.load();
-				break;
+				break;*/
 
 			case LOOK:
 				if(ARGS.size() == 0)

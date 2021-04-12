@@ -13,7 +13,7 @@ import java.util.Set;
 
 public class Room implements Lookable, Serializable {
 
-	private final Ship SHIP;
+	private final ShipController SHIP;
 	private final Inventory INVENTORY;
 
 	private final int ID;
@@ -22,7 +22,7 @@ public class Room implements Lookable, Serializable {
 	private final HashMap<Door, Room> doors;
 	private final HashMap<String, Actor> actors;
 
-	public Room(Ship ship, int id, String description)
+	public Room(ShipController ship, int id, String description)
 	{
 		this.SHIP = ship;
 		this.INVENTORY = new Inventory();

@@ -4,10 +4,10 @@ import controller.Commands.Command;
 import controller.Commands.Lookable;
 import controller.Commands.UnknownVerb;
 import controller.Doors.Door;
-import controller.Game.SIS;
+import controller.Game.SISController;
 import controller.Items.*;
 import controller.Location.Room;
-import controller.Location.Ship;
+import controller.Location.ShipController;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -21,12 +21,12 @@ import java.util.Scanner;
 
 public class Player extends Actor implements Serializable
 {
-	private final Ship SHIP;
-	private SIS sis;
+	private final ShipController SHIP;
+	private SISController sisController;
 	private static final String NAME = "me";
 	private static final String DESCRIPTION = "Narcissism is an ugly trait of character but it is so common among humans";
 
-	public Player(Room r, Ship s)
+	public Player(Room r, ShipController s)
 	{
 		super(NAME, DESCRIPTION, r);
 		this.SHIP = s;
@@ -161,10 +161,10 @@ public class Player extends Actor implements Serializable
 			System.out.println("Using a pass on yourself looks dumb... You really aren't helping the human cause here!");
 	}
 
-	public void load()
+	/*public void load()
 	{
 		this.sis.load();
-	}
+	}*/
 
 	public void look()
 	{
@@ -251,9 +251,9 @@ public class Player extends Actor implements Serializable
 					"wondering if all humans are this rude.");
 	}
 
-	public void setSIS(SIS sis)
+	public void setSIS(SISController sisController)
 	{
-		this.sis = sis;
+		this.sisController = sisController;
 	}
 
 	@Override
