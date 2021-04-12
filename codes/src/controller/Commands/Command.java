@@ -2,9 +2,9 @@ package controller.Commands;
 
 import controller.Characters.Actor;
 import controller.Characters.Attackable;
-import controller.Characters.NPC;
-import controller.Characters.Player;
-import controller.Doors.Door;
+import controller.Characters.NPCController;
+import controller.Characters.PlayerController;
+import controller.Doors.DoorController;
 import controller.Items.Item;
 import controller.Items.UsableBy;
 import controller.Items.UsableOn;
@@ -13,14 +13,14 @@ import java.util.List;
 
 public class Command {
 
-	private final Player CALLER;
+	private final PlayerController CALLER;
 	private final Converter CONVERTER;
 	private final Verb V;
 	private final List<String> ARGS;
 
-	public Command(Player player, String verb, List<String> args) throws UnknownVerb
+	public Command(PlayerController playerController, String verb, List<String> args) throws UnknownVerb
 	{
-		this.CALLER = player;
+		this.CALLER = playerController;
 		this.ARGS = args;
 
 		Parser parser = new Parser(verb);
@@ -92,7 +92,7 @@ public class Command {
 
 				else {
 					try {
-						Door d = this.CONVERTER.convertDoor(this.ARGS.get(0));
+						DoorController d = this.CONVERTER.convertDoor(this.ARGS.get(0));
 						this.CALLER.go(d);
 					} catch (StringRequestUnmatched e) {
 						System.out.println("Error :> This isn't a door!");
@@ -147,8 +147,8 @@ public class Command {
 
 				else {
 					try {
-						NPC npc = this.CONVERTER.convertNPC(this.ARGS.get(0));
-						this.CALLER.search(npc);
+						NPCController npcController = this.CONVERTER.convertNPC(this.ARGS.get(0));
+						this.CALLER.search(npcController);
 					} catch (StringRequestUnmatched e) {
 						System.out.println("Error :> This NPC doesn't exist.");
 					}
@@ -179,8 +179,8 @@ public class Command {
 						if (this.ARGS.get(0).equals("me"))
 							System.out.println("I have to bring a proof of what's happening here to Umhon before leaving...");
 						else {
-							NPC npc = this.CONVERTER.convertNPC(this.ARGS.get(0));
-							this.CALLER.talk(npc);
+							NPCController npcController = this.CONVERTER.convertNPC(this.ARGS.get(0));
+							this.CALLER.talk(npcController);
 						}
 					} catch (StringRequestUnmatched e) {
 						System.out.println("Error :> This person isn't in this room (or maybe you enjoy talking to ghosts?)");

@@ -6,12 +6,12 @@ import controller.Items.UsableOn;
 
 import java.io.Serializable;
 
-public class LockedDoor extends Door implements Unlockable, Serializable {
+public class LockedDoorController extends DoorController implements Unlockable, Serializable {
 
 	private final PassType PASSTYPE;
 	private boolean isLocked;
 
-	public LockedDoor(String tag, PassType p)
+	public LockedDoorController(String tag, PassType p)
 	{
 		super(tag);
 		this.PASSTYPE = p;

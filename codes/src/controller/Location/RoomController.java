@@ -2,30 +2,30 @@ package controller.Location;
 
 import controller.Characters.Actor;
 import controller.Commands.Lookable;
-import controller.Containers.Inventory;
-import controller.Doors.Door;
-import controller.Doors.LockedDoor;
+import controller.Containers.InventoryController;
+import controller.Doors.DoorController;
+import controller.Doors.LockedDoorController;
 
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class Room implements Lookable, Serializable {
+public class RoomController implements Lookable, Serializable {
 
 	private final ShipController SHIP;
-	private final Inventory INVENTORY;
+	private final InventoryController INVENTORYController;
 
 	private final int ID;
 	private final String description;
 
-	private final HashMap<Door, Room> doors;
+	private final HashMap<DoorController, RoomController> doors;
 	private final HashMap<String, Actor> actors;
 
-	public Room(ShipController ship, int id, String description)
+	public RoomController(ShipController ship, int id, String description)
 	{
 		this.SHIP = ship;
-		this.INVENTORY = new Inventory();
+		this.INVENTORYController = new InventoryController();
 		this.ID = id;
 		this.description = description;
 
@@ -38,7 +38,7 @@ public class Room implements Lookable, Serializable {
 		this.actors.put(actor.getName(), actor);
 	}
 
-	public void addDoor(Door d, Room r)
+	public void addDoor(DoorController d, RoomController r)
 	{
 		this.doors.put(d, r);
 	}
@@ -60,12 +60,12 @@ public class Room implements Lookable, Serializable {
 		return this.actors.get(s);
 	}
 
-	public Door getDoor(String s)
+	public DoorController getDoor(String s)
 	{
-		Set<Door> doorSet = this.doors.keySet();
-		Door res = null;
+		Set<DoorController> doorControllerSet = this.doors.keySet();
+		DoorController res = null;
 
-		for(Door d : doorSet)
+		for(DoorController d : doorControllerSet)
 		{
 			if(d.getTag().equals(s))
 				res = d;
@@ -74,11 +74,11 @@ public class Room implements Lookable, Serializable {
 		return res;
 	}
 
-	public Door getDoor(Room r)
+	public DoorController getDoor(RoomController r)
 	{
-		Door res = null;
+		DoorController res = null;
 
-		for(Map.Entry<Door, Room> e : this.doors.entrySet())
+		for(Map.Entry<DoorController, RoomController> e : this.doors.entrySet())
 		{
 			if(e.getValue().equals(r)) {
 				res = e.getKey();
@@ -93,14 +93,14 @@ public class Room implements Lookable, Serializable {
 		return ID;
 	}
 
-	public Inventory getInventory()
+	public InventoryController getInventory()
 	{
-		return this.INVENTORY;
+		return this.INVENTORYController;
 	}
 
-	public LockedDoor getLockedDoor(String s)
+	public LockedDoorController getLockedDoor(String s)
 	{
-		return (LockedDoor) getDoor(s);
+		return (LockedDoorController) getDoor(s);
 	}
 
 	public boolean hasActor(String name)
@@ -110,12 +110,12 @@ public class Room implements Lookable, Serializable {
 
 	public boolean hasLockedDoor()
 	{
-		Set<Door> doorSet = this.doors.keySet();
+		Set<DoorController> doorControllerSet = this.doors.keySet();
 		boolean res = false;
 
-		for(Door d : doorSet)
+		for(DoorController d : doorControllerSet)
 		{
-			if (d instanceof LockedDoor && ((LockedDoor) d).isLocked()) {
+			if (d instanceof LockedDoorController && ((LockedDoorController) d).isLocked()) {
 				res = true;
 				break;
 			}
@@ -137,9 +137,9 @@ public class Room implements Lookable, Serializable {
 
 		//Printing doors:
 		System.out.println("\n\tDoors in the room:");
-		Set<Door> doorSet = this.doors.keySet();
+		Set<DoorController> doorControllerSet = this.doors.keySet();
 
-		for(Door d : doorSet)
+		for(DoorController d : doorControllerSet)
 			System.out.println("\t- " + d.getTag());
 
 		//Printing actors:
@@ -157,7 +157,7 @@ public class Room implements Lookable, Serializable {
 		}
 	}
 
-	public void useDoor(Actor a, Door d)
+	public void useDoor(Actor a, DoorController d)
 	{
 		if( d.isOpen())
 			a.changeRoom(this.doors.get(d));

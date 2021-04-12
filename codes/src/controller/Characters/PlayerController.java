@@ -3,10 +3,10 @@ package controller.Characters;
 import controller.Commands.Command;
 import controller.Commands.Lookable;
 import controller.Commands.UnknownVerb;
-import controller.Doors.Door;
+import controller.Doors.DoorController;
 import controller.Game.SISController;
 import controller.Items.*;
-import controller.Location.Room;
+import controller.Location.RoomController;
 import controller.Location.ShipController;
 
 import java.io.FileOutputStream;
@@ -19,14 +19,14 @@ import java.util.List;
 import java.util.Scanner;
 
 
-public class Player extends Actor implements Serializable
+public class PlayerController extends Actor implements Serializable
 {
 	private final ShipController SHIP;
 	private SISController sisController;
 	private static final String NAME = "me";
 	private static final String DESCRIPTION = "Narcissism is an ugly trait of character but it is so common among humans";
 
-	public Player(Room r, ShipController s)
+	public PlayerController(RoomController r, ShipController s)
 	{
 		super(NAME, DESCRIPTION, r);
 		this.SHIP = s;
@@ -35,7 +35,7 @@ public class Player extends Actor implements Serializable
 	public void back()
 	{
 		try {
-			Door d = this.getRoom().getDoor(this.getPreviousRoom());
+			DoorController d = this.getRoom().getDoor(this.getPreviousRoom());
 			this.go(d);
 		}
 
@@ -89,10 +89,10 @@ public class Player extends Actor implements Serializable
 			super.give(tag, a);
 	}
 
-	public void go(Door door)
+	public void go(DoorController doorController)
 	{
-		door.open();
-		this.getRoom().useDoor(this, door);
+		doorController.open();
+		this.getRoom().useDoor(this, doorController);
 	}
 
 	public void help()
@@ -196,13 +196,13 @@ public class Player extends Actor implements Serializable
 		}
 	}
 
-	public void talk(NPC npc)
+	public void talk(NPCController npcController)
 	{
-		if(npc.isDead())
+		if(npcController.isDead())
 			System.out.println("Great, now you are talking to a dead body... You're just getting better and better!");
 
 		else
-			npc.talk();
+			npcController.talk();
 	}
 
 
@@ -228,26 +228,26 @@ public class Player extends Actor implements Serializable
 		}
 	}
 
-	public void search(NPC npc) {
-		if(npc.isDead()) {
+	public void search(NPCController npcController) {
+		if(npcController.isDead()) {
 			Scanner scan = new Scanner(System.in);
 			String userChoice = "";
 			while(!userChoice.equals("quit")){
 				System.out.println("\n==========================================================================================\n" +
-						"\tYou are searching " + npc.getName() + "'s inventory.\n" +
+						"\tYou are searching " + npcController.getName() + "'s inventory.\n" +
 						"\tEnter the name of an item in order to take it. Enter 'quit' to go back.\n" +
 						"==========================================================================================\n");
-				npc.getInventory().showItems();
+				npcController.getInventory().showItems();
 				System.out.print(":> ");
 				userChoice = scan.nextLine();
 				if(!userChoice.equals("quit")){
-					npc.give(userChoice, this);
+					npcController.give(userChoice, this);
 				}
-				else System.out.println("You decided to stop looting " + npc.getName() + "'s dead corpse.");
+				else System.out.println("You decided to stop looting " + npcController.getName() + "'s dead corpse.");
 			}
 		}
 		else
-			System.out.println(npc.getName() + " looks at you trying to search their pockets, and pushes you backward while " +
+			System.out.println(npcController.getName() + " looks at you trying to search their pockets, and pushes you backward while " +
 					"wondering if all humans are this rude.");
 	}
 

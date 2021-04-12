@@ -2,18 +2,18 @@ package controller.Characters;
 
 import controller.Commands.Lookable;
 import controller.Items.Item;
-import controller.Location.Room;
+import controller.Location.RoomController;
 
 import java.io.Serializable;
 import java.util.List;
 
-public class NPC extends Actor implements Serializable, Lookable
+public class NPCController extends Actor implements Serializable, Lookable
 {
 	private boolean isHostile;
 	private boolean isAlly;
 	private String speech;
 
-	public NPC(String name, String description, boolean isHostile, boolean isAlly, List<Item> items, Room r)
+	public NPCController(String name, String description, boolean isHostile, boolean isAlly, List<Item> items, RoomController r)
 	{
 		super(name, description, r);
 		this.isHostile = isHostile;

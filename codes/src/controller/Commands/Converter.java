@@ -2,20 +2,20 @@ package controller.Commands;
 
 import controller.Characters.Actor;
 import controller.Characters.Attackable;
-import controller.Characters.NPC;
-import controller.Characters.Player;
-import controller.Doors.Door;
+import controller.Characters.NPCController;
+import controller.Characters.PlayerController;
+import controller.Doors.DoorController;
 import controller.Items.Item;
 import controller.Items.UsableBy;
 import controller.Items.UsableOn;
 
 public class Converter {
 
-	private final Player CALLER;
+	private final PlayerController CALLER;
 
-	public Converter(Player player)
+	public Converter(PlayerController playerController)
 	{
-		this.CALLER = player;
+		this.CALLER = playerController;
 	}
 
 	public Attackable convertAttackable(String s) throws StringRequestUnmatched
@@ -29,9 +29,9 @@ public class Converter {
 			throw new StringRequestUnmatched();
 	}
 
-	public Door convertDoor(String s) throws StringRequestUnmatched
+	public DoorController convertDoor(String s) throws StringRequestUnmatched
 	{
-		Door d = this.CALLER.getRoom().getDoor(s);
+		DoorController d = this.CALLER.getRoom().getDoor(s);
 
 		if(d != null)
 			return d;
@@ -78,12 +78,12 @@ public class Converter {
 			throw new StringRequestUnmatched();
 	}
 
-	public NPC convertNPC(String s) throws StringRequestUnmatched
+	public NPCController convertNPC(String s) throws StringRequestUnmatched
 	{
 		Actor npc = this.CALLER.getRoom().getActor(s);
 
-		if (npc instanceof NPC)
-			return (NPC) npc;
+		if (npc instanceof NPCController)
+			return (NPCController) npc;
 
 		else
 			throw new StringRequestUnmatched();

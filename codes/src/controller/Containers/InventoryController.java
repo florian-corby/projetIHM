@@ -5,11 +5,11 @@ import controller.Items.Item;
 import java.io.Serializable;
 import java.util.HashMap;
 
-public class Inventory implements Serializable {
+public class InventoryController implements Serializable {
 
 	private final HashMap<String, Item> ITEMS;
 
-	public Inventory()
+	public InventoryController()
 	{
 		this.ITEMS = new HashMap<>();
 	}
@@ -29,13 +29,13 @@ public class Inventory implements Serializable {
 		return this.ITEMS.size();
 	}
 
-	public void moveItem(String tag, Inventory inventory)
+	public void moveItem(String tag, InventoryController inventoryController)
 	{
 		Item item = this.ITEMS.get(tag);
 
 		if(item != null) {
 			this.removeItem(tag);
-			inventory.addItem(item);
+			inventoryController.addItem(item);
 		}
 
 		else

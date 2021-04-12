@@ -1,12 +1,12 @@
 package controller.Characters;
 
 import controller.Commands.Lookable;
-import controller.Containers.Inventory;
+import controller.Containers.InventoryController;
 import controller.Items.HealthStation;
 import controller.Items.Item;
 import controller.Items.UsableBy;
 import controller.Items.UsableOn;
-import controller.Location.Room;
+import controller.Location.RoomController;
 
 import java.io.Serializable;
 
@@ -16,34 +16,34 @@ public abstract class Actor implements Attackable, Attacker, UsableBy, Serializa
 	private final String DESCRIPTION;
 	private int hp;
 	private final int ATTACKPOWER;
-	private Room room;
-	private Room previousRoom;
-	private final Inventory INVENTORY;
+	private RoomController roomController;
+	private RoomController previousRoomController;
+	private final InventoryController INVENTORYController;
 
 	private static final int DEFAULT_ATTACKPOWER = 25;
 	private static final int DEFAULT_HP = 100;
 	private static final int DEFAULT_HP_MAX = 100;
 
-	public Actor(String name, String description, Room r)
+	public Actor(String name, String description, RoomController r)
 	{
 		this.NAME = name;
 		this.DESCRIPTION = description;
 		this.hp = DEFAULT_HP;
 		this.ATTACKPOWER = DEFAULT_ATTACKPOWER;
-		this.room = r;
-		this.previousRoom = r;
-		this.INVENTORY = new Inventory();
+		this.roomController = r;
+		this.previousRoomController = r;
+		this.INVENTORYController = new InventoryController();
 
 		r.addActor(this);
 	}
 
-	public void changeRoom(Room r)
+	public void changeRoom(RoomController r)
 	{
-		this.previousRoom = this.getRoom();
-		this.room.removeActor(this.NAME);
+		this.previousRoomController = this.getRoom();
+		this.roomController.removeActor(this.NAME);
 		r.addActor(this);
-		this.room = r;
-		this.room.describe();
+		this.roomController = r;
+		this.roomController.describe();
 	}
 
 	@Override
@@ -67,9 +67,9 @@ public abstract class Actor implements Attackable, Attacker, UsableBy, Serializa
 		return this.hp;
 	}
 
-	public Inventory getInventory()
+	public InventoryController getInventory()
 	{
-		return this.INVENTORY;
+		return this.INVENTORYController;
 	}
 
 	public String getName()
@@ -77,19 +77,19 @@ public abstract class Actor implements Attackable, Attacker, UsableBy, Serializa
 		return this.NAME;
 	}
 
-	public Room getPreviousRoom()
+	public RoomController getPreviousRoom()
 	{
-		return this.previousRoom;
+		return this.previousRoomController;
 	}
 
-	public Room getRoom()
+	public RoomController getRoom()
 	{
-		return this.room;
+		return this.roomController;
 	}
 
 	public void give(String tag, Actor a)
 	{
-		Item item = this.INVENTORY.getItem(tag);
+		Item item = this.INVENTORYController.getItem(tag);
 
 		if(!this.isDead())
 		{
@@ -97,13 +97,13 @@ public abstract class Actor implements Attackable, Attacker, UsableBy, Serializa
 				System.out.println("You tried giving a " + tag + " to " + a.getName() + ", but somehow it seems that a dead body cannot grab an item. Strange, huh?");
 			else {
 				if(item != null) {
-					this.INVENTORY.moveItem(item.getTag(), a.getInventory());
+					this.INVENTORYController.moveItem(item.getTag(), a.getInventory());
 					a.receive(this, item.getTag());
 				}
 
 				else
 				{
-					if(this instanceof Player)
+					if(this instanceof PlayerController)
 						System.out.println("Error :> You don't have this item in your inventory");
 
 					else
@@ -142,7 +142,7 @@ public abstract class Actor implements Attackable, Attacker, UsableBy, Serializa
 			if(this.hp > this.getDEFAULT_HP_MAX())
 				this.hp = this.getDEFAULT_HP_MAX();
 
-			if(this instanceof Player)
+			if(this instanceof PlayerController)
 				System.out.println("You have been healed!");
 
 			else

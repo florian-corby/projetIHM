@@ -5,12 +5,12 @@ import controller.Items.UsableBy;
 
 import java.io.Serializable;
 
-public class Door implements Serializable, Lookable, UsableBy {
+public class DoorController implements Serializable, Lookable, UsableBy {
 
 	private boolean isOpen;
 	private final String TAG;
 
-	public Door(String tag)
+	public DoorController(String tag)
 	{
 		this.isOpen = false;
 		this.TAG = tag;

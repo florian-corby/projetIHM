@@ -1,8 +1,8 @@
 package controller.Events;
 
-import controller.Characters.Player;
+import controller.Characters.PlayerController;
 
 @FunctionalInterface
 public interface PlayerEvent {
-    void raise(Player p);
+    void raise(PlayerController p);
 }

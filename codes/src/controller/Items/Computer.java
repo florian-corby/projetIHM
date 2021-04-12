@@ -1,8 +1,8 @@
 package controller.Items;
 
 import controller.Characters.Actor;
-import controller.Characters.Player;
-import controller.Containers.Inventory;
+import controller.Characters.PlayerController;
+import controller.Containers.InventoryController;
 import controller.Events.Event;
 
 import java.io.Serializable;
@@ -11,20 +11,20 @@ import java.util.Scanner;
 
 public class Computer extends Item implements Serializable {
 
-    private final Inventory FILES;
+    private final InventoryController FILES;
     private final Event EVENT;
 
     public Computer(String description, String tag)
     {
         super(tag, description);
-        this.FILES = new Inventory();
+        this.FILES = new InventoryController();
         this.EVENT = null;
     }
 
     public Computer(String description, String tag, Event event)
     {
         super(tag, description);
-        this.FILES = new Inventory();
+        this.FILES = new InventoryController();
         this.EVENT = event;
     }
 
@@ -32,13 +32,13 @@ public class Computer extends Item implements Serializable {
         this.FILES.addItem(f);
     }
 
-    public Inventory getFILES() { return this.FILES; }
+    public InventoryController getFILES() { return this.FILES; }
 
     @Override
     public void isUsed(UsableBy u) {
 
-        if(u instanceof Player) {
-            Player player = (Player) u;
+        if(u instanceof PlayerController) {
+            PlayerController playerController = (PlayerController) u;
             System.out.println("Welcome to the lab Computer. You can consult lab files, or generate a Pass. Please input a command :");
 
             boolean quit = false;
@@ -52,7 +52,7 @@ public class Computer extends Item implements Serializable {
 
                 System.out.println("\t:> quit");
 
-                quit = playerInput(player);
+                quit = playerInput(playerController);
             }
         }
 
@@ -60,13 +60,13 @@ public class Computer extends Item implements Serializable {
             System.out.println("Error :> This object can't use the computer");
     }
 
-    public boolean playerInput(Player player) {
+    public boolean playerInput(PlayerController playerController) {
 
         Scanner sc = new Scanner(System.in);
         String userChoice = sc.nextLine();
 
         if (this.EVENT != null && userChoice.equals(this.EVENT.getTag())) {
-            this.EVENT.getE().raise(player);
+            this.EVENT.getE().raise(playerController);
             return false;
         }
 
@@ -81,7 +81,7 @@ public class Computer extends Item implements Serializable {
                         String choice = sc0.nextLine();
 
                         try {
-                            this.FILES.getItem(choice).isUsed(player);
+                            this.FILES.getItem(choice).isUsed(playerController);
                             return false;
                         } catch (NullPointerException e) {
                             System.out.println("\nThis file doesn't exist");
@@ -94,7 +94,7 @@ public class Computer extends Item implements Serializable {
                         this.FILES.showItems();
                         Scanner sc1 = new Scanner(System.in);
                         String print = sc1.nextLine();
-                        printFile(print, player);
+                        printFile(print, playerController);
                         return false;
 
                     case "quit":
