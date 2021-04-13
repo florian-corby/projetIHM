@@ -11,6 +11,9 @@ public class SisSceneController implements MessageListener
     @FXML
     private VBox dialogPanel;
 
+    @FXML
+    private TextArea dialogTextArea;
+
    /* @FXML
     private void saveGame()
     {
@@ -27,6 +30,6 @@ public class SisSceneController implements MessageListener
 
     @Override
     public void update(String message) {
-        //dialogPanel.getDialogTextArea().setText(message);
+        ((TextArea) dialogPanel.getChildren().get(0)).setText(message);
     }
 }
