@@ -19,15 +19,16 @@ public class SIS implements Serializable {
 	}
 
 	public SIS(MessageListener messageListener) {
-		this();
 		Message.setMessageListener(messageListener);
+		this.initGame();
 	}
 
 	public void initGame() {
 		this.printGameIntro();
 		this.printScenario();
+		Message.sendGameMessage("");
 
-		Scanner scan = new Scanner(System.in);
+		/*Scanner scan = new Scanner(System.in);
 		Message.sendGameMessage("Load an existing game?\n(Type \"yes\" if you have a save file. Press Enter for a new game.)");
 		Message.sendGameMessage("\nCommand :> ");
 		String userChoice = scan.nextLine();
@@ -50,14 +51,14 @@ public class SIS implements Serializable {
 				this.ship.getNPC("Kilen").give("passT", this.ship.getPlayer());
 				this.ship.getNPC("Kilen").setSpeech("You should hurry! I've managed to deal with the guards in the lab but it won't be long before they come back!");
 			}
-		} else {
+		} else {*/
 			Message.sendGameMessage("\t\t ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \n\n");
 			Message.sendGameMessage("You wake up feeling dizzy. Something is talking to you. Something not human.\n");
 			this.ship = new Ship();
 			this.ship.getNPC("Kilen").talk();
 			this.ship.getNPC("Kilen").give("passT", this.ship.getPlayer());
 			this.ship.getNPC("Kilen").setSpeech("You should hurry! I've managed to deal with the guards in the lab but it won't be long before they come back!");
-		}
+		//}
 
 		this.ship.getPlayer().setSIS(this);
 	}
@@ -115,7 +116,7 @@ public class SIS implements Serializable {
 		Message.addGameMessage("\t\t ============ SILENT IN SPACE ============ \n");
 		Message.addGameMessage("\t\t ========================================= \n\n");
 
-		Message.sendGameMessage("""
+		Message.addGameMessage("""
 				WELCOME to Silent In Space! This game was developed by Florian Legendre, Alexis Louail
 				and Vincent Tourenne as a universitary project. This is a demo, hence all the features
 				intended to be in the final version aren't there. This game is meant to be played by
@@ -127,7 +128,7 @@ public class SIS implements Serializable {
 	}
 
 	public void printScenario() {
-		Message.sendGameMessage("""
+		Message.addGameMessage("""
 				SCENARIO: You wake up in an alien ship. You understand that you've been abducted and
 				you must escape. Yet, you can't use the escape pods of the ship without a code.
 				Umhon, an important alien person, can give you this code (OR you can take it from her

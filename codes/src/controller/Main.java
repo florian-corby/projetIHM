@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import model.Game.SIS;
 
 public class Main extends Application {
 
@@ -14,7 +15,7 @@ public class Main extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/SIS_sceneV2.fxml"));
         Parent root = loader.load();
         SisSceneController controller = loader.getController();
-        controller.setGame(new SISController(controller.getDialogTextArea()));
+        new SIS(controller);
 
         primaryStage.setTitle("Silent In Space");
         primaryStage.setScene(new Scene(root));

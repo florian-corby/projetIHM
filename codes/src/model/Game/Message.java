@@ -1,7 +1,5 @@
 package model.Game;
 
-import com.sun.javafx.property.adapter.PropertyDescriptor;
-
 public abstract class Message {
 
     private static String gameMessage;
@@ -30,11 +28,12 @@ public abstract class Message {
     }
 
     public static void sendGameMessage(String gameMessage) {
-        addGameMessage(gameMessage);
+        Message.addGameMessage(gameMessage);
 
-        if(messageListener != null)
-            messageListener.update(getGameMessage());
+        if(messageListener != null) {
+            messageListener.update(Message.getGameMessage());
+        }
 
-        clearGameMessage();
+        Message.clearGameMessage();
     }
 }

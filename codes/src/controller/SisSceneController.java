@@ -1,18 +1,13 @@
 package controller;
 
-import controller.Game.SISController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import model.Game.MessageListener;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 
-public class SisSceneController
+public class SisSceneController implements MessageListener
 {
-    private SISController gameSISController;
     private String previousDialog = "";
 
     @FXML
@@ -57,7 +52,7 @@ public class SisSceneController
         }
     }
 
-    @FXML
+   /* @FXML
     private void saveGame()
     {
         try {
@@ -69,14 +64,14 @@ public class SisSceneController
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
     public TextArea getDialogTextArea() {
         return dialogTextField;
     }
 
-    public void setGame(SISController sisController)
-    {
-        gameSISController = sisController;
+    @Override
+    public void update(String message) {
+        dialogTextField.setText(message);
     }
 }
