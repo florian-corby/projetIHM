@@ -1,6 +1,7 @@
 package model.Doors;
 
 import model.Commands.Lookable;
+import model.Game.Message;
 import model.Items.UsableBy;
 
 import java.io.Serializable;
@@ -25,10 +26,10 @@ public class Door implements Serializable, Lookable, UsableBy {
 	public void describe()
 	{
 		if(this.isOpen)
-			System.out.println(this.TAG + " is open.");
+			Message.sendGameMessage(this.TAG + " is open.");
 
 		else
-			System.out.println(this.TAG + " is closed.");
+			Message.sendGameMessage(this.TAG + " is closed.");
 	}
 
 	public String getTag()

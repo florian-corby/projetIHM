@@ -2,6 +2,7 @@ package model.Commands;
 
 import model.Characters.*;
 import model.Doors.Door;
+import model.Game.Message;
 import model.Items.Item;
 import model.Items.UsableBy;
 import model.Items.UsableOn;
@@ -31,14 +32,14 @@ public class Command {
 		{
 			case ATTACK:
 				if(this.ARGS.size() == 0)
-					System.out.println("Error :> Please indicate who you want to attack");
+					Message.sendGameMessage("Error :> Please indicate who you want to attack");
 
 				else {
 					try {
 						Attackable a = this.CONVERTER.convertAttackable(this.ARGS.get(0));
 						this.CALLER.attack(a);
 					} catch (StringRequestUnmatched e) {
-						System.out.println("Error :> You can't attack this!");
+						Message.sendGameMessage("Error :> You can't attack this!");
 					}
 				}
 				break;
@@ -49,14 +50,14 @@ public class Command {
 
 			case DROP:
 				if(this.ARGS.size() == 0)
-					System.out.println("Error :> Please indicate which item you want to drop");
+					Message.sendGameMessage("Error :> Please indicate which item you want to drop");
 
 				else {
 					try {
 						Item item = this.CONVERTER.convertPlayerItem(this.ARGS.get(0));
 						this.CALLER.drop(item);
 					} catch (StringRequestUnmatched e) {
-						System.out.println("Error :> This item isn't in your inventory");
+						Message.sendGameMessage("Error :> This item isn't in your inventory");
 					}
 				}
 				break;
@@ -64,12 +65,12 @@ public class Command {
 			case GIVE:
 				if(this.ARGS.size() < 1)
 				{
-					System.out.println("Error :> I don't know what to give to whom.");
+					Message.sendGameMessage("Error :> I don't know what to give to whom.");
 				}
 
 				else if(ARGS.size() == 1)
 				{
-					System.out.println("Error :> I don't know who to give " + this.ARGS.get(0));
+					Message.sendGameMessage("Error :> I don't know who to give " + this.ARGS.get(0));
 				}
 
 				else
@@ -78,21 +79,21 @@ public class Command {
 						Actor a = this.CONVERTER.convertNPC(this.ARGS.get(1));
 						this.CALLER.give(this.ARGS.get(0), a);
 					} catch (StringRequestUnmatched e) {
-						System.out.println("You can't give anything to this!");
+						Message.sendGameMessage("You can't give anything to this!");
 					}
 				}
 				break;
 
 			case GO:
 				if(this.ARGS.size() == 0)
-					System.out.println("Error :> Please indicate which door you want to go through");
+					Message.sendGameMessage("Error :> Please indicate which door you want to go through");
 
 				else {
 					try {
 						Door d = this.CONVERTER.convertDoor(this.ARGS.get(0));
 						this.CALLER.go(d);
 					} catch (StringRequestUnmatched e) {
-						System.out.println("Error :> This isn't a door!");
+						Message.sendGameMessage("Error :> This isn't a door!");
 					}
 				}
 				break;
@@ -125,7 +126,7 @@ public class Command {
 					}
 
 					catch(StringRequestUnmatched e) {
-						System.out.println("Error :> You can't look this.");
+						Message.sendGameMessage("Error :> You can't look this.");
 					}
 				}
 				break;
@@ -140,47 +141,47 @@ public class Command {
 
 			case SEARCH:
 				if(ARGS.size() == 0)
-					System.out.println("Error :> Who are you trying to search?");
+					Message.sendGameMessage("Error :> Who are you trying to search?");
 
 				else {
 					try {
 						NPC npc = this.CONVERTER.convertNPC(this.ARGS.get(0));
 						this.CALLER.search(npc);
 					} catch (StringRequestUnmatched e) {
-						System.out.println("Error :> This NPC doesn't exist.");
+						Message.sendGameMessage("Error :> This NPC doesn't exist.");
 					}
 				}
 				break;
 
 			case TAKE:
 				if(ARGS.size() == 0)
-					System.out.println("Error :> Please indicate which item you want to take");
+					Message.sendGameMessage("Error :> Please indicate which item you want to take");
 
 				else {
 					try {
 						Item item = this.CONVERTER.convertItem(this.ARGS.get(0));
 						this.CALLER.take(item);
 					} catch (StringRequestUnmatched e) {
-						System.out.println("Error :> This item isn't in this room or can't be taken with you");
+						Message.sendGameMessage("Error :> This item isn't in this room or can't be taken with you");
 					}
 				}
 				break;
 
 			case TALK:
 				if(this.ARGS.size() == 0)
-					System.out.println("Error :> Please indicate who you want to talk to");
+					Message.sendGameMessage("Error :> Please indicate who you want to talk to");
 
 				else {
 
 					try {
 						if (this.ARGS.get(0).equals("me"))
-							System.out.println("I have to bring a proof of what's happening here to Umhon before leaving...");
+							Message.sendGameMessage("I have to bring a proof of what's happening here to Umhon before leaving...");
 						else {
 							NPC npc = this.CONVERTER.convertNPC(this.ARGS.get(0));
 							this.CALLER.talk(npc);
 						}
 					} catch (StringRequestUnmatched e) {
-						System.out.println("Error :> This person isn't in this room (or maybe you enjoy talking to ghosts?)");
+						Message.sendGameMessage("Error :> This person isn't in this room (or maybe you enjoy talking to ghosts?)");
 					}
 				}
 				break;
@@ -188,7 +189,7 @@ public class Command {
 			case USE:
 				if(this.ARGS.size() < 1)
 				{
-					System.out.println("Error :> I don't know which item you want to use.");
+					Message.sendGameMessage("Error :> I don't know which item you want to use.");
 				}
 
 				else if(ARGS.size() == 1)
@@ -200,7 +201,7 @@ public class Command {
 
 					catch(StringRequestUnmatched e)
 					{
-						System.out.println("Error :> I don't know this item");
+						Message.sendGameMessage("Error :> I don't know this item");
 					}
 				}
 
@@ -215,13 +216,13 @@ public class Command {
 
 					catch(StringRequestUnmatched e)
 					{
-						System.out.println("Error :> I don't know one of the items");
+						Message.sendGameMessage("Error :> I don't know one of the items");
 					}
 				}
 				break;
 
 			default:
-				System.out.println("Error :> Something wrong occurred, this case should never have been reached in exec()" +
+				Message.sendGameMessage("Error :> Something wrong occurred, this case should never have been reached in exec()" +
 						" method in commands.");
 				break;
 		}

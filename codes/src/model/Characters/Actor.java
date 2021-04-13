@@ -1,6 +1,7 @@
 package model.Characters;
 
 import model.Commands.Lookable;
+import model.Game.Message;
 import model.Items.*;
 import model.Location.*;
 import model.Containers.*;
@@ -46,7 +47,7 @@ public abstract class Actor implements Attackable, Attacker, UsableBy, Serializa
 	@Override
 	public void describe()
 	{
-		System.out.println(this.DESCRIPTION);
+		Message.sendGameMessage(this.DESCRIPTION);
 	}
 
 	public int getAttackPower()
@@ -91,7 +92,7 @@ public abstract class Actor implements Attackable, Attacker, UsableBy, Serializa
 		if(!this.isDead())
 		{
 			if(a.isDead())
-				System.out.println("You tried giving a " + tag + " to " + a.getName() + ", but somehow it seems that a dead body cannot grab an item. Strange, huh?");
+				Message.sendGameMessage("You tried giving a " + tag + " to " + a.getName() + ", but somehow it seems that a dead body cannot grab an item. Strange, huh?");
 			else {
 				if(item != null) {
 					this.INVENTORY.moveItem(item.getTag(), a.getInventory());
@@ -101,10 +102,10 @@ public abstract class Actor implements Attackable, Attacker, UsableBy, Serializa
 				else
 				{
 					if(this instanceof Player)
-						System.out.println("Error :> You don't have this item in your inventory");
+						Message.sendGameMessage("Error :> You don't have this item in your inventory");
 
 					else
-						System.out.println("Error :> This item isn't in giver's inventory");
+						Message.sendGameMessage("Error :> This item isn't in giver's inventory");
 				}
 			}
 		}
@@ -130,7 +131,7 @@ public abstract class Actor implements Attackable, Attacker, UsableBy, Serializa
 	public void isHealed(int healing_points)
 	{
 		if(this.isDead())
-			System.out.println("A dead person can't be healed... You really have a few things to learn about life, don't you?");
+			Message.sendGameMessage("A dead person can't be healed... You really have a few things to learn about life, don't you?");
 
 		else
 		{
@@ -140,10 +141,10 @@ public abstract class Actor implements Attackable, Attacker, UsableBy, Serializa
 				this.hp = this.getDEFAULT_HP_MAX();
 
 			if(this instanceof Player)
-				System.out.println("You have been healed!");
+				Message.sendGameMessage("You have been healed!");
 
 			else
-				System.out.println(this.getName() + " has been healed!");
+				Message.sendGameMessage(this.getName() + " has been healed!");
 		}
 	}
 
@@ -154,7 +155,7 @@ public abstract class Actor implements Attackable, Attacker, UsableBy, Serializa
 			this.isHealed(DEFAULT_HP_MAX - this.hp);
 
 		else
-			System.out.println("Error :> This object has no effect here");
+			Message.sendGameMessage("Error :> This object has no effect here");
 	}
 
 	public abstract void receive(Actor a, String tag);

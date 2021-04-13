@@ -9,7 +9,7 @@ public abstract class Message {
 
     public static void addGameMessage(String gameMessage) {
         Message.gameMessage = Message.getGameMessage() + gameMessage;
-        System.out.println(gameMessage);
+        System.out.print(gameMessage);
     }
 
     public static void clearGameMessage() {
@@ -22,7 +22,7 @@ public abstract class Message {
 
     public static void setGameMessage(String gameMessage) {
         Message.gameMessage = Message.getGameMessage();
-        System.out.println(gameMessage);
+        System.out.print(gameMessage);
     }
 
     public static void setMessageListener(MessageListener messageListener) {

@@ -4,6 +4,7 @@ import model.Commands.Command;
 import model.Commands.Lookable;
 import model.Commands.UnknownVerb;
 import model.Doors.Door;
+import model.Game.Message;
 import model.Game.SIS;
 import model.Items.*;
 import model.Location.Room;
@@ -39,13 +40,13 @@ public class Player extends Actor implements Serializable
 
 		catch(NullPointerException e)
 		{
-			System.out.println("You can't go back");
+			Message.sendGameMessage("You can't go back");
 		}
 	}
 
 	public void call()
 	{
-		System.out.print("\nCommand :> ");
+		Message.sendGameMessage("\nCommand :> ");
 		Scanner sc = new Scanner(System.in);
 		String buffer = sc.nextLine();
 		System.out.println();
@@ -64,7 +65,7 @@ public class Player extends Actor implements Serializable
 
 		catch(UnknownVerb e)
 		{
-			System.out.println("Enter help for valid verbs");
+			Message.sendGameMessage("Enter help for valid verbs");
 		}
 	}
 
@@ -72,7 +73,7 @@ public class Player extends Actor implements Serializable
 	{
 		this.getInventory().removeItem(item.getTag());
 		this.getRoom().getInventory().addItem(item);
-		System.out.println("You have dropped " + item.getTag());
+		Message.sendGameMessage("You have dropped " + item.getTag());
 	}
 
 	@Override
@@ -81,7 +82,7 @@ public class Player extends Actor implements Serializable
 		Item item = this.getInventory().getItem(tag);
 
 		if(item != null && !item.isGivable())
-			System.out.println("Error :> You can't give this item");
+			Message.sendGameMessage("Error :> You can't give this item");
 
 		else
 			super.give(tag, a);
@@ -95,29 +96,29 @@ public class Player extends Actor implements Serializable
 
 	public void help()
 	{
-		System.out.println("You can interact with the game using textual commands. " +
+		Message.addGameMessage("You can interact with the game using textual commands. " +
 				"\nHere's an exhaustive list of these commands, their syntaxes and of their effects\n" +
 				"(optional arguments are into brackets): \n");
 
-		System.out.println("\t- attack <assailable> : attack the designated thing you can hit");
-		System.out.println("\t- back : quick return to the previous room");
-		System.out.println("\t- drop <item> : drop the designated item on the floor");
-		System.out.println("\t- give <object's name> <NPC name>: give of an item (if you are allowed to do it) of your inventory to an NPC.");
-		System.out.println("\t- go <door name> : go to a neighbour room using the indicated door\n");
+		Message.addGameMessage("\t- attack <assailable> : attack the designated thing you can hit");
+		Message.addGameMessage("\t- back : quick return to the previous room");
+		Message.addGameMessage("\t- drop <item> : drop the designated item on the floor");
+		Message.addGameMessage("\t- give <object's name> <NPC name>: give of an item (if you are allowed to do it) of your inventory to an NPC.");
+		Message.addGameMessage("\t- go <door name> : go to a neighbour room using the indicated door\n");
 
-		System.out.println("\t- help : display this help menu");
-		System.out.println("\t- info : display the stats of your character");
-		System.out.println("\t- inventory : display the content of your inventory");
-		System.out.println("\t- load : load a saved game");
-		System.out.println("\t- look [<something or somebody>] : display the description of your surroundings or of the indicated parameter\n");
+		Message.addGameMessage("\t- help : display this help menu");
+		Message.addGameMessage("\t- info : display the stats of your character");
+		Message.addGameMessage("\t- inventory : display the content of your inventory");
+		Message.addGameMessage("\t- load : load a saved game");
+		Message.addGameMessage("\t- look [<something or somebody>] : display the description of your surroundings or of the indicated parameter\n");
 
-		System.out.println("\t- quit : leave the game");
-		System.out.println("\t- save : save the current state of the game");
-		System.out.println("\t- search <NPC name> : get access to the inventory of a dead NPC");
-		System.out.println("\t- take <object's name> : take the indicated object");
-		System.out.println("\t- talk <npc> : talk to the designated npc\n");
+		Message.addGameMessage("\t- quit : leave the game");
+		Message.addGameMessage("\t- save : save the current state of the game");
+		Message.addGameMessage("\t- search <NPC name> : get access to the inventory of a dead NPC");
+		Message.addGameMessage("\t- take <object's name> : take the indicated object");
+		Message.addGameMessage("\t- talk <npc> : talk to the designated npc\n");
 
-		System.out.println("\t- use <object's name> [<object's name>] : use an object possibly on another indicated object");
+		Message.sendGameMessage("\t- use <object's name> [<object's name>] : use an object possibly on another indicated object");
 	}
 
 	public void info()
