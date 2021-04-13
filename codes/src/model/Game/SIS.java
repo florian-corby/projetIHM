@@ -12,15 +12,18 @@ public class SIS implements Serializable {
 
 	private Ship ship;
 
-	public SIS()
-	{
+	public SIS() {
 		this.initGame();
 		this.play();
 		this.endGame();
 	}
 
-	public void initGame()
-	{
+	public SIS(MessageListener messageListener) {
+		this();
+		Message.setMessageListener(messageListener);
+	}
+
+	public void initGame() {
 		this.printGameIntro();
 		this.printScenario();
 
@@ -59,8 +62,7 @@ public class SIS implements Serializable {
 		this.ship.getPlayer().setSIS(this);
 	}
 
-	public boolean isEndGame()
-	{
+	public boolean isEndGame() {
 		return (
 				(this.ship.getRoom(13).hasActor("me")
 						&& this.ship.getPlayer().getInventory().getItem("CaptainCode") != null)
@@ -68,14 +70,12 @@ public class SIS implements Serializable {
 		);
 	}
 
-	public void endGame()
-	{
+	public void endGame() {
 		System.out.println("\n\n\t\t ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \n");
 		System.out.println("Thanks for playing Silent In Space! And special thanks to our beta-tester Ophélie De Sousa Oliveira :) !\n");
 	}
 
-	public void load()
-	{
+	public void load() {
 		try {
 			FileInputStream fileIn = new FileInputStream("saveData.txt");
 			ObjectInputStream ois = new ObjectInputStream(fileIn);
@@ -89,8 +89,7 @@ public class SIS implements Serializable {
 		}
 	}
 
-	public void play()
-	{
+	public void play() {
 		while(!this.isEndGame())
 		{
 			this.playTurn();
@@ -111,8 +110,7 @@ public class SIS implements Serializable {
 		this.ship.getPlayer().call();
 	}
 
-	public void printGameIntro()
-	{
+	public void printGameIntro() {
 		System.out.println("\t\t ========================================= ");
 		System.out.println("\t\t ============ SILENT IN SPACE ============ ");
 		System.out.println("\t\t ========================================= ");
@@ -124,8 +122,7 @@ public class SIS implements Serializable {
 				"listing of commands, their syntaxes\nand effects, type help! Enjoy!\n");
 	}
 
-	public void printScenario()
-	{
+	public void printScenario() {
 		System.out.println("SCENARIO: You wake up in an alien ship. You understand that you've been abducted and\nyou " +
 				"must escape. Yet, you can't use the escape pods of the ship without a code.\nUmhon, an important alien " +
 				"person, can give you this code (OR you can take it from her\nbody) but you have to bring her the proof of " +
