@@ -1,4 +1,4 @@
-package controller;
+package view;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
@@ -9,5 +9,10 @@ public class DialogPanelController {
 
     public TextArea getDialogTextArea() {
         return dialogTextArea;
+    }
+
+    public void updateMessage(String message)
+    {
+        dialogTextArea.setText(message);
     }
 }

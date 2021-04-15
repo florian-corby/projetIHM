@@ -26,7 +26,6 @@ public class SIS implements Serializable {
 	public void initGame() {
 		this.printGameIntro();
 		this.printScenario();
-		Message.sendGameMessage("");
 
 		/*Scanner scan = new Scanner(System.in);
 		Message.sendGameMessage("Load an existing game?\n(Type \"yes\" if you have a save file. Press Enter for a new game.)");

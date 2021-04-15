@@ -123,8 +123,8 @@ public class Player extends Actor implements Serializable
 
 	public void info()
 	{
-		System.out.println("You have " + this.getHp() + "hp");
-		System.out.println("You have " + this.getAttackPower() + " attack power");
+		Message.addGameMessage("You have " + this.getHp() + "hp\n");
+		Message.sendGameMessage("You have " + this.getAttackPower() + " attack power");
 	}
 
 	@Override
@@ -133,17 +133,17 @@ public class Player extends Actor implements Serializable
 		super.isAttacked(a);
 
 		if(this.isDead())
-			System.out.println("You are now dead...");
+			Message.sendGameMessage("You are now dead...");
 
 		else {
 			if (a instanceof Actor) {
 				Actor actor = (Actor) a;
 
 				if(actor.getName().equals(this.getName()))
-					System.out.println("You hit yourself! You've just lost " + actor.getAttackPower() + "hp! So much for your mental health...");
+					Message.sendGameMessage("You hit yourself! You've just lost " + actor.getAttackPower() + "hp! So much for your mental health...");
 
 				else
-					System.out.println(actor.getName() + " hit you! You've just lost " + actor.getAttackPower() + "hp!");
+					Message.sendGameMessage(actor.getName() + " hit you! You've just lost " + actor.getAttackPower() + "hp!");
 			}
 		}
 	}
@@ -154,10 +154,10 @@ public class Player extends Actor implements Serializable
 		super.isUsedBy(u);
 
 		if(u instanceof Computer)
-			System.out.println("Isn't using a computer on yourself called technophilia?");
+			Message.sendGameMessage("Isn't using a computer on yourself called technophilia?");
 
 		else if(u instanceof Pass)
-			System.out.println("Using a pass on yourself looks dumb... You really aren't helping the human cause here!");
+			Message.sendGameMessage("Using a pass on yourself looks dumb... You really aren't helping the human cause here!");
 	}
 
 	public void load()
@@ -177,28 +177,28 @@ public class Player extends Actor implements Serializable
 
 	public void quit()
 	{
-		System.out.println("Thanks for playing Silent In Space!");
+		Message.sendGameMessage("Thanks for playing Silent In Space!");
 		System.exit(0);
 	}
 
 	public void take(Item item)
 	{
 		if(!(item.isTakable())) {
-			System.out.println("Error :> You can't take this item with you");
+			Message.sendGameMessage("Error :> You can't take this item with you");
 		}
 
 		else
 		{
 			this.getRoom().getInventory().removeItem(item.getTag());
 			this.getInventory().addItem(item);
-			System.out.println("You have taken " + item.getTag());
+			Message.sendGameMessage("You have taken " + item.getTag());
 		}
 	}
 
 	public void talk(NPC npc)
 	{
 		if(npc.isDead())
-			System.out.println("Great, now you are talking to a dead body... You're just getting better and better!");
+			Message.sendGameMessage("Great, now you are talking to a dead body... You're just getting better and better!");
 
 		else
 			npc.talk();
@@ -221,7 +221,7 @@ public class Player extends Actor implements Serializable
 			ObjectOutputStream oos = new ObjectOutputStream(fileOut);
 			oos.writeObject(this.SHIP);
 			oos.close();
-			System.out.println("You successfully saved the game!");
+			Message.sendGameMessage("You successfully saved the game!");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -232,7 +232,7 @@ public class Player extends Actor implements Serializable
 			Scanner scan = new Scanner(System.in);
 			String userChoice = "";
 			while(!userChoice.equals("quit")){
-				System.out.println("\n==========================================================================================\n" +
+				Message.sendGameMessage("\n==========================================================================================\n" +
 						"\tYou are searching " + npc.getName() + "'s inventory.\n" +
 						"\tEnter the name of an item in order to take it. Enter 'quit' to go back.\n" +
 						"==========================================================================================\n");
@@ -242,11 +242,11 @@ public class Player extends Actor implements Serializable
 				if(!userChoice.equals("quit")){
 					npc.give(userChoice, this);
 				}
-				else System.out.println("You decided to stop looting " + npc.getName() + "'s dead corpse.");
+				else Message.sendGameMessage("You decided to stop looting " + npc.getName() + "'s dead corpse.");
 			}
 		}
 		else
-			System.out.println(npc.getName() + " looks at you trying to search their pockets, and pushes you backward while " +
+			Message.sendGameMessage(npc.getName() + " looks at you trying to search their pockets, and pushes you backward while " +
 					"wondering if all humans are this rude.");
 	}
 
