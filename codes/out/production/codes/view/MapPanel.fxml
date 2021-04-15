@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="mapBorderPane" prefHeight="400.0" prefWidth="302.0" style="-fx-border-color: black;" HBox.hgrow="ALWAYS" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.MapPanelController">
+<BorderPane fx:id="mapBorderPane" minHeight="300.0" minWidth="300.0" prefHeight="400.0" prefWidth="302.0" style="-fx-border-color: black;" HBox.hgrow="ALWAYS" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.MapPanelController">
     <left>
         <VBox fx:id="zoomVBox" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
             <children>
@@ -30,7 +30,7 @@
                 <VBox fx:id="mapVBox" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                     <children>
                         <Label fx:id="roomLabel" alignment="CENTER" text="Room" textAlignment="CENTER" />
-                  <GridPane fx:id="mapPane" minHeight="300.0" minWidth="300.0" style="-fx-border-color: black;" VBox.vgrow="ALWAYS">
+                  <GridPane fx:id="mapPane" prefHeight="600.0" prefWidth="600.0" style="-fx-border-color: black;" VBox.vgrow="ALWAYS">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -58,18 +58,18 @@
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                         </GridPane>
-                        <Region prefHeight="200.0" prefWidth="200.0" GridPane.hgrow="ALWAYS">
+                        <Region prefHeight="200.0" prefWidth="200.0">
                            <GridPane.margin>
                               <Insets />
                            </GridPane.margin>
                         </Region>
-                        <Region prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" />
-                        <Region prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" />
-                        <Region maxHeight="200.0" prefHeight="200.0" prefWidth="200.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
-                        <Region maxHeight="200.0" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
-                        <Region prefHeight="200.0" prefWidth="200.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
-                        <Region prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
-                        <Region prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
+                        <Region prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" />
+                        <Region prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" />
+                        <Region maxHeight="200.0" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
+                        <Region maxHeight="200.0" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                        <Region prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2" />
+                        <Region prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Region prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                      </children>
                      <VBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

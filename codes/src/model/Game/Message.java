@@ -2,7 +2,7 @@ package model.Game;
 
 public abstract class Message {
 
-    private static String gameMessage;
+    private static String gameMessage = "";
     private static MessageListener messageListener;
 
     public static void addGameMessage(String gameMessage) {

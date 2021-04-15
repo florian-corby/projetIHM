@@ -4,7 +4,7 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="dialogueVBox" alignment="CENTER" minHeight="450.0" minWidth="250.0" prefHeight="450.0" prefWidth="250.0" VBox.vgrow="ALWAYS" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.DialogPanelController">
+<VBox fx:id="dialogueVBox" alignment="CENTER" prefHeight="450.0" prefWidth="250.0" VBox.vgrow="ALWAYS" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.DialogPanelController">
     <children>
         <TextArea fx:id="dialogTextArea" editable="false" prefHeight="450.0" prefWidth="250.0" style="-fx-border-color: brown;" wrapText="true" VBox.vgrow="ALWAYS" />
     </children>

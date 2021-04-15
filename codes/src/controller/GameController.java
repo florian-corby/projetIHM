@@ -1,15 +1,13 @@
 package controller;
 
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Polygon;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.TriangleMesh;
 import model.Game.SIS;
 import model.Location.Room;
 import view.MainPanelController;
@@ -28,6 +26,30 @@ public class GameController {
         gameModel = new SIS(mainPanelController);
 
         initTestRoom();
+    }
+
+    public void initHelpManual()
+    {
+        String helpDialog = """
+                -- User Manual of Silent In Space --\s
+
+                WELCOME to Silent In Space! This game was developed by Florian Legendre, Alexis Louail
+                and Vincent Tourenne as a universitary project. This is a demo, hence all the features
+                intended to be in the final version aren't there. This game is meant to be played by
+                textual commands. Meaning that you must input valid commands with your keyboard and
+                the game will react accordingly. For a thorough listing of commands, their syntaxes
+                and effects, type help! Enjoy!
+
+                SCENARIO: You wake up in an alien ship. You understand that you've been abducted and
+                you must escape. Yet, you can't use the escape pods of the ship without a code.
+                Umhon, an important alien person, can give you this code (OR you can take it from her
+                body) but you have to bring her the proof of the abominable experiments being conducted
+                on humans. This proof is what will end the abductions and possibly the end of humanity.
+                The escape room is ROOM 13. Good luck human!
+
+                """;
+
+        mainPanelController.getGamePanelController().setHelpMessage(helpDialog);
     }
 
     public void initTestRoom()
