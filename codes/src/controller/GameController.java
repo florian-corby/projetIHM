@@ -1,31 +1,43 @@
 package controller;
 
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
-import javafx.scene.control.TextArea;
+import javafx.geometry.HPos;
+import javafx.geometry.VPos;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import model.Game.SIS;
 import model.Location.Room;
-import view.MainPanelController;
+import view.MainPanelView;
+import view.RoomView;
 
 import java.io.IOException;
 
 public class GameController {
 
-    private final MainPanelController mainPanelController;
+    private final MainPanelView mainPanelView;
     private final SIS gameModel;
+    private RoomView currentRoom;
+    private Circle playerView;
 
     public GameController() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/MainPanel.fxml"));
         loader.load();
-        mainPanelController = loader.getController();
-        gameModel = new SIS(mainPanelController);
+        mainPanelView = loader.getController();
+        gameModel = new SIS(mainPanelView);
+        playerView = new Circle();
+        playerView.setRadius(10);
+        playerView.setFill(Color.BLUE);
 
+        initHandlers();
+        initHelpManual();
         initTestRoom();
+    }
+
+    public void initHandlers()
+    {
+        playerView.setOnMouseClicked(e -> { mainPanelView.update("It's a me! Mario! Wouhou!");});
     }
 
     public void initHelpManual()
@@ -49,22 +61,27 @@ public class GameController {
 
                 """;
 
-        mainPanelController.getGamePanelController().setHelpMessage(helpDialog);
+        mainPanelView.setHelpMessage(helpDialog);
+    }
+
+    public void initRoom(int nbCol, int nbLignes)
+    {
+        RoomView roomView = new RoomView(nbCol, nbLignes);
+        currentRoom = roomView;
+        mainPanelView.getMapPane().getChildren().add(currentRoom);
     }
 
     public void initTestRoom()
     {
         Room playerRoom = gameModel.getShip().getPlayer().getRoom();
-        GridPane roomView = mainPanelController.getMapPanelController().getRoomView();
+        initRoom(11, 11);
 
-        Circle playerView = new Circle();
-        playerView.setRadius(10);
-        playerView.setFill(Color.BLUE);
-        GridPane.setMargin(playerView, new Insets(5, 5, 5, 5));
-        roomView.add(playerView, 2, 2);
+        GridPane.setHalignment(playerView, HPos.CENTER);
+        GridPane.setValignment(playerView, VPos.CENTER);
+        currentRoom.add(playerView, 5, 5);
     }
 
     public HBox getScene() {
-        return mainPanelController.getScene();
+        return mainPanelView.getScene();
     }
 }
