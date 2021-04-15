@@ -7,6 +7,7 @@ import model.Game.MessageListener;
 
 public class MainPanelController implements MessageListener
 {
+    //====================== ATTRIBUTS ==========================
     @FXML
     private ActorPanelController actorPanelController;
 
@@ -25,11 +26,34 @@ public class MainPanelController implements MessageListener
     @FXML
     private MapPanelController mapPanelController;
 
+    //====================== GETTERS ==========================
     public HBox getScene()
     {
         return sceneHBox;
     }
 
+    public ActorPanelController getActorPanelController() {
+        return actorPanelController;
+    }
+
+    public DialogPanelController getDialogPanelController() {
+        return dialogPanelController;
+    }
+
+    public GamePanelController getGamePanelController() {
+        return gamePanelController;
+    }
+
+    public InventoryPanelController getInventoryPanelController() {
+        return inventoryPanelController;
+    }
+
+    public MapPanelController getMapPanelController() {
+        return mapPanelController;
+    }
+
+
+    //====================== AUTRES ==========================
     @Override
     public void update(String message) {
         dialogPanelController.updateMessage(message);

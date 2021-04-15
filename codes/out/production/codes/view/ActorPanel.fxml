@@ -5,14 +5,16 @@
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
 <VBox fx:id="targetVBox" alignment="CENTER" prefHeight="329.0" prefWidth="258.0" style="-fx-border-color: purple;" VBox.vgrow="ALWAYS" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.ActorPanelController">
     <children>
         <Label fx:id="targetLabel" text="Player" />
-        <ProgressBar fx:id="targetHProgressBar" prefWidth="200.0" progress="0.0" />
+        <ProgressBar fx:id="targetHProgressBar" minHeight="-Infinity" minWidth="-Infinity" prefWidth="200.0" progress="0.0" />
+      <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
         <ImageView fx:id="targetImageView" fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS" />
-        <HBox fx:id="staHBox" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-border-color: black;">
+        <HBox fx:id="staHBox" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-border-color: black;" VBox.vgrow="NEVER">
             <children>
                 <Button fx:id="searchButton" mnemonicParsing="false" text="Search" />
                 <Button fx:id="talkButton" mnemonicParsing="false" text="Talk" />

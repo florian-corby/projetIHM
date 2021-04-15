@@ -23,6 +23,10 @@ public class SIS implements Serializable {
 		this.initGame();
 	}
 
+	public Ship getShip() {
+		return ship;
+	}
+
 	public void initGame() {
 		this.printGameIntro();
 		this.printScenario();
