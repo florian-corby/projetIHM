@@ -2,15 +2,18 @@ package model.Containers;
 
 import java.io.Serializable;
 import java.util.*;
+
+import model.Doors.Door;
+import model.Game.Message;
 import model.Items.*;
 
 public class Inventory implements Serializable {
 
-	private final HashMap<String, Item> ITEMS;
+	private final LinkedHashMap<String, Item> ITEMS;
 
 	public Inventory()
 	{
-		this.ITEMS = new HashMap<>();
+		this.ITEMS = new LinkedHashMap<>();
 	}
 
 	public void addItem(Item item)
@@ -21,6 +24,12 @@ public class Inventory implements Serializable {
 	public Item getItem(String s)
 	{
 			return this.ITEMS.get(s);
+	}
+
+	public String getItemTag(int index)
+	{
+		List<String> itemTagsList = new ArrayList<String>(ITEMS.keySet());
+		return itemTagsList.get(index);
 	}
 
 	public int getSize()
@@ -39,7 +48,7 @@ public class Inventory implements Serializable {
 
 		else
 		{
-			System.out.println("Error :> This item isn't in this inventory");
+			Message.sendGameMessage("Error :> This item isn't in this inventory");
 		}
 	}
 
@@ -52,7 +61,7 @@ public class Inventory implements Serializable {
 	{
 		for (Item i : this.ITEMS.values())
 		{
-			System.out.println("\t- " + i.getTag() + " : " + i.getDescription());
+			Message.sendGameMessage("\t- " + i.getTag() + " : " + i.getDescription());
 		}
 	}
 

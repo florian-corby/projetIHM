@@ -1,5 +1,7 @@
 package model.Commands;
 
+import model.Game.Message;
+
 public class Parser {
 
 	private final Verb VERB;
@@ -12,7 +14,7 @@ public class Parser {
 
 		catch(UnknownVerb e)
 		{
-			System.out.println("This verb doesn't exist");
+			Message.sendGameMessage("This verb doesn't exist");
 			throw e;
 		}
 	}

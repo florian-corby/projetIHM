@@ -1,5 +1,6 @@
 package model.Doors;
 
+import model.Game.Message;
 import model.Items.*;
 
 import java.io.Serializable;
@@ -20,10 +21,10 @@ public class LockedDoor extends Door implements Unlockable, Serializable {
 	{
 		super.describe();
 		if(this.isLocked)
-			System.out.println("This door is locked! Some kind of letter " + this.PASSTYPE.toString() + " is written on it...");
+			Message.sendGameMessage("This door is locked! Some kind of letter " + this.PASSTYPE.toString() + " is written on it...");
 
 		else
-			System.out.println("This door is unlocked!");
+			Message.sendGameMessage("This door is unlocked!");
 	}
 
 	public boolean isLocked() {
@@ -36,7 +37,7 @@ public class LockedDoor extends Door implements Unlockable, Serializable {
 			super.open();
 
 		else
-			System.out.println("This door is locked! A letter " + this.PASSTYPE.toString() + " is written on it...");
+			Message.sendGameMessage("This door is locked! A letter " + this.PASSTYPE.toString() + " is written on it...");
 	}
 
 	@Override
@@ -45,12 +46,12 @@ public class LockedDoor extends Door implements Unlockable, Serializable {
 		if(this.PASSTYPE == p.getPassType())
 		{
 			this.isLocked = false;
-			System.out.println("You have unlocked the " + this.getTag() + " !");
+			Message.sendGameMessage("You have unlocked the " + this.getTag() + " !");
 		}
 
 		else
 		{
-			System.out.println("You can't unlock the " + this.getTag() + " with this pass.");
+			Message.sendGameMessage("You can't unlock the " + this.getTag() + " with this pass.");
 		}
 	}
 
@@ -65,7 +66,7 @@ public class LockedDoor extends Door implements Unlockable, Serializable {
 
 		else
 		{
-			System.out.println("This object can't be used to open this door.");
+			Message.sendGameMessage("This object can't be used to open this door.");
 		}
 	}
 }

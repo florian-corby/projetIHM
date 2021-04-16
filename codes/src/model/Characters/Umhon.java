@@ -1,5 +1,6 @@
 package model.Characters;
 
+import model.Game.Message;
 import model.Items.Item;
 import model.Location.Room;
 
@@ -15,7 +16,7 @@ public class Umhon extends NPC implements Serializable {
     public void receive(Actor a, String tag) {
 
         if(tag.equals("doctorLog")) {
-            System.out.println("Oh, this is a file from the lab? Thank you sweetheart! Let me take a look at this...\n" +
+            Message.sendGameMessage("Oh, this is a file from the lab? Thank you sweetheart! Let me take a look at this...\n" +
                     "...Oh. Oh, my." +
                     "I'm... so sorry. Here, have this. I'm going to have a serious talk with my husband tonight. Best of luck.");
             this.give("CaptainCode", a);

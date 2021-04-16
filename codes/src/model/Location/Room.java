@@ -26,8 +26,8 @@ public class Room implements Lookable, Serializable {
 		this.ID = id;
 		this.description = description;
 
-		this.doors = new HashMap<>();
-		this.actors = new HashMap<>();
+		this.doors = new LinkedHashMap<>();
+		this.actors = new LinkedHashMap<>();
 	}
 
 	public void addActor(Actor actor)
@@ -57,6 +57,21 @@ public class Room implements Lookable, Serializable {
 		return this.actors.get(s);
 	}
 
+	public String getNPCTag(int index)
+	{
+		List<String> actorList = new ArrayList<String>(actors.keySet());
+
+		//On élimine le joueur de la liste:
+		int listLength = actorList.size();
+		for(int i = 0; i < listLength; i++)
+		{
+			if(actors.get(actorList.get(i)).getName() == "me")
+				actorList.remove(i);
+		}
+
+		return actorList.get(index);
+	}
+
 	public Door getDoor(String s)
 	{
 		Set<Door> doorSet = this.doors.keySet();
@@ -84,6 +99,12 @@ public class Room implements Lookable, Serializable {
 		}
 
 		return res;
+	}
+
+	public Door getDoor(int index)
+	{
+		List<Door> doorList = new ArrayList<Door>(doors.keySet());
+		return doorList.get(index);
 	}
 
 	public int getID() {
