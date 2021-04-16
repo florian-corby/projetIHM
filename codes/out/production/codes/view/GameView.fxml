@@ -15,11 +15,11 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<HBox fx:id="sceneHBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.MainPanelView">
+<HBox fx:id="sceneHBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.GameView">
    <children>
-      <BorderPane fx:id="mapBorderPane" prefHeight="400.0" prefWidth="400.0" HBox.hgrow="ALWAYS">
+      <BorderPane prefHeight="400.0" prefWidth="400.0" HBox.hgrow="ALWAYS">
           <left>
-              <VBox fx:id="zoomVBox" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+              <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
                   <children>
                       <Button fx:id="zoomPlusButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="103.0" text="Z+" />
                       <Button fx:id="zoomMinusButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="104.0" text="Z-" />
@@ -30,14 +30,14 @@
               </VBox>
           </left>
           <center>
-              <HBox fx:id="mapHBox" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+              <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                   <children>
-                      <VBox fx:id="mapVBox" alignment="CENTER" minWidth="400.0" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+                      <VBox alignment="CENTER" minWidth="400.0" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                           <children>
                               <Label fx:id="roomLabel" alignment="CENTER" text="Room" textAlignment="CENTER" />
                         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" style="-fx-border-color: black;" VBox.vgrow="ALWAYS">
                            <children>
-                              <HBox fx:id="mapPane" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" />
+                              <HBox fx:id="mapHBox" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" />
                            </children>
                            <VBox.margin>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -67,17 +67,17 @@
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
       </BorderPane>
-      <HBox fx:id="sisSceneRigthSide" prefHeight="400.0" prefWidth="301.0" HBox.hgrow="ALWAYS">
+      <HBox prefHeight="400.0" prefWidth="301.0" HBox.hgrow="ALWAYS">
          <children>
-            <VBox fx:id="interactDialogueVBox" minWidth="250.0" prefHeight="400.0" prefWidth="250.0" spacing="5.0" HBox.hgrow="ALWAYS">
+            <VBox minWidth="250.0" prefHeight="400.0" prefWidth="250.0" spacing="5.0" HBox.hgrow="ALWAYS">
                <children>
-                  <VBox fx:id="targetVBox" alignment="CENTER" prefHeight="329.0" prefWidth="258.0" style="-fx-border-color: blue;">
+                  <VBox alignment="CENTER" prefHeight="329.0" prefWidth="258.0" style="-fx-border-color: blue;">
                       <children>
-                          <Label fx:id="targetLabel" text="Player" />
-                          <ProgressBar fx:id="targetHProgressBar" minHeight="-Infinity" minWidth="-Infinity" prefWidth="200.0" progress="0.0" />
+                          <Label fx:id="actorLabel" text="Player" />
+                          <ProgressBar fx:id="actorHProgressBar" minHeight="-Infinity" minWidth="-Infinity" prefWidth="200.0" progress="0.0" />
                         <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
-                          <ImageView fx:id="targetImageView" fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS" />
-                          <HBox fx:id="staHBox" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-border-color: blue;" VBox.vgrow="NEVER">
+                          <ImageView fx:id="actorImageView" fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS" />
+                          <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-border-color: blue;" VBox.vgrow="NEVER">
                               <children>
                                   <Button fx:id="searchButton" mnemonicParsing="false" text="Search" />
                                   <Button fx:id="talkButton" mnemonicParsing="false" text="Talk" />
@@ -89,7 +89,7 @@
                         <Insets left="5.0" right="5.0" top="5.0" />
                      </VBox.margin>
                   </VBox>
-                  <VBox fx:id="dialogueVBox" alignment="CENTER" prefHeight="450.0" prefWidth="250.0">
+                  <VBox alignment="CENTER" prefHeight="450.0" prefWidth="250.0">
                       <children>
                           <TextArea fx:id="dialogTextArea" editable="false" prefHeight="450.0" prefWidth="250.0" style="-fx-border-color: brown;" wrapText="true" VBox.vgrow="ALWAYS">
                            <VBox.margin>
@@ -97,7 +97,7 @@
                            </VBox.margin></TextArea>
                       </children>
                   </VBox>
-                  <HBox fx:id="slhButton" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-border-color: lightgrey;">
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-border-color: lightgrey;">
                       <children>
                           <Button fx:id="saveButton" mnemonicParsing="false" text="Save" />
                           <Button fx:id="helpButton" mnemonicParsing="false" onMouseClicked="#printHelp" text="?" />
@@ -112,15 +112,15 @@
                   <Insets />
                </HBox.margin>
             </VBox>
-            <VBox fx:id="inventoryVBox" minWidth="100.0" prefHeight="400.0" prefWidth="200.0">
+            <VBox minWidth="100.0" prefHeight="400.0" prefWidth="200.0">
                 <children>
-                    <Label fx:id="inventoryLabel" text="Inventory" />
+                    <Label text="Inventory" />
                     <ScrollPane fx:id="inventoryScrollPane" fitToWidth="true" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                         <content>
                             <AnchorPane fx:id="inventoryScrollPaneAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
                         </content>
                     </ScrollPane>
-                    <FlowPane fx:id="buttonFlowPane" alignment="CENTER" prefHeight="16.0" prefWidth="97.0">
+                    <FlowPane alignment="CENTER" prefHeight="16.0" prefWidth="97.0">
                         <children>
                             <Button fx:id="useButton" mnemonicParsing="false" text="Use" />
                             <Button fx:id="giveButton" mnemonicParsing="false" text="Give" />

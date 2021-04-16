@@ -26,7 +26,7 @@ public class RoomView extends GridPane {
 
     private void initStyle()
     {
-        this.setGridLinesVisible(true);
-        this.setStyle("-fx-background-color:white;");
+        //this.setGridLinesVisible(true);
+        this.setStyle("-fx-background-color:white; -fx-border-color:black;");
     }
 }
