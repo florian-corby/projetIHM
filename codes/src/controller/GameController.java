@@ -2,13 +2,13 @@ package controller;
 
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.HPos;
-import javafx.geometry.VPos;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Polygon;
+import javafx.scene.shape.Rectangle;
 import model.Game.SIS;
-import model.Location.Room;
 import view.GameView;
 import view.RoomView;
 
@@ -16,11 +16,13 @@ import java.io.IOException;
 
 public class GameController {
 
-    private final GameView gameView;
+    //====================== ATTRIBUTS ==========================
     private final SIS gameModel;
+    private final GameView gameView;
     private RoomView currentRoomView;
     private Circle playerView;
 
+    //=============== CONSTRUCTEURS/INITIALISEURS ===============
     public GameController() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/GameView.fxml"));
         loader.load();
@@ -69,24 +71,41 @@ public class GameController {
         playerView.setFill(Color.BLUE);
     }
 
-    public void initRoomView(int nbCol, int nbLignes)
-    {
-        RoomView roomView = new RoomView(nbCol, nbLignes);
-        currentRoomView = roomView;
-        gameView.getMapHBox().getChildren().add(currentRoomView);
-    }
-
     public void initTestRoom()
     {
-        Room playerRoom = gameModel.getShip().getPlayer().getRoom();
-        initRoomView(11, 11);
+        updateRoomView(11, 11);
 
-        GridPane.setHalignment(playerView, HPos.CENTER);
-        GridPane.setValignment(playerView, VPos.CENTER);
-        currentRoomView.add(playerView, 5, 5);
+        //Ajout de la porte T:
+        Rectangle door = new Rectangle(10, 40);
+        door.setFill(Color.RED);
+        GridPane.setHalignment(door, HPos.RIGHT);
+        currentRoomView.add(door, 10, 5);
+
+        //Ajout de l'alien:
+        Circle alien = new Circle();
+        alien.setFill(Color.LIME);
+        alien.setRadius(10);
+        currentRoomView.add(alien, 8, 3);
+
+        //Ajout du conteneur de santé:
+        Polygon healthContainer = new Polygon();
+        healthContainer.getPoints().addAll(20.0, 10.0, 40.0, 10.0, 45.0, 15.0, 40.0, 25.0, 20.0, 25.0, 15.0, 15.0);
+        healthContainer.setFill(Color.MAGENTA);
+        currentRoomView.add(healthContainer, 9, 8);
     }
 
+    //====================== GETTERS ==========================
     public HBox getScene() {
         return gameView.getScene();
+    }
+
+    //====================== UPDATERS =========================
+    public void updateRoomView(int nbCol, int nbLignes)
+    {
+        currentRoomView = new RoomView(nbCol, nbLignes);
+
+        //On centre le joueur dans la pièce:
+        currentRoomView.add(playerView, (nbCol - 1)/2, (nbLignes-1)/2);
+        gameView.getMapHBox().getChildren().add(currentRoomView);
     }
 }
