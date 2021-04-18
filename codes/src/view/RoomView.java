@@ -2,6 +2,7 @@ package view;
 
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
+import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
 import javafx.scene.shape.Shape;
@@ -18,8 +19,7 @@ public class RoomView extends GridPane {
     private final Random randGen = new Random();
 
     // ======================== CONSTRUCTORS/INITIALIZERS ============================
-    public RoomView(int nbCol, int nbLignes)
-    {
+    public RoomView(int nbCol, int nbLignes) {
         availablePos = new boolean[nbCol][nbLignes];
         this.nbCol = nbCol;
         this.nbLignes = nbLignes;
@@ -28,8 +28,7 @@ public class RoomView extends GridPane {
         initStyle();
     }
 
-    private void initRoom(int nbCol, int nbLignes)
-    {
+    private void initRoom(int nbCol, int nbLignes) {
         for(int i = 0; i < nbCol; i++) {
             for(int j = 0; j < nbLignes; j++) {
                 Region ressort = new Region();
@@ -43,20 +42,17 @@ public class RoomView extends GridPane {
         availablePos[nbCol/2][nbLignes/2] = false;
     }
 
-    private void initStyle()
-    {
+    private void initStyle() {
         setGridLinesVisible(true); //Décommenter cette ligne pour voir les cases du jeu
         setStyle("-fx-background-color:white; -fx-border-color:black;");
     }
-
 
     // ============================== GETTERS =========================================
     public Shape getFromRoom(String viewTag) { return gameElementViews.get(viewTag); }
     public int getNbCol() { return nbCol; }
     public int getNbLignes() { return nbLignes; }
 
-    public String getTag(Shape shape)
-    {
+    public String getTag(Shape shape) {
         for (String tag : gameElementViews.keySet()) {
             if (gameElementViews.get(tag).equals(shape)) {
                 return tag;
@@ -65,8 +61,7 @@ public class RoomView extends GridPane {
         return null;
     }
 
-    public int[] getRandPos()
-    {
+    public int[] getRandPos() {
         while(true) {
             int col = randGen.nextInt(nbCol);
             int ligne = randGen.nextInt(nbLignes);
@@ -76,25 +71,53 @@ public class RoomView extends GridPane {
         }
     }
 
-
     // ============================== PREDICATS ========================================
     public boolean isAvailablePos(int colIndex, int LigneIndex) { return availablePos[colIndex][LigneIndex]; }
 
-
     // =========================== SETTERS/UNSETTERS ===================================
-    public void addInRoom(Shape gameElementView, String viewTag, int colIndex, int ligneIndex)
-    {
+    public void addInRoom(Shape gameElementView, String viewTag, int colIndex, int ligneIndex, String align) {
         gameElementViews.put(viewTag, gameElementView);
+        alignInRoom(gameElementView, align);
         add(gameElementView, colIndex, ligneIndex);
         availablePos[colIndex][ligneIndex] = false;
     }
 
-    public void removeFromRoom(String viewTag)
-    {
+    public void removeFromRoom(String viewTag) {
+        Node nodeToRemove = gameElementViews.get(viewTag);
+        int colIndex = GridPane.getRowIndex(nodeToRemove);
+        int rowIndex = GridPane.getColumnIndex(nodeToRemove);
+
         getChildren().remove(gameElementViews.get(viewTag));
         gameElementViews.remove(viewTag);
+        availablePos[colIndex][rowIndex] = true;
     }
 
 
-    // =============================== UPDATERS ========================================
+    // ================================= OTHERS =========================================
+    public void alignInRoom(Node nodeToAlign, String align)
+    {
+        switch(align)
+        {
+            case "TOP":
+                GridPane.setValignment(nodeToAlign, VPos.TOP);
+                break;
+
+            case "RIGHT":
+                GridPane.setHalignment(nodeToAlign, HPos.RIGHT);
+                break;
+
+            case "BOTTOM":
+                GridPane.setValignment(nodeToAlign, VPos.BOTTOM);
+                break;
+
+            case "LEFT":
+                GridPane.setHalignment(nodeToAlign, HPos.LEFT);
+                break;
+
+            default:
+                GridPane.setValignment(nodeToAlign, VPos.CENTER);
+                GridPane.setHalignment(nodeToAlign, HPos.CENTER);
+                break;
+        }
+    }
 }

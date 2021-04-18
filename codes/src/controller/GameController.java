@@ -91,16 +91,18 @@ public class GameController {
     //====================== LOADERS ==========================
     public void loadDoors() {
         Set<Door> doors = currentRoomModel.getDoors().keySet();
+        int[] roomSize = {currentRoomView.getNbCol(), currentRoomView.getNbLignes()};
 
         for(Door d : doors) {
             DoorView doorView;
+            int[] doorPos = {d.getPos2D().getPosX(), d.getPos2D().getPosY()};
             if(d instanceof LockedDoor) {
-                doorView = new DoorView("locked", HPos.RIGHT);
-                currentRoomView.addInRoom(doorView, d.getTag(), d.getPos2D().getPosX(), d.getPos2D().getPosY());
+                doorView = new DoorView("locked");
+                currentRoomView.addInRoom(doorView, d.getTag(), doorPos[0], doorPos[1], doorView.getAlignment(roomSize, doorPos));
             }
             else {
-                doorView = new DoorView("normal", HPos.RIGHT);
-                currentRoomView.addInRoom(doorView, d.getTag(), d.getPos2D().getPosX(), d.getPos2D().getPosY());
+                doorView = new DoorView("normal");
+                currentRoomView.addInRoom(doorView, d.getTag(), doorPos[0], doorPos[1], doorView.getAlignment(roomSize, doorPos));
             }
             doorView.setOnMousePressed(e -> {
                 if(e.isSecondaryButtonDown())
@@ -118,7 +120,8 @@ public class GameController {
                     if(e.isSecondaryButtonDown())
                         gameView.update(item.getDescription());
                 });
-                currentRoomView.addInRoom(itemView, item.getTag(), item.getPos2D().getPosX(), item.getPos2D().getPosY());
+                currentRoomView.addInRoom(itemView, item.getTag(),
+                        item.getPos2D().getPosX(), item.getPos2D().getPosY(), "CENTER");
             }
             else {
                 ContainerView containerView = new ContainerView("HealthStation");
@@ -126,7 +129,8 @@ public class GameController {
                     if(e.isSecondaryButtonDown())
                         gameView.update(item.getDescription());
                 });
-                currentRoomView.addInRoom(containerView, item.getTag(), item.getPos2D().getPosX(), item.getPos2D().getPosY());
+                currentRoomView.addInRoom(containerView, item.getTag(),
+                        item.getPos2D().getPosX(), item.getPos2D().getPosY(), "CENTER");
             }
         }
     }
@@ -140,14 +144,14 @@ public class GameController {
                 if(e.isSecondaryButtonDown())
                     gameView.update(npc.getName());
             });
-            currentRoomView.addInRoom(actorView, npc.getName(),
-                    roomPos[0], roomPos[1]);
+            currentRoomView.addInRoom(actorView, npc.getName(), roomPos[0], roomPos[1], "CENTER");
         }
     }
 
     public void loadPlayer(){
         int nbCol = currentRoomView.getNbCol();
         int nbLignes = currentRoomView.getNbLignes();
-        currentRoomView.addInRoom(playerView, playerModel.getName(), (nbCol - 1)/2, (nbLignes-1)/2);
+        currentRoomView.addInRoom(playerView, playerModel.getName(),
+                (nbCol - 1)/2, (nbLignes-1)/2, "CENTER");
     }
 }
