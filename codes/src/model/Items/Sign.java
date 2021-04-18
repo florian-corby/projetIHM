@@ -1,5 +1,7 @@
 package model.Items;
 
+import model.Utils.Pos2D;
+
 import java.io.Serializable;
 
 public class Sign extends Item implements Serializable {
@@ -7,8 +9,14 @@ public class Sign extends Item implements Serializable {
 
     public Sign(String tag, String description, String content)
     {
-        super(tag, description);
+        super(tag, description, new Pos2D(0, 0));
         this.CONTENT = content;
+    }
+
+    public Sign(String tag, String description, String content, Pos2D pos2D)
+    {
+        this(tag, description, content);
+        setPos2D(pos2D);
     }
 
     @Override

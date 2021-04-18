@@ -133,7 +133,7 @@ public class Room implements Lookable, Serializable {
 
 	public String getNPCTag(int index)
 	{
-		List<String> actorList = new ArrayList<String>(actors.keySet());
+		List<String> actorList = new ArrayList<>(actors.keySet());
 
 		//On élimine le joueur de la liste:
 		int listLength = actorList.size();

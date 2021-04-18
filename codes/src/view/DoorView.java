@@ -11,7 +11,7 @@ public class DoorView extends Rectangle
     private DoorView(String catDoor)
     {
         setWidth(10);
-        setHeight(40);
+        setHeight(25);
         setDoorViewColor(catDoor);
     }
 

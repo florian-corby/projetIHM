@@ -7,6 +7,7 @@ import javafx.scene.shape.Circle;
 import model.Characters.Actor;
 import model.Characters.Player;
 import model.Game.SIS;
+import model.Items.Item;
 import model.Location.Room;
 import view.*;
 
@@ -16,7 +17,6 @@ import java.util.Random;
 public class GameController {
 
     //====================== ATTRIBUTS ==========================
-    private final Random randGen = new Random();
     private final SIS gameModel;
     private final GameView gameView;
     private Room currentRoomModel;
@@ -74,17 +74,9 @@ public class GameController {
         DoorView doorView = new DoorView("locked", HPos.RIGHT);
         currentRoomView.addInRoom(doorView, currentRoomModel.getDoor(0).getTag(), 10, 5);
 
-        //Ajout de l'alien:
-        //ActorView alien = new ActorView("ally");
-        //currentRoomView.addInRoom(alien, currentRoomModel.getNPCTag(0), 8, 3);
-
         //Ajout du conteneur de santé:
-        ContainerView healthStation = new ContainerView("HealthStation");
-        currentRoomView.addInRoom(healthStation, currentRoomModel.getInventory().getItemTag(0), 9, 8);
-
-        //Ajout de la statuette:
-        ItemView statuette = new ItemView();
-        currentRoomView.addInRoom(statuette, currentRoomModel.getInventory().getItemTag(1), 2, 2);
+        //ContainerView healthStation = new ContainerView("HealthStation");
+        //currentRoomView.addInRoom(healthStation, currentRoomModel.getInventory().getItemTag(0), 9, 8);
     }
 
     //====================== GETTERS ==========================
@@ -104,12 +96,29 @@ public class GameController {
         currentRoomView.addInRoom(playerView, playerModel.getName(), (nbCol - 1)/2, (nbLignes-1)/2);
         gameView.getMapHBox().getChildren().add(currentRoomView);
 
+        //On place les objets de la pièce:
+        Item[] items = currentRoomModel.getInventory().getItems();
+        for (Item item : items) {
+            ItemView itemView = new ItemView();
+            itemView.setOnMousePressed(e -> {
+                if(e.isSecondaryButtonDown())
+                    gameView.update(item.getDescription());
+            });
+            currentRoomView.addInRoom(itemView, item.getTag(), item.getPos2D().getPosX(), item.getPos2D().getPosY());
+        }
+
         //On place les npcs dans la pièce (bien évidemment il faut encore gérer l'aspect aléatoire + le facteur d'hostilité):
         Actor[] npcs = currentRoomModel.getNPCs();
-        int nbNpcs = npcs.length;
-        for(int i = 0; i < nbNpcs; i++)
-            currentRoomView.addInRoom(new ActorView("ally"), npcs[i].getName(),
-                    randGen.nextInt(11), randGen.nextInt(11));
+        for (Actor npc : npcs) {
+            int[] roomPos = currentRoomView.getRandPos();
+            ActorView actorView = new ActorView("ally");
+            actorView.setOnMousePressed(e -> {
+                if(e.isSecondaryButtonDown())
+                    gameView.update(npc.getName());
+            });
+            currentRoomView.addInRoom(actorView, npc.getName(),
+                    roomPos[0], roomPos[1]);
+        }
 
         //On met à jour les handlers de description:
         playerView.setOnMousePressed(e -> {

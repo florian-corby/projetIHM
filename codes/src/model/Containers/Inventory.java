@@ -3,7 +3,7 @@ package model.Containers;
 import java.io.Serializable;
 import java.util.*;
 
-import model.Doors.Door;
+import model.Characters.Actor;
 import model.Game.Message;
 import model.Items.*;
 
@@ -24,6 +24,19 @@ public class Inventory implements Serializable {
 	public Item getItem(String s)
 	{
 			return this.ITEMS.get(s);
+	}
+
+	public Item[] getItems(){
+		int nbItems = ITEMS.size();
+		Item[] res = new Item[nbItems];
+		int count = 0;
+		for(String key : ITEMS.keySet())
+		{
+			res[count] = ITEMS.get(key);
+			count++;
+		}
+
+		return res;
 	}
 
 	public String getItemTag(int index)
