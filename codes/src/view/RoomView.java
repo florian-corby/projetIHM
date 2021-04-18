@@ -13,9 +13,9 @@ public class RoomView extends GridPane {
 
     private final LinkedHashMap<String, Shape> gameElementViews = new LinkedHashMap<>();
     private boolean[][] availablePos;
-    private int nbCol;
-    private int nbLignes;
-    private Random randGen = new Random();
+    private final int nbCol;
+    private final int nbLignes;
+    private final Random randGen = new Random();
 
     // ======================== CONSTRUCTORS/INITIALIZERS ============================
     public RoomView(int nbCol, int nbLignes)
@@ -52,6 +52,8 @@ public class RoomView extends GridPane {
 
     // ============================== GETTERS =========================================
     public Shape getFromRoom(String viewTag) { return gameElementViews.get(viewTag); }
+    public int getNbCol() { return nbCol; }
+    public int getNbLignes() { return nbLignes; }
 
     public String getTag(Shape shape)
     {

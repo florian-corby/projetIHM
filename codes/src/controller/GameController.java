@@ -45,11 +45,6 @@ public class GameController {
 
     public void initHandlers()
     {
-        currentRoomView.getFromRoom("HealthStation").setOnMousePressed(e -> {
-            if(e.isSecondaryButtonDown())
-                gameView.update(currentRoomModel.getInventory().getItem("HealthStation").getDescription());
-        });
-
         gameView.getHelpButton().setOnAction(e -> {
             if(isHelpManualOn) {
                 isHelpManualOn = false;
@@ -64,6 +59,11 @@ public class GameController {
                 gameModel.printHelp();
             }
         });
+
+        playerView.setOnMousePressed(e -> {
+            if(e.isSecondaryButtonDown())
+                gameView.update(playerModel.getName());
+        });
     }
 
     public void initTestRoom()
@@ -73,10 +73,6 @@ public class GameController {
         //Ajout de la porte T:
         DoorView doorView = new DoorView("locked", HPos.RIGHT);
         currentRoomView.addInRoom(doorView, currentRoomModel.getDoor(0).getTag(), 10, 5);
-
-        //Ajout du conteneur de santé:
-        //ContainerView healthStation = new ContainerView("HealthStation");
-        //currentRoomView.addInRoom(healthStation, currentRoomModel.getInventory().getItemTag(0), 9, 8);
     }
 
     //====================== GETTERS ==========================
@@ -84,30 +80,55 @@ public class GameController {
         return gameView.getScene();
     }
 
+
     //====================== UPDATERS =========================
     public void updateRoomView(int nbCol, int nbLignes)
     {
         currentRoomView = new RoomView(nbCol, nbLignes);
-
-        //On met à jour le label de la map:
         gameView.getRoomLabel().setText("Room " + currentRoomModel.getID());
 
-        //On place le joueur au centre de la pièce:
-        currentRoomView.addInRoom(playerView, playerModel.getName(), (nbCol - 1)/2, (nbLignes-1)/2);
-        gameView.getMapHBox().getChildren().add(currentRoomView);
+        loadItems();
+        loadPlayer();
+        loadNPCs();
 
-        //On place les objets de la pièce:
+        gameView.getMapHBox().getChildren().add(currentRoomView);
+    }
+
+    //====================== LOADERS ==========================
+    public void loadItems()
+    {
         Item[] items = currentRoomModel.getInventory().getItems();
         for (Item item : items) {
-            ItemView itemView = new ItemView();
-            itemView.setOnMousePressed(e -> {
-                if(e.isSecondaryButtonDown())
-                    gameView.update(item.getDescription());
-            });
-            currentRoomView.addInRoom(itemView, item.getTag(), item.getPos2D().getPosX(), item.getPos2D().getPosY());
-        }
+            if(item.isTakable())
+            {
+                ItemView itemView = new ItemView();
+                itemView.setOnMousePressed(e -> {
+                    if(e.isSecondaryButtonDown())
+                        gameView.update(item.getDescription());
+                });
+                currentRoomView.addInRoom(itemView, item.getTag(), item.getPos2D().getPosX(), item.getPos2D().getPosY());
+            }
 
-        //On place les npcs dans la pièce (bien évidemment il faut encore gérer l'aspect aléatoire + le facteur d'hostilité):
+            else
+            {
+                ContainerView containerView = new ContainerView("HealthStation");
+                containerView.setOnMousePressed(e -> {
+                    if(e.isSecondaryButtonDown())
+                        gameView.update(item.getDescription());
+                });
+                currentRoomView.addInRoom(containerView, item.getTag(), item.getPos2D().getPosX(), item.getPos2D().getPosY());
+            }
+        }
+    }
+
+    public void loadPlayer(){
+        int nbCol = currentRoomView.getNbCol();
+        int nbLignes = currentRoomView.getNbLignes();
+        currentRoomView.addInRoom(playerView, playerModel.getName(), (nbCol - 1)/2, (nbLignes-1)/2);
+    }
+
+    public void loadNPCs()
+    {
         Actor[] npcs = currentRoomModel.getNPCs();
         for (Actor npc : npcs) {
             int[] roomPos = currentRoomView.getRandPos();
@@ -119,11 +140,5 @@ public class GameController {
             currentRoomView.addInRoom(actorView, npc.getName(),
                     roomPos[0], roomPos[1]);
         }
-
-        //On met à jour les handlers de description:
-        playerView.setOnMousePressed(e -> {
-            if(e.isSecondaryButtonDown())
-                gameView.update(playerModel.getName());
-        });
     }
 }
