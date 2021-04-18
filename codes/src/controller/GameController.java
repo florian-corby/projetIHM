@@ -2,21 +2,13 @@ package controller;
 
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.HPos;
-import javafx.scene.input.MouseButton;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Ellipse;
-import javafx.scene.shape.Polygon;
-import javafx.scene.shape.Rectangle;
 import model.Characters.Player;
-import model.Game.Message;
 import model.Game.SIS;
 import model.Location.Room;
 import view.*;
 
-import java.awt.event.MouseEvent;
 import java.io.IOException;
 
 public class GameController {
@@ -106,7 +98,7 @@ public class GameController {
         gameView.getRoomLabel().setText("Room " + currentRoomModel.getID());
 
         //On centre le joueur dans la pièce:
-        currentRoomView.add(playerView, (nbCol - 1)/2, (nbLignes-1)/2);
+        currentRoomView.addInRoom(playerView, playerModel.getName(), (nbCol - 1)/2, (nbLignes-1)/2);
         gameView.getMapHBox().getChildren().add(currentRoomView);
 
         //On met à jour les handlers de description:

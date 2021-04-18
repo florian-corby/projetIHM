@@ -4,24 +4,46 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
 import javafx.scene.shape.Shape;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 public class RoomView extends GridPane {
 
-    private final LinkedHashMap<String, Shape> gameElementViews = new LinkedHashMap<>();;
+    private final LinkedHashMap<String, Shape> gameElementViews = new LinkedHashMap<>();
+    private final LinkedHashMap<String, int[]> roomElementsPos = new LinkedHashMap<>();
+    private final int nbCol;
+    private final int nbLignes;
 
+    // ======================== CONSTRUCTORS/INITIALIZERS ============================
     public RoomView(int nbCol, int nbLignes)
     {
+        this.nbCol = nbCol;
+        this.nbLignes = nbLignes;
         initRoom(nbCol, nbLignes);
         initStyle();
     }
 
-    public void addInRoom(Shape gameElementView, String viewTag, int colIndex, int ligneIndex)
+    private void initRoom(int nbCol, int nbLignes)
     {
-        gameElementViews.put(viewTag, gameElementView);
-        this.add(gameElementView, colIndex, ligneIndex);
+        for(int i = 0; i < nbCol; i++)
+        {
+            for(int j = 0; j < nbLignes; j++) {
+                Region ressort = new Region();
+                ressort.setMinSize(25, 25);
+                ressort.setMaxSize(25, 25);
+                add(ressort, i, j);
+            }
+        }
     }
 
+    private void initStyle()
+    {
+        //setGridLinesVisible(true); //Décommenter cette ligne pour voir les cases du jeu
+        setStyle("-fx-background-color:white; -fx-border-color:black;");
+    }
+
+
+    // ============================== GETTERS =========================================
     public Shape getFromRoom(String viewTag) { return gameElementViews.get(viewTag); }
     public String getTag(Shape shape)
     {
@@ -33,22 +55,21 @@ public class RoomView extends GridPane {
         return null;
     }
 
-    private void initRoom(int nbCol, int nbLignes)
+    // =========================== SETTERS/UNSETTERS ===================================
+    public void addInRoom(Shape gameElementView, String viewTag, int colIndex, int ligneIndex)
     {
-        for(int i = 0; i < nbCol; i++)
-        {
-            for(int j = 0; j < nbLignes; j++) {
-                Region ressort = new Region();
-                ressort.setMinSize(25, 25);
-                ressort.setMaxSize(25, 25);
-                this.add(ressort, i, j);
-            }
-        }
+        gameElementViews.put(viewTag, gameElementView);
+        int[] elementPos = {colIndex, ligneIndex};
+        roomElementsPos.put(viewTag, elementPos);
+        add(gameElementView, colIndex, ligneIndex);
     }
 
-    private void initStyle()
+    public void removeFromRoom(String viewTag)
     {
-        //this.setGridLinesVisible(true); //Décommenter cette ligne pour voir les cases du jeu
-        this.setStyle("-fx-background-color:white; -fx-border-color:black;");
+        getChildren().remove(gameElementViews.get(viewTag));
+        gameElementViews.remove(viewTag);
     }
+
+
+    // =============================== UPDATERS ========================================
 }
