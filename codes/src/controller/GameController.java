@@ -4,22 +4,25 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.HPos;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Circle;
+import model.Characters.Actor;
 import model.Characters.Player;
 import model.Game.SIS;
 import model.Location.Room;
 import view.*;
 
 import java.io.IOException;
+import java.util.Random;
 
 public class GameController {
 
     //====================== ATTRIBUTS ==========================
+    private final Random randGen = new Random();
     private final SIS gameModel;
     private final GameView gameView;
     private Room currentRoomModel;
     private RoomView currentRoomView;
-    private Circle playerView;
-    private Player playerModel;
+    private final ActorView playerView;
+    private final Player playerModel;
 
     //Gestion du manuel d'aide:
     private String previousDialog;
@@ -72,8 +75,8 @@ public class GameController {
         currentRoomView.addInRoom(doorView, currentRoomModel.getDoor(0).getTag(), 10, 5);
 
         //Ajout de l'alien:
-        ActorView alien = new ActorView("ally");
-        currentRoomView.addInRoom(alien, currentRoomModel.getNPCTag(0), 8, 3);
+        //ActorView alien = new ActorView("ally");
+        //currentRoomView.addInRoom(alien, currentRoomModel.getNPCTag(0), 8, 3);
 
         //Ajout du conteneur de santé:
         ContainerView healthStation = new ContainerView("HealthStation");
@@ -97,9 +100,16 @@ public class GameController {
         //On met à jour le label de la map:
         gameView.getRoomLabel().setText("Room " + currentRoomModel.getID());
 
-        //On centre le joueur dans la pièce:
+        //On place le joueur au centre de la pièce:
         currentRoomView.addInRoom(playerView, playerModel.getName(), (nbCol - 1)/2, (nbLignes-1)/2);
         gameView.getMapHBox().getChildren().add(currentRoomView);
+
+        //On place les npcs dans la pièce (bien évidemment il faut encore gérer l'aspect aléatoire + le facteur d'hostilité):
+        Actor[] npcs = currentRoomModel.getNPCs();
+        int nbNpcs = npcs.length;
+        for(int i = 0; i < nbNpcs; i++)
+            currentRoomView.addInRoom(new ActorView("ally"), npcs[i].getName(),
+                    randGen.nextInt(11), randGen.nextInt(11));
 
         //On met à jour les handlers de description:
         playerView.setOnMousePressed(e -> {

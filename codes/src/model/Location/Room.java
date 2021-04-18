@@ -16,8 +16,8 @@ public class Room implements Lookable, Serializable {
 	private final int ID;
 	private final String description;
 
-	private final HashMap<Door, Room> doors;
-	private final HashMap<String, Actor> actors;
+	private final LinkedHashMap<Door, Room> doors;
+	private final LinkedHashMap<String, Actor> actors;
 
 	public Room(Ship ship, int id, String description)
 	{
@@ -57,19 +57,12 @@ public class Room implements Lookable, Serializable {
 		return this.actors.get(s);
 	}
 
-	public String getNPCTag(int index)
-	{
-		List<String> actorList = new ArrayList<String>(actors.keySet());
+	public LinkedHashMap<String, Actor> getActors() {
+		return actors;
+	}
 
-		//On élimine le joueur de la liste:
-		int listLength = actorList.size();
-		for(int i = 0; i < listLength; i++)
-		{
-			if(actors.get(actorList.get(i)).getName() == "me")
-				actorList.remove(i);
-		}
-
-		return actorList.get(index);
+	public LinkedHashMap<Door, Room> getDoors() {
+		return doors;
 	}
 
 	public Door getDoor(String s)
@@ -103,7 +96,7 @@ public class Room implements Lookable, Serializable {
 
 	public Door getDoor(int index)
 	{
-		List<Door> doorList = new ArrayList<Door>(doors.keySet());
+		List<Door> doorList = new ArrayList<>(doors.keySet());
 		return doorList.get(index);
 	}
 
@@ -119,6 +112,38 @@ public class Room implements Lookable, Serializable {
 	public LockedDoor getLockedDoor(String s)
 	{
 		return (LockedDoor) getDoor(s);
+	}
+
+	public Actor[] getNPCs()
+	{
+		int nbActors = actors.size();
+		Actor[] res = new Actor[nbActors-1];
+		int count = 0;
+		for(String key : actors.keySet())
+		{
+			//On élimine le joueur de la liste:
+			if(!actors.get(key).getName().equals("me")) {
+				res[count] = actors.get(key);
+				count++;
+			}
+		}
+
+		return res;
+	}
+
+	public String getNPCTag(int index)
+	{
+		List<String> actorList = new ArrayList<String>(actors.keySet());
+
+		//On élimine le joueur de la liste:
+		int listLength = actorList.size();
+		for(int i = 0; i < listLength; i++)
+		{
+			if(actors.get(actorList.get(i)).getName().equals("me"))
+				actorList.remove(i);
+		}
+
+		return actorList.get(index);
 	}
 
 	public boolean hasActor(String name)

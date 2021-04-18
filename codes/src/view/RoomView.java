@@ -4,21 +4,15 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
 import javafx.scene.shape.Shape;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 public class RoomView extends GridPane {
 
     private final LinkedHashMap<String, Shape> gameElementViews = new LinkedHashMap<>();
-    private final LinkedHashMap<String, int[]> roomElementsPos = new LinkedHashMap<>();
-    private final int nbCol;
-    private final int nbLignes;
 
     // ======================== CONSTRUCTORS/INITIALIZERS ============================
     public RoomView(int nbCol, int nbLignes)
     {
-        this.nbCol = nbCol;
-        this.nbLignes = nbLignes;
         initRoom(nbCol, nbLignes);
         initStyle();
     }
@@ -59,8 +53,6 @@ public class RoomView extends GridPane {
     public void addInRoom(Shape gameElementView, String viewTag, int colIndex, int ligneIndex)
     {
         gameElementViews.put(viewTag, gameElementView);
-        int[] elementPos = {colIndex, ligneIndex};
-        roomElementsPos.put(viewTag, elementPos);
         add(gameElementView, colIndex, ligneIndex);
     }
 
