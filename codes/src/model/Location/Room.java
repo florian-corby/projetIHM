@@ -114,16 +114,16 @@ public class Room implements Lookable, Serializable {
 		return (LockedDoor) getDoor(s);
 	}
 
-	public Actor[] getNPCs()
+	public NPC[] getNPCs()
 	{
 		int nbActors = actors.size();
-		Actor[] res = new Actor[nbActors-1];
+		NPC[] res = new NPC[nbActors-1];
 		int count = 0;
 		for(String key : actors.keySet())
 		{
 			//On élimine le joueur de la liste:
 			if(!actors.get(key).getName().equals("me")) {
-				res[count] = actors.get(key);
+				res[count] = (NPC) actors.get(key);
 				count++;
 			}
 		}

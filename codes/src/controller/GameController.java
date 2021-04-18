@@ -4,6 +4,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.HPos;
 import javafx.scene.layout.HBox;
 import model.Characters.Actor;
+import model.Characters.NPC;
 import model.Characters.Player;
 import model.Doors.Door;
 import model.Doors.LockedDoor;
@@ -72,6 +73,14 @@ public class GameController {
     }
 
     //====================== GETTERS ==========================
+    public ActorView getNPCView(NPC npc) {
+        if(npc.isHostile())
+            return new ActorView("hostile");
+        else if (npc.isAlly())
+            return new ActorView("ally");
+        else
+            return new ActorView("neutral");
+    }
     public HBox getScene() {
         return gameView.getScene();
     }
@@ -87,6 +96,7 @@ public class GameController {
         loadNPCs();
         gameView.getMapHBox().getChildren().add(currentRoomView);
     }
+
 
     //====================== LOADERS ==========================
     public void loadDoors() {
@@ -136,10 +146,10 @@ public class GameController {
     }
 
     public void loadNPCs() {
-        Actor[] npcs = currentRoomModel.getNPCs();
-        for (Actor npc : npcs) {
+        NPC[] npcs = currentRoomModel.getNPCs();
+        for (NPC npc : npcs) {
             int[] roomPos = currentRoomView.getRandPos();
-            ActorView actorView = new ActorView("ally");
+            ActorView actorView = getNPCView(npc);
             actorView.setOnMousePressed(e -> {
                 if(e.isSecondaryButtonDown())
                     gameView.update(npc.getName());
@@ -148,7 +158,7 @@ public class GameController {
         }
     }
 
-    public void loadPlayer(){
+    public void loadPlayer() {
         int nbCol = currentRoomView.getNbCol();
         int nbLignes = currentRoomView.getNbLignes();
         currentRoomView.addInRoom(playerView, playerModel.getName(),
