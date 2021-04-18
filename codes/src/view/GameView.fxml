@@ -100,7 +100,7 @@
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-border-color: lightgrey;">
                       <children>
                           <Button fx:id="saveButton" mnemonicParsing="false" text="Save" />
-                          <Button fx:id="helpButton" mnemonicParsing="false" onMouseClicked="#printHelp" text="?" />
+                          <Button fx:id="helpButton" mnemonicParsing="false" text="?" />
                           <Button fx:id="loadButton" mnemonicParsing="false" text="Load" />
                       </children>
                       <VBox.margin>

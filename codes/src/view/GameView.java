@@ -38,11 +38,6 @@ public class GameView implements MessageListener
     @FXML private Button dropButton;
 
 
-    //====================== ATTRIBUTS ===============================
-    private String previousDialog = "";
-    private String helpMessage = "";
-
-
     //====================== GETTERS ==========================
     public HBox getScene() { return sceneHBox; }
 
@@ -72,39 +67,10 @@ public class GameView implements MessageListener
     public Button getGiveButton() { return giveButton; }
     public Button getDropButton() { return dropButton; }
 
-    // -------- Getters sur les autres attributs:
-    public String getHelpMessage()
-    {
-        return helpMessage;
-    }
-    public String getPreviousDialog() { return previousDialog; }
-
 
     //====================== AUTRES ==========================
-    @FXML
-    private void printHelp()
-    {
-        String currentDialog = dialogTextArea.getText();
-
-        if(!currentDialog.equals(helpMessage)) {
-            previousDialog = currentDialog;
-            dialogTextArea.setText(helpMessage);
-            helpButton.setText("Back to the Game");
-        }
-
-        else {
-            helpButton.setText("?");
-            dialogTextArea.setText(previousDialog);
-        }
-    }
-
     @Override
     public void update(String message) {
         dialogTextArea.setText(message);
-    }
-
-    public void setHelpMessage(String message)
-    {
-        helpMessage = message;
     }
 }
