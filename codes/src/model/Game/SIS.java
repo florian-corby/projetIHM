@@ -53,20 +53,20 @@ public class SIS implements Serializable {
 			}
 		} else {*/
 			Message.addGameMessage("You wake up feeling dizzy. Something is talking to you. Something not human.\n\n");
-			this.ship = new Ship();
-			this.ship.getNPC("Kilen").talk();
-			this.ship.getNPC("Kilen").give("passT", this.ship.getPlayer());
-			this.ship.getNPC("Kilen").setSpeech("You should hurry! I've managed to deal with the guards in the lab but it won't be long before they come back!");
+			ship = new Ship();
+			ship.getNPC("Kilen").talk();
+			ship.getNPC("Kilen").give("passT", ship.getPlayer());
+			ship.getNPC("Kilen").setSpeech("You should hurry! I've managed to deal with the guards in the lab but it won't be long before they come back!");
 		//}
 
-		this.ship.getPlayer().setSIS(this);
+		ship.getPlayer().setSIS(this);
 	}
 
 	public boolean isEndGame() {
 		return (
-				(this.ship.getRoom(13).hasActor("me")
-						&& this.ship.getPlayer().getInventory().getItem("CaptainCode") != null)
-						|| this.ship.getPlayer().isDead()
+				(ship.getRoom(13).hasActor("me")
+						&& ship.getPlayer().getInventory().getItem("CaptainCode") != null)
+						|| ship.getPlayer().isDead()
 		);
 	}
 
@@ -79,7 +79,7 @@ public class SIS implements Serializable {
 		try {
 			FileInputStream fileIn = new FileInputStream("saveData.txt");
 			ObjectInputStream ois = new ObjectInputStream(fileIn);
-			this.ship = new Ship((Ship) ois.readObject());
+			ship = new Ship((Ship) ois.readObject());
 			ois.close();
 			Message.addGameMessage("You successfully loaded the game!\n");
 			Message.sendGameMessage("\t\t ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \n\n");
@@ -95,7 +95,7 @@ public class SIS implements Serializable {
 			this.playTurn();
 		}
 
-		if(this.ship.getNPC("Umhon").isDead())
+		if(ship.getNPC("Umhon").isDead())
 			Message.sendGameMessage("\nYou managed to escape but Umhon couldn't stop her husband and his commander. Thus, the aliens" +
 					" managed to create a virus which decimated all the human population. You were the last survivor and witnessed " +
 					"the fruits of your own actions.");
@@ -107,7 +107,7 @@ public class SIS implements Serializable {
 
 	public void playTurn()
 	{
-		this.ship.getPlayer().call();
+		ship.getPlayer().call();
 	}
 
 	public void printHelp() {

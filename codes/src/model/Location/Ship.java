@@ -69,83 +69,83 @@ public class Ship implements Serializable {
 		// =================================================================================================== //
 
 		//Connexion de la pièce 11:
-		Door door11To14 = new Door("door14");
+		Door door11To14 = new Door("door14", new Pos2D(5, 10));
 		room11.addDoor(door11To14, room14);
 
 		//Connexion de la pièce 13:
-		Door door13To17 = new Door("door17");
+		Door door13To17 = new Door("door17", new Pos2D(5, 10));
 		room13.addDoor(door13To17, room17);
 
 		//Connexion de la pièce 14:
-		Door door14To11 = new Door("door11");
+		Door door14To11 = new Door("door11", new Pos2D(5, 0));
 		room14.addDoor(door14To11, room11);
-		Door door14To19 = new Door("door19");
+		Door door14To19 = new Door("door19", new Pos2D(5, 10));
 		room14.addDoor(door14To19, room19);
 
 		//Connexion de la pièce 17:
-		Door door17To22 = new Door("door22");
+		Door door17To22 = new Door("door22", new Pos2D(5, 10));
 		room17.addDoor(door17To22, room22);
-		Door door17To13 = new Door("door13");
+		Door door17To13 = new Door("door13", new Pos2D(5, 0));
 		room17.addDoor(door17To13, room13);
-		Door door17To18 = new Door("door18");
+		Door door17To18 = new Door("door18", new Pos2D(10, 5));
 		room17.addDoor(door17To18, room18);
 
 		//Connexion de la pièce 18:
-		Door door18To17 = new Door("door17");
+		Door door18To17 = new Door("door17", new Pos2D(0, 5));
 		room18.addDoor(door18To17, room17);
-		LockedDoor door18To19 = new LockedDoor("doorA", PassType.A);
+		LockedDoor door18To19 = new LockedDoor("doorA", PassType.A, new Pos2D(10, 5));
 		room18.addDoor(door18To19, room19);
 
 		//Connexion de la pièce 19:
-		Door door19To14 = new Door("door14");
+		Door door19To14 = new Door("door14", new Pos2D(5, 0));
 		room19.addDoor(door19To14, room14);
-		Door door19To18 = new Door("doorA");
+		Door door19To18 = new Door("doorA", new Pos2D(0, 5));
 		room19.addDoor(door19To18, room18);
-		Door door19To24 = new Door("door24");
+		Door door19To24 = new Door("door24", new Pos2D(5, 10));
 		room19.addDoor(door19To24, room24);
 
 		//Connexion de la pièce 21:
-		LockedDoor door21To22 = new LockedDoor("doorT", PassType.T);
+		LockedDoor door21To22 = new LockedDoor("doorT", PassType.T,  new Pos2D(10, 5));
 		room21.addDoor(door21To22, room22);
 
 		//Connexion de la pièce 22:
-		Door door22To21 = new Door("doorT");
+		Door door22To21 = new Door("doorT", new Pos2D(0, 5));
 		room22.addDoor(door22To21, room21);
-		Door door22To23 = new Door("door23");
+		Door door22To23 = new Door("door23", new Pos2D(10, 5));
 		room22.addDoor(door22To23, room23);
-		Door door22To17 = new Door("door17");
+		Door door22To17 = new Door("door17", new Pos2D(5, 0));
 		room22.addDoor(door22To17, room17);
-		Door door22To27 = new Door("door27");
+		Door door22To27 = new Door("door27", new Pos2D(5, 10));
 		room22.addDoor(door22To27, room27);
 
 		//Connexion de la pièce 23:
-		LockedDoor door23To22 = new LockedDoor("door22", PassType.C);
+		LockedDoor door23To22 = new LockedDoor("door22", PassType.C, new Pos2D(0, 5));
 		room23.addDoor(door23To22, room22);
 
 		//Connexion de la pièce 24:
-		Door door24To19 = new Door("door19");
+		Door door24To19 = new Door("door19", new Pos2D(5, 0));
 		room24.addDoor(door24To19, room19);
-		Door door24To29 = new Door("door29");
+		Door door24To29 = new Door("door29", new Pos2D(5, 10));
 		room24.addDoor(door24To29, room29);
 
 		//Connexion de la pièce 27:
-		Door door27To22 = new Door("door22");
+		Door door27To22 = new Door("door22", new Pos2D(5, 0));
 		room27.addDoor(door27To22, room22);
-		Door door27To28 = new Door("door28");
+		Door door27To28 = new Door("door28", new Pos2D(10, 5));
 		room27.addDoor(door27To28, room28);
-		Door door27To30 = new Door("door30");
+		Door door27To30 = new Door("door30", new Pos2D(5, 10));
 		room27.addDoor(door27To30, room30);
 
 		//Connexion de la pièce 28:
-		Door door28To27 = new Door("door27");
+		Door door28To27 = new Door("door27", new Pos2D(0, 5));
 		room28.addDoor(door28To27, room27);
 
 		//Connexion de la pièce 29:
-		Door door29To24 = new Door("door24");
+		Door door29To24 = new Door("door24", new Pos2D(5, 0));
 		room29.addDoor(door29To24, room24);
 
 		//Connexion de la pièce 30:
-		Door door30To27 = new Door("door27");
+		Door door30To27 = new Door("door27", new Pos2D(5, 0));
 		room30.addDoor(door30To27, room27);
 		Pass passA = new Pass("passA", "This is a pass... A letter 'A' is written on it.",
 				PassType.A, new Pos2D(1, 10));

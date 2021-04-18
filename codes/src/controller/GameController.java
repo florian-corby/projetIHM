@@ -3,16 +3,18 @@ package controller;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.HPos;
 import javafx.scene.layout.HBox;
-import javafx.scene.shape.Circle;
 import model.Characters.Actor;
 import model.Characters.Player;
+import model.Doors.Door;
+import model.Doors.LockedDoor;
 import model.Game.SIS;
 import model.Items.Item;
 import model.Location.Room;
 import view.*;
 
 import java.io.IOException;
-import java.util.Random;
+import java.util.LinkedHashMap;
+import java.util.Set;
 
 public class GameController {
 
@@ -43,8 +45,7 @@ public class GameController {
         initHandlers();
     }
 
-    public void initHandlers()
-    {
+    public void initHandlers() {
         gameView.getHelpButton().setOnAction(e -> {
             if(isHelpManualOn) {
                 isHelpManualOn = false;
@@ -66,13 +67,8 @@ public class GameController {
         });
     }
 
-    public void initTestRoom()
-    {
+    public void initTestRoom() {
         updateRoomView(11, 11);
-
-        //Ajout de la porte T:
-        DoorView doorView = new DoorView("locked", HPos.RIGHT);
-        currentRoomView.addInRoom(doorView, currentRoomModel.getDoor(0).getTag(), 10, 5);
     }
 
     //====================== GETTERS ==========================
@@ -82,25 +78,41 @@ public class GameController {
 
 
     //====================== UPDATERS =========================
-    public void updateRoomView(int nbCol, int nbLignes)
-    {
+    public void updateRoomView(int nbCol, int nbLignes) {
         currentRoomView = new RoomView(nbCol, nbLignes);
         gameView.getRoomLabel().setText("Room " + currentRoomModel.getID());
-
+        loadDoors();
         loadItems();
         loadPlayer();
         loadNPCs();
-
         gameView.getMapHBox().getChildren().add(currentRoomView);
     }
 
     //====================== LOADERS ==========================
-    public void loadItems()
-    {
+    public void loadDoors() {
+        Set<Door> doors = currentRoomModel.getDoors().keySet();
+
+        for(Door d : doors) {
+            DoorView doorView;
+            if(d instanceof LockedDoor) {
+                doorView = new DoorView("locked", HPos.RIGHT);
+                currentRoomView.addInRoom(doorView, d.getTag(), d.getPos2D().getPosX(), d.getPos2D().getPosY());
+            }
+            else {
+                doorView = new DoorView("normal", HPos.RIGHT);
+                currentRoomView.addInRoom(doorView, d.getTag(), d.getPos2D().getPosX(), d.getPos2D().getPosY());
+            }
+            doorView.setOnMousePressed(e -> {
+                if(e.isSecondaryButtonDown())
+                    d.describe();
+            });
+        }
+    }
+
+    public void loadItems() {
         Item[] items = currentRoomModel.getInventory().getItems();
         for (Item item : items) {
-            if(item.isTakable())
-            {
+            if(item.isTakable()) {
                 ItemView itemView = new ItemView();
                 itemView.setOnMousePressed(e -> {
                     if(e.isSecondaryButtonDown())
@@ -108,9 +120,7 @@ public class GameController {
                 });
                 currentRoomView.addInRoom(itemView, item.getTag(), item.getPos2D().getPosX(), item.getPos2D().getPosY());
             }
-
-            else
-            {
+            else {
                 ContainerView containerView = new ContainerView("HealthStation");
                 containerView.setOnMousePressed(e -> {
                     if(e.isSecondaryButtonDown())
@@ -121,14 +131,7 @@ public class GameController {
         }
     }
 
-    public void loadPlayer(){
-        int nbCol = currentRoomView.getNbCol();
-        int nbLignes = currentRoomView.getNbLignes();
-        currentRoomView.addInRoom(playerView, playerModel.getName(), (nbCol - 1)/2, (nbLignes-1)/2);
-    }
-
-    public void loadNPCs()
-    {
+    public void loadNPCs() {
         Actor[] npcs = currentRoomModel.getNPCs();
         for (Actor npc : npcs) {
             int[] roomPos = currentRoomView.getRandPos();
@@ -140,5 +143,11 @@ public class GameController {
             currentRoomView.addInRoom(actorView, npc.getName(),
                     roomPos[0], roomPos[1]);
         }
+    }
+
+    public void loadPlayer(){
+        int nbCol = currentRoomView.getNbCol();
+        int nbLignes = currentRoomView.getNbLignes();
+        currentRoomView.addInRoom(playerView, playerModel.getName(), (nbCol - 1)/2, (nbLignes-1)/2);
     }
 }

@@ -2,6 +2,7 @@ package model.Doors;
 
 import model.Game.Message;
 import model.Items.*;
+import model.Utils.Pos2D;
 
 import java.io.Serializable;
 
@@ -13,6 +14,13 @@ public class LockedDoor extends Door implements Unlockable, Serializable {
 	public LockedDoor(String tag, PassType p)
 	{
 		super(tag);
+		this.PASSTYPE = p;
+		this.isLocked = true;
+	}
+
+	public LockedDoor(String tag, PassType p, Pos2D pos2D)
+	{
+		super(tag, pos2D);
 		this.PASSTYPE = p;
 		this.isLocked = true;
 	}
