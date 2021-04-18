@@ -15,6 +15,7 @@ public class Main extends Application {
         primaryStage.setTitle("Silent In Space");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
+        gameController.setBindings();
     }
 
 

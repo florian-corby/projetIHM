@@ -43,7 +43,7 @@ public class RoomView extends GridPane {
     }
 
     private void initStyle() {
-        setGridLinesVisible(true); //Décommenter cette ligne pour voir les cases du jeu
+        //setGridLinesVisible(true); //Décommenter cette ligne pour voir les cases du jeu
         setStyle("-fx-background-color:white; -fx-border-color:black;");
     }
 
@@ -94,8 +94,7 @@ public class RoomView extends GridPane {
 
 
     // ================================= OTHERS =========================================
-    public void alignInRoom(Node nodeToAlign, String align)
-    {
+    public void alignInRoom(Node nodeToAlign, String align) {
         switch(align)
         {
             case "TOP":

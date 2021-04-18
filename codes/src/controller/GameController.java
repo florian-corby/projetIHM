@@ -1,9 +1,7 @@
 package controller;
 
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.HPos;
 import javafx.scene.layout.HBox;
-import model.Characters.Actor;
 import model.Characters.NPC;
 import model.Characters.Player;
 import model.Doors.Door;
@@ -14,7 +12,6 @@ import model.Location.Room;
 import view.*;
 
 import java.io.IOException;
-import java.util.LinkedHashMap;
 import java.util.Set;
 
 public class GameController {
@@ -42,11 +39,23 @@ public class GameController {
         currentRoomModel = playerModel.getRoom();
         previousDialog = gameView.getDialogTextArea().getText();
 
-        initTestRoom();
+        updateRoomView(11, 11);
         initHandlers();
     }
 
     public void initHandlers() {
+        gameView.getZoomPlusButton().setOnAction(e -> {
+            if(currentRoomView.getScaleX() <= 1.5) {
+                currentRoomView.setScaleX(currentRoomView.getScaleX() * 1.1);
+                currentRoomView.setScaleY(currentRoomView.getScaleY() * 1.1);
+            }
+        });
+
+        gameView.getZoomMinusButton().setOnAction(e -> {
+            currentRoomView.setScaleX(currentRoomView.getScaleX() * 10.0/11.0);
+            currentRoomView.setScaleY(currentRoomView.getScaleY() * 10.0/11.0);
+        });
+
         gameView.getHelpButton().setOnAction(e -> {
             if(isHelpManualOn) {
                 isHelpManualOn = false;
@@ -68,10 +77,6 @@ public class GameController {
         });
     }
 
-    public void initTestRoom() {
-        updateRoomView(11, 11);
-    }
-
     //====================== GETTERS ==========================
     public ActorView getNPCView(NPC npc) {
         if(npc.isHostile())
@@ -83,6 +88,12 @@ public class GameController {
     }
     public HBox getScene() {
         return gameView.getScene();
+    }
+
+    public void setBindings()
+    {
+        currentRoomView.layoutXProperty().bind(gameView.getMapHorizontalSlider().valueProperty());
+        currentRoomView.layoutYProperty().bind(gameView.getMapVerticalSlider().valueProperty());
     }
 
 
