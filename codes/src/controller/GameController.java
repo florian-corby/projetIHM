@@ -1,5 +1,6 @@
 package controller;
 
+import javafx.beans.binding.Bindings;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.HBox;
 import model.Characters.NPC;
@@ -56,6 +57,13 @@ public class GameController {
             currentRoomView.setScaleY(currentRoomView.getScaleY() * 10.0/11.0);
         });
 
+        gameView.getMapHorizontalSlider().maxProperty().bind(
+                Bindings.subtract(gameView.getMapPane().widthProperty(), currentRoomView.widthProperty())
+        );
+        gameView.getMapVerticalSlider().maxProperty().bind(
+                Bindings.subtract(gameView.getMapPane().heightProperty(), currentRoomView.heightProperty())
+        );
+
         gameView.getHelpButton().setOnAction(e -> {
             if(isHelpManualOn) {
                 isHelpManualOn = false;
@@ -90,22 +98,19 @@ public class GameController {
         return gameView.getScene();
     }
 
-    public void setBindings()
-    {
-        currentRoomView.layoutXProperty().bind(gameView.getMapHorizontalSlider().valueProperty());
-        currentRoomView.layoutYProperty().bind(gameView.getMapVerticalSlider().valueProperty());
-    }
-
 
     //====================== UPDATERS =========================
     public void updateRoomView(int nbCol, int nbLignes) {
         currentRoomView = new RoomView(nbCol, nbLignes);
+        currentRoomView.layoutXProperty().bind(gameView.getMapHorizontalSlider().valueProperty());
+        currentRoomView.layoutYProperty().bind(gameView.getMapVerticalSlider().valueProperty());
+
         gameView.getRoomLabel().setText("Room " + currentRoomModel.getID());
         loadDoors();
         loadItems();
         loadPlayer();
         loadNPCs();
-        gameView.getMapHBox().getChildren().add(currentRoomView);
+        gameView.getMapPane().getChildren().add(currentRoomView);
     }
 
 

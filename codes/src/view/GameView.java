@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import model.Game.MessageListener;
 
 
@@ -17,7 +18,7 @@ public class GameView implements MessageListener
     @FXML private Button zoomPlusButton;
     @FXML private Button zoomMinusButton;
     @FXML private Label roomLabel;
-    @FXML private HBox mapHBox;
+    @FXML private Pane mapPane;
     @FXML private Slider mapHorizontalSlider;
     @FXML private Slider mapVerticalSlider;
     @FXML private Button backButton;
@@ -45,8 +46,8 @@ public class GameView implements MessageListener
     public Button getZoomPlusButton() { return zoomPlusButton; }
     public Button getZoomMinusButton() { return zoomMinusButton; }
     public Label getRoomLabel() { return roomLabel; }
-    public HBox getMapHBox() {
-        return mapHBox;
+    public Pane getMapPane() {
+        return mapPane;
     }
     public Slider getMapHorizontalSlider() { return mapHorizontalSlider; }
     public Slider getMapVerticalSlider() { return mapVerticalSlider; }
