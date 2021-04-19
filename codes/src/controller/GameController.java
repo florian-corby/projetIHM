@@ -21,12 +21,15 @@ import java.util.Set;
 public class GameController {
 
     //====================== ATTRIBUTS ==========================
+    //Quelques éléments du modèle:
     private final SIS gameModel;
-    private final GameView gameView;
     private Room currentRoomModel;
-    private RoomView currentRoomView;
-    private final ActorView playerView;
     private final Player playerModel;
+
+    //Quelques éléments de la vue (pour manipuler une pièce on passe par son contrôleur):
+    private final GameView gameView;
+    private final RoomController roomController;
+    private final ActorView playerView = new ActorView("player");
 
     //Gestion du manuel d'aide:
     private String previousDialog;
@@ -34,16 +37,21 @@ public class GameController {
 
     //=============== CONSTRUCTEURS/INITIALISEURS ===============
     public GameController() throws IOException {
+        //On charge la vue:
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/GameView.fxml"));
         loader.load();
         gameView = loader.getController();
+
+        //On charge le modèle:
         gameModel = new SIS(gameView);
-        playerView = new ActorView("player");
         playerModel = gameModel.getShip().getPlayer();
         currentRoomModel = playerModel.getRoom();
-        previousDialog = gameView.getDialogTextArea().getText();
 
-        updateRoomView(11, 11);
+        //On charge la pièce:
+        roomController = new RoomController(this);
+        roomController.updateRoomView(11, 11);
+
+        //On charge les gestionnaires d'événement globaux du jeu:
         initHandlers();
     }
 
@@ -56,20 +64,7 @@ public class GameController {
             clipPane.setHeight(newValue.getHeight());
         });
 
-        gameView.getZoomPlusButton().setOnAction(e -> {
-            currentRoomView.setScaleX(currentRoomView.getScaleX() * 1.1);
-            currentRoomView.setScaleY(currentRoomView.getScaleY() * 1.1);
-        });
-
-        gameView.getZoomMinusButton().setOnAction(e -> {
-            currentRoomView.setScaleX(currentRoomView.getScaleX() * 10.0/11.0);
-            currentRoomView.setScaleY(currentRoomView.getScaleY() * 10.0/11.0);
-        });
-
-        gameView.getMapHorizontalSlider().maxProperty().bind(
-                Bindings.subtract(gameView.getMapPane().widthProperty(), currentRoomView.widthProperty()));
-        gameView.getMapVerticalSlider().maxProperty().bind(
-                Bindings.subtract(gameView.getMapPane().heightProperty(), currentRoomView.heightProperty()));
+        //Les sliders réinitialisent la pièce au centre du panneau à chaque redimensionnement de la fenêtre:
         gameView.getMapHorizontalSlider().maxProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
@@ -83,6 +78,8 @@ public class GameController {
             }
         });
 
+        //Le manuel d'aide:
+        previousDialog = gameView.getDialogTextArea().getText();
         gameView.getHelpButton().setOnAction(e -> {
             if(isHelpManualOn) {
                 isHelpManualOn = false;
@@ -97,18 +94,10 @@ public class GameController {
                 gameModel.printHelp();
             }
         });
-
-        playerView.setOnMousePressed(e -> {
-            if(e.isSecondaryButtonDown())
-                gameView.update(playerModel.getName());
-        });
     }
 
     //====================== GETTERS ==========================
-    public RoomView getCurrentRoomView() {
-        return currentRoomView;
-    }
-
+    public Room getCurrentRoomModel() { return currentRoomModel; }
     public GameView getGameView() {
         return gameView;
     }
@@ -120,90 +109,9 @@ public class GameController {
         else
             return new ActorView("neutral");
     }
+    public Player getPlayerModel() { return playerModel; }
+    public ActorView getPlayerView() { return playerView; }
     public HBox getScene() {
         return gameView.getScene();
-    }
-
-
-    //====================== UPDATERS =========================
-    public void updateRoomView(int nbCol, int nbLignes) {
-        currentRoomView = new RoomView(nbCol, nbLignes);
-        currentRoomView.layoutXProperty().bind(gameView.getMapHorizontalSlider().valueProperty());
-        currentRoomView.layoutYProperty().bind(gameView.getMapVerticalSlider().valueProperty());
-
-        gameView.getRoomLabel().setText("Room " + currentRoomModel.getID());
-        loadDoors();
-        loadItems();
-        loadPlayer();
-        loadNPCs();
-        gameView.getMapPane().getChildren().add(currentRoomView);
-    }
-
-
-    //====================== LOADERS ==========================
-    public void loadDoors() {
-        Set<Door> doors = currentRoomModel.getDoors().keySet();
-        int[] roomSize = {currentRoomView.getNbCol(), currentRoomView.getNbLignes()};
-
-        for(Door d : doors) {
-            DoorView doorView;
-            int[] doorPos = {d.getPos2D().getPosX(), d.getPos2D().getPosY()};
-            if(d instanceof LockedDoor) {
-                doorView = new DoorView("locked");
-                currentRoomView.addInRoom(doorView, d.getTag(), doorPos[0], doorPos[1], doorView.getAlignment(roomSize, doorPos));
-            }
-            else {
-                doorView = new DoorView("normal");
-                currentRoomView.addInRoom(doorView, d.getTag(), doorPos[0], doorPos[1], doorView.getAlignment(roomSize, doorPos));
-            }
-            doorView.setOnMousePressed(e -> {
-                if(e.isSecondaryButtonDown())
-                    d.describe();
-            });
-        }
-    }
-
-    public void loadItems() {
-        Item[] items = currentRoomModel.getInventory().getItems();
-        for (Item item : items) {
-            if(item.isTakable()) {
-                ItemView itemView = new ItemView();
-                itemView.setOnMousePressed(e -> {
-                    if(e.isSecondaryButtonDown())
-                        gameView.update(item.getDescription());
-                });
-                currentRoomView.addInRoom(itemView, item.getTag(),
-                        item.getPos2D().getPosX(), item.getPos2D().getPosY(), "CENTER");
-            }
-            else {
-                ContainerView containerView = new ContainerView("HealthStation");
-                containerView.setOnMousePressed(e -> {
-                    if(e.isSecondaryButtonDown())
-                        gameView.update(item.getDescription());
-                });
-                currentRoomView.addInRoom(containerView, item.getTag(),
-                        item.getPos2D().getPosX(), item.getPos2D().getPosY(), "CENTER");
-            }
-        }
-    }
-
-    public void loadNPCs() {
-        NPC[] npcs = currentRoomModel.getNPCs();
-        for (NPC npc : npcs) {
-            int[] roomPos = currentRoomView.getRandPos();
-            ActorView actorView = getNPCView(npc);
-            actorView.setOnMousePressed(e -> {
-                if(e.isSecondaryButtonDown())
-                    gameView.update(npc.getName());
-            });
-            currentRoomView.addInRoom(actorView, npc.getName(), roomPos[0], roomPos[1], "CENTER");
-        }
-    }
-
-    public void loadPlayer() {
-        int nbCol = currentRoomView.getNbCol();
-        int nbLignes = currentRoomView.getNbLignes();
-        currentRoomView.addInRoom(playerView, playerModel.getName(),
-                (nbCol - 1)/2, (nbLignes-1)/2, "CENTER");
     }
 }
