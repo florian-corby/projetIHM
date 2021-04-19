@@ -1,6 +1,7 @@
 package controller;
 
 import javafx.beans.binding.Bindings;
+import javafx.scene.shape.Shape;
 import model.Characters.NPC;
 import model.Characters.Player;
 import model.Doors.Door;
@@ -36,6 +37,28 @@ public class RoomController {
     public RoomView getCurrentRoomView() { return currentRoomView; }
 
     //====================== UPDATERS =========================
+    public void addContainerInRoom(Item item){
+        ContainerView containerView = new ContainerView("HealthStation");
+        containerView.setOnMousePressed(e -> {
+            if(e.isSecondaryButtonDown())
+                gameView.update(item.getDescription());
+        });
+        currentRoomView.addInRoom(containerView, item.getTag(),
+                item.getScalar2D().getScalar2DCol(), item.getScalar2D().getScalar2DLine(), "CENTER");
+    }
+    public void addItemInRoom(Item item){
+        ItemView itemView = new ItemView();
+        itemView.setOnMousePressed(e -> {
+            if(e.isSecondaryButtonDown())
+                gameView.update(item.getDescription());
+            else{
+                playerInvController.addInInventory(item);
+            }
+        });
+        currentRoomView.addInRoom(itemView, item.getTag(),
+                item.getScalar2D().getScalar2DCol(), item.getScalar2D().getScalar2DLine(), "CENTER");
+    }
+
     public void updateRoomView(int nbCol, int nbLignes) {
         currentRoomModel = gameController.getCurrentRoomModel();
         currentRoomView = new RoomView(nbCol, nbLignes);
@@ -95,27 +118,10 @@ public class RoomController {
     public void loadItems() {
         Item[] items = currentRoomModel.getInventory().getItems();
         for (Item item : items) {
-            if(item.isTakable()) {
-                ItemView itemView = new ItemView();
-                itemView.setOnMousePressed(e -> {
-                    if(e.isSecondaryButtonDown())
-                        gameView.update(item.getDescription());
-                    else{
-                        playerInvController.addInInventory(item);
-                    }
-                });
-                currentRoomView.addInRoom(itemView, item.getTag(),
-                        item.getScalar2D().getScalar2DCol(), item.getScalar2D().getScalar2DLine(), "CENTER");
-            }
-            else {
-                ContainerView containerView = new ContainerView("HealthStation");
-                containerView.setOnMousePressed(e -> {
-                    if(e.isSecondaryButtonDown())
-                        gameView.update(item.getDescription());
-                });
-                currentRoomView.addInRoom(containerView, item.getTag(),
-                        item.getScalar2D().getScalar2DCol(), item.getScalar2D().getScalar2DLine(), "CENTER");
-            }
+            if(item.isTakable())
+                addItemInRoom(item);
+            else
+                addContainerInRoom(item);
         }
     }
 
@@ -137,6 +143,9 @@ public class RoomController {
         int nbLignes = currentRoomView.getNbLignes();
         currentRoomView.addInRoom(playerView, playerModel.getName(),
                 (nbCol - 1)/2, (nbLignes-1)/2, "CENTER");
-        playerView.setOnMouseClicked(e -> {gameView.update(playerModel.getName());});
+        playerView.setOnMousePressed(e -> {
+            if(e.isSecondaryButtonDown())
+                gameView.update(playerModel.getName());
+        });
     }
 }
