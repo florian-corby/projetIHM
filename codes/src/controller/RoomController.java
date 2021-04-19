@@ -146,6 +146,8 @@ public class RoomController {
             actorView.setOnMousePressed(e -> {
                 if(e.isSecondaryButtonDown())
                     gameView.update(npc.getName());
+                else
+                    npc.talk();
             });
             currentRoomView.addInRoom(actorView, npc.getName(), roomPos[0], roomPos[1], "CENTER");
         }
