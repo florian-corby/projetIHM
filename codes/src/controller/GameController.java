@@ -3,6 +3,7 @@ package controller;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.HBox;
+import javafx.scene.shape.Rectangle;
 import model.Characters.NPC;
 import model.Characters.Player;
 import model.Doors.Door;
@@ -45,24 +46,23 @@ public class GameController {
     }
 
     public void initHandlers() {
+        //Pour que la pièce passe derrière la fenêtre si débordement:
+        final Rectangle clipPane = new Rectangle();
+        gameView.getMapPane().setClip(clipPane);
+        gameView.getMapPane().layoutBoundsProperty().addListener((ov, oldValue, newValue) -> {
+            clipPane.setWidth(newValue.getWidth());
+            clipPane.setHeight(newValue.getHeight());
+        });
+
         gameView.getZoomPlusButton().setOnAction(e -> {
-            if(currentRoomView.getScaleX() <= 1.5) {
-                currentRoomView.setScaleX(currentRoomView.getScaleX() * 1.1);
-                currentRoomView.setScaleY(currentRoomView.getScaleY() * 1.1);
-            }
+            currentRoomView.setScaleX(currentRoomView.getScaleX() * 1.1);
+            currentRoomView.setScaleY(currentRoomView.getScaleY() * 1.1);
         });
 
         gameView.getZoomMinusButton().setOnAction(e -> {
             currentRoomView.setScaleX(currentRoomView.getScaleX() * 10.0/11.0);
             currentRoomView.setScaleY(currentRoomView.getScaleY() * 10.0/11.0);
         });
-
-        gameView.getMapHorizontalSlider().maxProperty().bind(
-                Bindings.subtract(gameView.getMapPane().widthProperty(), currentRoomView.widthProperty())
-        );
-        gameView.getMapVerticalSlider().maxProperty().bind(
-                Bindings.subtract(gameView.getMapPane().heightProperty(), currentRoomView.heightProperty())
-        );
 
         gameView.getHelpButton().setOnAction(e -> {
             if(isHelpManualOn) {
@@ -86,6 +86,13 @@ public class GameController {
     }
 
     //====================== GETTERS ==========================
+    public RoomView getCurrentRoomView() {
+        return currentRoomView;
+    }
+
+    public GameView getGameView() {
+        return gameView;
+    }
     public ActorView getNPCView(NPC npc) {
         if(npc.isHostile())
             return new ActorView("hostile");
