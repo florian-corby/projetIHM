@@ -3,9 +3,9 @@ package view;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import model.Game.MessageListener;
 
 
@@ -35,9 +35,7 @@ public class GameView implements MessageListener
     @FXML private Button saveButton;
     @FXML private Button helpButton;
     @FXML private Button loadButton;
-    @FXML private ScrollPane inventoryScrollPane;
-    @FXML private AnchorPane inventoryScrollPaneAnchorPane;
-    @FXML private Button useButton;
+    @FXML private VBox inventoryVBox;
     @FXML private Button giveButton;
     @FXML private Button dropButton;
 
@@ -67,9 +65,7 @@ public class GameView implements MessageListener
     public Button getSaveButton() { return saveButton; }
     public Button getHelpButton() { return helpButton; }
     public Button getLoadButton() { return loadButton; }
-    public ScrollPane getInventoryScrollPane() { return inventoryScrollPane; }
-    public AnchorPane getInventoryScrollPaneAnchorPane() { return inventoryScrollPaneAnchorPane; }
-    public Button getUseButton() { return useButton; }
+    public VBox getInventoryVBox() { return inventoryVBox; }
     public Button getGiveButton() { return giveButton; }
     public Button getDropButton() { return dropButton; }
 

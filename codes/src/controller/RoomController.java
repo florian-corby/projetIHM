@@ -82,14 +82,17 @@ public class RoomController {
         for(Door d : doors) {
             DoorView doorView;
             int[] doorPos = {d.getScalar2D().getScalar2DCol(), d.getScalar2D().getScalar2DLine()};
-            if(d instanceof LockedDoor) {
+
+            if(d instanceof LockedDoor && ((LockedDoor) d).isLocked())
                 doorView = new DoorView("locked");
-                currentRoomView.addInRoom(doorView, d.getTag(), doorPos[0], doorPos[1], doorView.getAlignment(roomSize, doorPos));
-            }
-            else {
+            else if(d instanceof LockedDoor && !((LockedDoor) d).isLocked())
                 doorView = new DoorView("normal");
-                currentRoomView.addInRoom(doorView, d.getTag(), doorPos[0], doorPos[1], doorView.getAlignment(roomSize, doorPos));
-            }
+            else
+                doorView = new DoorView("normal");
+
+            doorView.setDoorGeometry(roomSize, doorPos);
+            currentRoomView.addInRoom(doorView, d.getTag(), doorPos[0], doorPos[1], doorView.getAlignment(roomSize, doorPos));
+
             doorView.setOnMousePressed(e -> {
                 if(e.isSecondaryButtonDown())
                     d.describe();

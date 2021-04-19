@@ -4,7 +4,7 @@ import javafx.event.EventHandler;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Shape;
 import model.Characters.Player;
 import model.Containers.Inventory;
@@ -17,7 +17,7 @@ public class InventoryController {
     //====================== ATTRIBUTS ==========================
     private final GameView gameView;
     private final Inventory playerInvModel;
-    private final AnchorPane playerInvView;
+    private final VBox playerInvView;
     private final ToggleGroup invTG;
     private RoomController roomController;
     private EventHandler<MouseEvent>[] fireHandlers;
@@ -27,7 +27,7 @@ public class InventoryController {
         gameView = c.getGameView();
         Player playerModel = c.getPlayerModel();
         playerInvModel = playerModel.getInventory();
-        playerInvView = gameView.getInventoryScrollPaneAnchorPane();
+        playerInvView = gameView.getInventoryVBox();
         invTG = new ToggleGroup();
         initHandlers();
     }

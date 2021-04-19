@@ -96,28 +96,15 @@ public class RoomView extends GridPane {
 
     // ================================= OTHERS =========================================
     public void alignInRoom(Node nodeToAlign, String align) {
-        switch(align)
-        {
-            case "TOP":
-                GridPane.setValignment(nodeToAlign, VPos.TOP);
-                break;
-
-            case "RIGHT":
-                GridPane.setHalignment(nodeToAlign, HPos.RIGHT);
-                break;
-
-            case "BOTTOM":
-                GridPane.setValignment(nodeToAlign, VPos.BOTTOM);
-                break;
-
-            case "LEFT":
-                GridPane.setHalignment(nodeToAlign, HPos.LEFT);
-                break;
-
-            default:
+        switch (align) {
+            case "TOP" -> GridPane.setValignment(nodeToAlign, VPos.TOP);
+            case "RIGHT" -> GridPane.setHalignment(nodeToAlign, HPos.RIGHT);
+            case "BOTTOM" -> GridPane.setValignment(nodeToAlign, VPos.BOTTOM);
+            case "LEFT" -> GridPane.setHalignment(nodeToAlign, HPos.LEFT);
+            default -> {
                 GridPane.setValignment(nodeToAlign, VPos.CENTER);
                 GridPane.setHalignment(nodeToAlign, HPos.CENTER);
-                break;
+            }
         }
     }
 }
