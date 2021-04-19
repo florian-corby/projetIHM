@@ -17,11 +17,10 @@ import java.io.IOException;
 
 public class GameController {
     //====================== ATTRIBUTS ==========================
-    private final Scalar2D DEFAULT_ROOMS_SIZE = new Scalar2D(11, 11);
+    public final static Scalar2D DEFAULT_ROOMS_SIZE = new Scalar2D(11, 11);
 
     //Quelques éléments du modèle:
     private final SIS gameModel;
-    private Room currentRoomModel;
     private final Player playerModel;
 
     //Quelques éléments de la vue (pour manipuler une pièce on passe par son contrôleur):
@@ -44,13 +43,13 @@ public class GameController {
         //On charge le modèle et le gestionnaire d'inventaire:
         gameModel = new SIS(gameView);
         playerModel = gameModel.getShip().getPlayer();
-        currentRoomModel = playerModel.getRoom();
         inventoryController = new InventoryController(this);
 
         //On charge la pièce:
         roomController = new RoomController(this);
         roomController.updateRoomView(DEFAULT_ROOMS_SIZE.getScalar2DCol(), DEFAULT_ROOMS_SIZE.getScalar2DLine());
         inventoryController.updateRoom(roomController);
+        inventoryController.initInventory();
 
         //On charge les gestionnaires d'événement globaux du jeu:
         initHandlers();
@@ -98,7 +97,6 @@ public class GameController {
     }
 
     //====================== GETTERS ==========================
-    public Room getCurrentRoomModel() { return currentRoomModel; }
     public InventoryController getInventoryController() { return inventoryController; }
     public GameView getGameView() {
         return gameView;

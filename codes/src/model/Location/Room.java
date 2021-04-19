@@ -116,17 +116,23 @@ public class Room implements Lookable, Serializable {
 
 	public NPC[] getNPCs() {
 		int nbActors = actors.size();
-		NPC[] res = new NPC[nbActors-1];
-		int count = 0;
-		for(String key : actors.keySet()) {
-			//On élimine le joueur de la liste:
-			if(!actors.get(key).getName().equals("me")) {
-				res[count] = (NPC) actors.get(key);
-				count++;
-			}
-		}
 
-		return res;
+		//S'il n'y a que le joueur dans la salle:
+		if(nbActors == 1)
+			return null;
+
+		else {
+			NPC[] res = new NPC[nbActors - 1];
+			int count = 0;
+			for (String key : actors.keySet()) {
+				//On élimine le joueur de la liste:
+				if (!actors.get(key).getName().equals("me")) {
+					res[count] = (NPC) actors.get(key);
+					count++;
+				}
+			}
+			return res;
+		}
 	}
 
 	public String getNPCTag(int index) {

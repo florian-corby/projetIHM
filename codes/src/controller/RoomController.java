@@ -1,7 +1,6 @@
 package controller;
 
 import javafx.beans.binding.Bindings;
-import javafx.scene.shape.Shape;
 import model.Characters.NPC;
 import model.Characters.Player;
 import model.Doors.Door;
@@ -26,7 +25,6 @@ public class RoomController {
     {
         gameController = c;
         gameView = c.getGameView();
-        currentRoomModel = c.getCurrentRoomModel();
         playerModel = c.getPlayerModel();
         playerView = c.getPlayerView();
         playerInvController = c.getInventoryController();
@@ -59,8 +57,12 @@ public class RoomController {
                 item.getScalar2D().getScalar2DCol(), item.getScalar2D().getScalar2DLine(), "CENTER");
     }
 
+    public void updateRoomModel(){
+        currentRoomModel = playerModel.getRoom();
+    }
     public void updateRoomView(int nbCol, int nbLignes) {
-        currentRoomModel = gameController.getCurrentRoomModel();
+        gameView.getMapPane().getChildren().remove(currentRoomView);
+        updateRoomModel();
         currentRoomView = new RoomView(nbCol, nbLignes);
         gameView.getRoomLabel().setText("Room " + currentRoomModel.getID());
         loadDoors();
@@ -91,6 +93,10 @@ public class RoomController {
             doorView.setOnMousePressed(e -> {
                 if(e.isSecondaryButtonDown())
                     d.describe();
+                else{
+                    playerModel.go(d);
+                    updateRoomView(GameController.DEFAULT_ROOMS_SIZE.getScalar2DCol(), GameController.DEFAULT_ROOMS_SIZE.getScalar2DLine());
+                }
             });
         }
     }
@@ -127,6 +133,10 @@ public class RoomController {
 
     public void loadNPCs() {
         NPC[] npcs = currentRoomModel.getNPCs();
+
+        if(npcs == null)
+            return;
+
         for (NPC npc : npcs) {
             int[] roomPos = currentRoomView.getRandPos();
             ActorView actorView = gameController.getNPCView(npc);

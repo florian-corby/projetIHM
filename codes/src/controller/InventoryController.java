@@ -40,6 +40,15 @@ public class InventoryController {
         });
     }
 
+    public void initInventory(){
+        for(Item item : playerInvModel.getItems()){
+            ToggleButton tgBtn = new ToggleButton(item.getTag());
+            setTgBtnHandler(tgBtn);
+            invTG.getToggles().add(tgBtn);
+            playerInvView.getChildren().add(tgBtn);
+        }
+    }
+
     //====================== UPDATERS =========================
     public void addInInventory(Item item){
         //On met à jour le modèle:
@@ -85,18 +94,24 @@ public class InventoryController {
             //On récupère tous les éléments visuels de la pièce associés à leurs étiquettes:
             LinkedHashMap<String, Shape> roomViews = roomController.getCurrentRoomView().getGameElementViews();
 
-            int count = 0;
+            //On récupère l'élément du modèle qui devra appeler la fonction du modèle:
+            Item itemUsed;
+            if(roomController.getCurrentRoomModel().getInventory().getItem(btn.getText()) != null)
+                itemUsed = roomController.getCurrentRoomModel().getInventory().getItem(btn.getText());
+            else
+                itemUsed = playerInvModel.getItem(btn.getText());
+
             //On parcourt chacun de ces éléments pour leur associer un gestionnaire d'événement:
+            int count = 0;
             for(String viewTag : roomViews.keySet()) {
                 EventHandler<MouseEvent> useOnHandler = ev -> {
                     if (ev.isPrimaryButtonDown()) {
                         //On applique la fonction d'utilisation de l'objet définie dans le modèle:
-                        roomController.getCurrentRoomModel().getInventory().getItem(btn.getText()).isUsedOn(roomController.getCurrentRoomModel().getUsableBy(viewTag));
+                        itemUsed.isUsedOn(roomController.getCurrentRoomModel().getUsableBy(viewTag));
                         clearEventHandlers();
                         btn.setSelected(false);
                     }
                 };
-
                 fireHandlers[count++] = useOnHandler;
                 roomController.getCurrentRoomView().getFromRoom(viewTag).addEventHandler(MouseEvent.MOUSE_PRESSED, useOnHandler);
             }
