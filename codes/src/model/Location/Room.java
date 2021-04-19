@@ -7,6 +7,7 @@ import model.Commands.Lookable;
 import model.Containers.Inventory;
 import model.Doors.*;
 import model.Characters.*;
+import model.Game.Message;
 import model.Items.UsableBy;
 
 public class Room implements Lookable, Serializable {
@@ -41,12 +42,13 @@ public class Room implements Lookable, Serializable {
 
 	@Override
 	public void describe() {
-		System.out.println(this.description);
+		Message.addGameMessage(this.description);
 
 		if(this.doors.size() == 1 && this.hasLockedDoor())
-			System.out.println("Suddenly, the door closed shut behind you! You try opening it... " +
+			Message.sendGameMessage("Suddenly, the door closed shut behind you! You try opening it... " +
 					"But it is hopeless, you are trapped in this room.");
 
+		Message.sendGameMessage("");
 		this.scanRoom();
 	}
 

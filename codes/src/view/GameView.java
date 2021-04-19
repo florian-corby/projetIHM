@@ -69,6 +69,8 @@ public class GameView implements MessageListener
     //====================== AUTRES ==========================
     @Override
     public void update(String message) {
-        dialogTextArea.setText(message);
+        dialogTextArea.setText(dialogTextArea.getText() + "\n\n" + message);
+        dialogTextArea.selectPositionCaret(dialogTextArea.getLength());
+        dialogTextArea.deselect();
     }
 }

@@ -90,6 +90,7 @@ public class GameController {
             else {
                 isHelpManualOn = true;
                 previousDialog = gameView.getDialogTextArea().getText();
+                gameView.getDialogTextArea().setText("");
                 gameView.getHelpButton().setText("Back to the Game");
                 gameModel.printHelp();
             }

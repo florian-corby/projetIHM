@@ -5,6 +5,7 @@ import model.Characters.NPC;
 import model.Characters.Player;
 import model.Doors.Door;
 import model.Doors.LockedDoor;
+import model.Game.Message;
 import model.Items.Item;
 import model.Location.Room;
 import view.*;
@@ -59,6 +60,7 @@ public class RoomController {
 
     public void updateRoomModel(){
         currentRoomModel = playerModel.getRoom();
+        currentRoomModel.describe();
     }
     public void updateRoomView(int nbCol, int nbLignes) {
         gameView.getMapPane().getChildren().remove(currentRoomView);
