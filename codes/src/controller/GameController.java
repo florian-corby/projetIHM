@@ -1,6 +1,8 @@
 package controller;
 
 import javafx.beans.binding.Bindings;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Rectangle;
@@ -68,6 +70,18 @@ public class GameController {
                 Bindings.subtract(gameView.getMapPane().widthProperty(), currentRoomView.widthProperty()));
         gameView.getMapVerticalSlider().maxProperty().bind(
                 Bindings.subtract(gameView.getMapPane().heightProperty(), currentRoomView.heightProperty()));
+        gameView.getMapHorizontalSlider().maxProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
+                gameView.getMapHorizontalSlider().setValue(gameView.getMapHorizontalSlider().getMax()/2);
+            }
+        });
+        gameView.getMapVerticalSlider().maxProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
+                gameView.getMapVerticalSlider().setValue(gameView.getMapVerticalSlider().getMax()/2);
+            }
+        });
 
         gameView.getHelpButton().setOnAction(e -> {
             if(isHelpManualOn) {
