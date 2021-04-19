@@ -61,7 +61,7 @@ public class Inventory implements Serializable {
 
 		else
 		{
-			Message.sendGameMessage("Error :> This item isn't in this inventory");
+			System.out.println("Error :> This item isn't in this inventory");
 		}
 	}
 
@@ -74,7 +74,7 @@ public class Inventory implements Serializable {
 	{
 		for (Item i : this.ITEMS.values())
 		{
-			Message.sendGameMessage("\t- " + i.getTag() + " : " + i.getDescription());
+			System.out.println("\t- " + i.getTag() + " : " + i.getDescription());
 		}
 	}
 

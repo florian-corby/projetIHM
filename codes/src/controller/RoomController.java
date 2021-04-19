@@ -5,7 +5,6 @@ import model.Characters.NPC;
 import model.Characters.Player;
 import model.Doors.Door;
 import model.Doors.LockedDoor;
-import model.Game.Message;
 import model.Items.Item;
 import model.Location.Room;
 import view.*;
@@ -40,7 +39,7 @@ public class RoomController {
         ContainerView containerView = new ContainerView("HealthStation");
         containerView.setOnMousePressed(e -> {
             if(e.isSecondaryButtonDown())
-                gameView.update(item.getDescription());
+                item.describe();
         });
         currentRoomView.addInRoom(containerView, item.getTag(),
                 item.getScalar2D().getScalar2DCol(), item.getScalar2D().getScalar2DLine(), "CENTER");
@@ -49,7 +48,7 @@ public class RoomController {
         ItemView itemView = new ItemView();
         itemView.setOnMousePressed(e -> {
             if(e.isSecondaryButtonDown())
-                gameView.update(item.getDescription());
+                item.describe();
             else{
                 playerInvController.addInInventory(item);
             }
@@ -58,10 +57,7 @@ public class RoomController {
                 item.getScalar2D().getScalar2DCol(), item.getScalar2D().getScalar2DLine(), "CENTER");
     }
 
-    public void updateRoomModel(){
-        currentRoomModel = playerModel.getRoom();
-        currentRoomModel.describe();
-    }
+    public void updateRoomModel(){ currentRoomModel = playerModel.getRoom(); }
     public void updateRoomView(int nbCol, int nbLignes) {
         gameView.getMapPane().getChildren().remove(currentRoomView);
         updateRoomModel();

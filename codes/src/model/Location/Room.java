@@ -206,6 +206,6 @@ public class Room implements Lookable, Serializable {
 			a.changeRoom(this.doors.get(d));
 
 		else
-			System.out.println("You can't use this door.");
+			Message.sendGameMessage("You can't use this door.");
 	}
 }
