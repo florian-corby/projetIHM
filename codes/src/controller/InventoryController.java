@@ -53,6 +53,7 @@ public class InventoryController {
     public void addInInventory(Item item){
         //On met à jour le modèle:
         playerInvModel.addItem(item);
+        roomController.getCurrentRoomModel().getInventory().removeItem(item.getTag());
 
         //On met à jour la vue:
         ToggleButton tgBtn = new ToggleButton(item.getTag());
