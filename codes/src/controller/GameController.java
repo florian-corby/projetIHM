@@ -3,10 +3,12 @@ package controller;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Rectangle;
 import model.Characters.NPC;
 import model.Characters.Player;
+import model.Containers.Inventory;
 import model.Game.SIS;
 import model.Location.Room;
 import model.Utils.Scalar2D;
@@ -15,15 +17,17 @@ import java.io.IOException;
 
 public class GameController {
     //====================== ATTRIBUTS ==========================
+    private final Scalar2D DEFAULT_ROOMS_SIZE = new Scalar2D(11, 11);
+
     //Quelques éléments du modèle:
     private final SIS gameModel;
     private Room currentRoomModel;
     private final Player playerModel;
-    private final Scalar2D DEFAULT_ROOMS_SIZE = new Scalar2D(11, 11);
 
     //Quelques éléments de la vue (pour manipuler une pièce on passe par son contrôleur):
     private final GameView gameView;
     private final RoomController roomController;
+    private final InventoryController inventoryController;
     private final ActorView playerView = new ActorView("player");
 
     //Gestion du manuel d'aide:
@@ -37,14 +41,16 @@ public class GameController {
         loader.load();
         gameView = loader.getController();
 
-        //On charge le modèle:
+        //On charge le modèle et le gestionnaire d'inventaire:
         gameModel = new SIS(gameView);
         playerModel = gameModel.getShip().getPlayer();
         currentRoomModel = playerModel.getRoom();
+        inventoryController = new InventoryController(this);
 
         //On charge la pièce:
         roomController = new RoomController(this);
         roomController.updateRoomView(DEFAULT_ROOMS_SIZE.getScalar2DCol(), DEFAULT_ROOMS_SIZE.getScalar2DLine());
+        inventoryController.updateRoom(roomController);
 
         //On charge les gestionnaires d'événement globaux du jeu:
         initHandlers();
@@ -93,6 +99,7 @@ public class GameController {
 
     //====================== GETTERS ==========================
     public Room getCurrentRoomModel() { return currentRoomModel; }
+    public InventoryController getInventoryController() { return inventoryController; }
     public GameView getGameView() {
         return gameView;
     }
@@ -106,6 +113,7 @@ public class GameController {
     }
     public Player getPlayerModel() { return playerModel; }
     public ActorView getPlayerView() { return playerView; }
+    public RoomController getRoomController() { return roomController; }
     public HBox getScene() {
         return gameView.getScene();
     }

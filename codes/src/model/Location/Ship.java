@@ -255,10 +255,10 @@ public class Ship implements Serializable {
 		// ~~~~~~~~~~~~~~~~ Ajouts d'objets dans la pièce 21:
 
 		HealthStation hs = new HealthStation("HealthStation", "This is a healthstation. I can heal myself " +
-				"here as much as I\n\twant but I can't bring this with me.", new Scalar2D(9, 9));
+				"here as much as I want but I can't bring this with me.", new Scalar2D(9, 9));
 		room21.getInventory().addItem(hs);
 		Artefact statue = new Artefact("statue", "This is a statue showing an alien like Kilen... " +
-				"Maybe to prove that\n\tthis wasn't all a dream I should take it with me.", new Scalar2D(1, 2));
+				"Maybe to prove that this wasn't all a dream I should take it with me.", new Scalar2D(1, 2));
 		room21.getInventory().addItem(statue);
 
 		// ~~~~~~~~~~~~~~~~ Ajouts d'objets dans la pièce 23:
@@ -274,7 +274,7 @@ public class Ship implements Serializable {
 						We have been conducting all sorts of experiments on these primates. We were tasked to understand how their immune system works, but the Commander refuses to tell us more.
 						I hope he's not planning anything too bad, it would be a shame to lose such efficient guinea pigs.""");
 		File file2 = new File("importantMessage", "A message addressed to all Scientists by Commander Gelgax",
-				"Attention to all scientists. A new human has arrived yesterday.\n" +
+				"Attention to all scientists. A new human has arrived yesterday. " +
 						"Ready him as soon as possible for the next lab tests. Insubordination will not be tolerated.");
 		File file3 = new File("recipe", "A recipe from the lab computer",
 				"""

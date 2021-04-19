@@ -16,6 +16,7 @@ public class RoomController {
     private final GameView gameView;
     private final Player playerModel;
     private final ActorView playerView;
+    private final InventoryController playerInvController;
     private Room currentRoomModel;
     private RoomView currentRoomView;
 
@@ -27,7 +28,12 @@ public class RoomController {
         currentRoomModel = c.getCurrentRoomModel();
         playerModel = c.getPlayerModel();
         playerView = c.getPlayerView();
+        playerInvController = c.getInventoryController();
     }
+
+    //====================== GETTERS ==========================
+    public Room getCurrentRoomModel() { return currentRoomModel; }
+    public RoomView getCurrentRoomView() { return currentRoomView; }
 
     //====================== UPDATERS =========================
     public void updateRoomView(int nbCol, int nbLignes) {
@@ -94,6 +100,9 @@ public class RoomController {
                 itemView.setOnMousePressed(e -> {
                     if(e.isSecondaryButtonDown())
                         gameView.update(item.getDescription());
+                    else{
+                        playerInvController.addInInventory(item);
+                    }
                 });
                 currentRoomView.addInRoom(itemView, item.getTag(),
                         item.getScalar2D().getScalar2DCol(), item.getScalar2D().getScalar2DLine(), "CENTER");
@@ -128,5 +137,6 @@ public class RoomController {
         int nbLignes = currentRoomView.getNbLignes();
         currentRoomView.addInRoom(playerView, playerModel.getName(),
                 (nbCol - 1)/2, (nbLignes-1)/2, "CENTER");
+        playerView.setOnMouseClicked(e -> {gameView.update(playerModel.getName());});
     }
 }
