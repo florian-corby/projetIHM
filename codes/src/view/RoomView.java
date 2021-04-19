@@ -48,6 +48,7 @@ public class RoomView extends GridPane {
     }
 
     // ============================== GETTERS =========================================
+    public LinkedHashMap<String, Shape> getGameElementViews() { return gameElementViews; }
     public Shape getFromRoom(String viewTag) { return gameElementViews.get(viewTag); }
     public int getNbCol() { return nbCol; }
     public int getNbLignes() { return nbLignes; }

@@ -1,9 +1,11 @@
 package model.Items;
 
+import model.Game.Message;
+
 public interface UsableBy
 {
 	default void isUsedBy(UsableOn u)
 	{
-		System.out.println("Error :> This object has no effect here");
+		Message.sendGameMessage("Error :> This object has no effect here");
 	}
 }
