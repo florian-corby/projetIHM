@@ -2,7 +2,7 @@ package model.Doors;
 
 import model.Game.Message;
 import model.Items.*;
-import model.Utils.Pos2D;
+import model.Utils.Scalar2D;
 
 import java.io.Serializable;
 
@@ -18,9 +18,9 @@ public class LockedDoor extends Door implements Unlockable, Serializable {
 		this.isLocked = true;
 	}
 
-	public LockedDoor(String tag, PassType p, Pos2D pos2D)
+	public LockedDoor(String tag, PassType p, Scalar2D scalar2D)
 	{
-		super(tag, pos2D);
+		super(tag, scalar2D);
 		this.PASSTYPE = p;
 		this.isLocked = true;
 	}

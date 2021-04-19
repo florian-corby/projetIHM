@@ -1,6 +1,5 @@
 package controller;
 
-import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
@@ -8,23 +7,19 @@ import javafx.scene.layout.HBox;
 import javafx.scene.shape.Rectangle;
 import model.Characters.NPC;
 import model.Characters.Player;
-import model.Doors.Door;
-import model.Doors.LockedDoor;
 import model.Game.SIS;
-import model.Items.Item;
 import model.Location.Room;
+import model.Utils.Scalar2D;
 import view.*;
-
 import java.io.IOException;
-import java.util.Set;
 
 public class GameController {
-
     //====================== ATTRIBUTS ==========================
     //Quelques éléments du modèle:
     private final SIS gameModel;
     private Room currentRoomModel;
     private final Player playerModel;
+    private final Scalar2D DEFAULT_ROOMS_SIZE = new Scalar2D(11, 11);
 
     //Quelques éléments de la vue (pour manipuler une pièce on passe par son contrôleur):
     private final GameView gameView;
@@ -49,7 +44,7 @@ public class GameController {
 
         //On charge la pièce:
         roomController = new RoomController(this);
-        roomController.updateRoomView(11, 11);
+        roomController.updateRoomView(DEFAULT_ROOMS_SIZE.getScalar2DCol(), DEFAULT_ROOMS_SIZE.getScalar2DLine());
 
         //On charge les gestionnaires d'événement globaux du jeu:
         initHandlers();

@@ -1,7 +1,7 @@
 package model.Items;
 
 import model.Commands.Lookable;
-import model.Utils.Pos2D;
+import model.Utils.Scalar2D;
 
 import java.io.Serializable;
 
@@ -11,20 +11,20 @@ public abstract class Item implements Usable, UsableBy, UsableOn, Serializable, 
 	private final String DESCRIPTION;
 	private boolean ISTAKABLE;
 	private boolean ISGIVABLE;
-	private Pos2D pos2D;
+	private Scalar2D scalar2D;
 
-	public Item(String tag, String description, Pos2D pos2D)
+	public Item(String tag, String description, Scalar2D scalar2D)
 	{
 		this.TAG = tag;
 		this.DESCRIPTION = description;
 		this.ISTAKABLE = false;
 		this.ISGIVABLE = false;
-		this.pos2D = pos2D;
+		this.scalar2D = scalar2D;
 	}
 
-	public Item(String tag, String description, Pos2D pos2D, boolean isTakable, boolean isGivable)
+	public Item(String tag, String description, Scalar2D scalar2D, boolean isTakable, boolean isGivable)
 	{
-		this(tag, description, pos2D);
+		this(tag, description, scalar2D);
 		this.ISTAKABLE = isTakable;
 		this.ISGIVABLE = isGivable;
 	}
@@ -42,8 +42,8 @@ public abstract class Item implements Usable, UsableBy, UsableOn, Serializable, 
 	{
 		return this.TAG;
 	}
-	public Pos2D getPos2D(){ return pos2D; }
-	public void setPos2D(Pos2D newPos2D){ pos2D = newPos2D; }
+	public Scalar2D getScalar2D(){ return scalar2D; }
+	public void setScalar2D(Scalar2D newScalar2D){ scalar2D = newScalar2D; }
 	public boolean isTakable() {
 		return this.ISTAKABLE;
 	}

@@ -4,7 +4,7 @@ import model.Characters.Actor;
 import model.Characters.Player;
 import model.Containers.*;
 import model.Events.Event;
-import model.Utils.Pos2D;
+import model.Utils.Scalar2D;
 
 import java.io.Serializable;
 import java.util.InputMismatchException;
@@ -17,7 +17,7 @@ public class Computer extends Item implements Serializable {
 
     public Computer(String description, String tag)
     {
-        super(tag, description, new Pos2D(0, 0));
+        super(tag, description, new Scalar2D(0, 0));
         this.FILES = new Inventory();
         this.EVENT = null;
     }
@@ -28,16 +28,16 @@ public class Computer extends Item implements Serializable {
         this.EVENT = event;
     }
 
-    public Computer(String description, String tag, Pos2D pos2D)
+    public Computer(String description, String tag, Scalar2D scalar2D)
     {
-        super(tag, description, pos2D);
+        super(tag, description, scalar2D);
         this.FILES = new Inventory();
         this.EVENT = null;
     }
 
-    public Computer(String description, String tag, Event event, Pos2D pos2D)
+    public Computer(String description, String tag, Event event, Scalar2D scalar2D)
     {
-        super(tag, description, pos2D);
+        super(tag, description, scalar2D);
         this.FILES = new Inventory();
         this.EVENT = event;
     }

@@ -3,7 +3,7 @@ package model.Doors;
 import model.Commands.Lookable;
 import model.Game.Message;
 import model.Items.UsableBy;
-import model.Utils.Pos2D;
+import model.Utils.Scalar2D;
 
 import java.io.Serializable;
 
@@ -11,16 +11,16 @@ public class Door implements Serializable, Lookable, UsableBy {
 
 	private boolean isOpen;
 	private final String TAG;
-	private Pos2D pos2D;
+	private Scalar2D scalar2D;
 
 	public Door(String tag) {
 		this.isOpen = false;
 		this.TAG = tag;
 	}
 
-	public Door(String tag, Pos2D pos2D) {
+	public Door(String tag, Scalar2D scalar2D) {
 		this(tag);
-		this.pos2D = pos2D;
+		this.scalar2D = scalar2D;
 	}
 
 	public void close()
@@ -36,7 +36,7 @@ public class Door implements Serializable, Lookable, UsableBy {
 			Message.sendGameMessage(this.TAG + " is closed.");
 	}
 
-	public Pos2D getPos2D() { return pos2D; }
+	public Scalar2D getScalar2D() { return scalar2D; }
 	public String getTag()
 	{
 		return this.TAG;

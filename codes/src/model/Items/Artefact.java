@@ -1,16 +1,16 @@
 package model.Items;
 
-import model.Utils.Pos2D;
+import model.Utils.Scalar2D;
 
 import java.io.Serializable;
 
 public class Artefact extends Item implements Serializable
 {
-    public Artefact(String tag, String description, Pos2D pos2D) {
-        super(tag, description, pos2D, true,false);
+    public Artefact(String tag, String description, Scalar2D scalar2D) {
+        super(tag, description, scalar2D, true,false);
     }
     public Artefact(String tag, String description) {
-        super(tag, description, new Pos2D(0, 0), true,false);
+        super(tag, description, new Scalar2D(0, 0), true,false);
     }
 
     @Override

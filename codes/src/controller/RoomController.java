@@ -50,7 +50,7 @@ public class RoomController {
 
         for(Door d : doors) {
             DoorView doorView;
-            int[] doorPos = {d.getPos2D().getPosX(), d.getPos2D().getPosY()};
+            int[] doorPos = {d.getScalar2D().getScalar2DCol(), d.getScalar2D().getScalar2DLine()};
             if(d instanceof LockedDoor) {
                 doorView = new DoorView("locked");
                 currentRoomView.addInRoom(doorView, d.getTag(), doorPos[0], doorPos[1], doorView.getAlignment(roomSize, doorPos));
@@ -96,7 +96,7 @@ public class RoomController {
                         gameView.update(item.getDescription());
                 });
                 currentRoomView.addInRoom(itemView, item.getTag(),
-                        item.getPos2D().getPosX(), item.getPos2D().getPosY(), "CENTER");
+                        item.getScalar2D().getScalar2DCol(), item.getScalar2D().getScalar2DLine(), "CENTER");
             }
             else {
                 ContainerView containerView = new ContainerView("HealthStation");
@@ -105,7 +105,7 @@ public class RoomController {
                         gameView.update(item.getDescription());
                 });
                 currentRoomView.addInRoom(containerView, item.getTag(),
-                        item.getPos2D().getPosX(), item.getPos2D().getPosY(), "CENTER");
+                        item.getScalar2D().getScalar2DCol(), item.getScalar2D().getScalar2DLine(), "CENTER");
             }
         }
     }
