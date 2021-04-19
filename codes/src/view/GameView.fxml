@@ -120,7 +120,6 @@
                     </ScrollPane>
                     <FlowPane alignment="CENTER" prefHeight="16.0" prefWidth="97.0">
                         <children>
-                            <Button fx:id="useButton" mnemonicParsing="false" text="Use" />
                             <Button fx:id="giveButton" mnemonicParsing="false" text="Give" />
                             <Button fx:id="dropButton" mnemonicParsing="false" text="Drop" />
                         </children>
