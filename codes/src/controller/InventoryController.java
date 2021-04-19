@@ -1,5 +1,6 @@
 package controller;
 
+import javafx.event.EventHandler;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
@@ -26,6 +27,7 @@ public class InventoryController {
     private final AnchorPane playerInvView;
     private final ToggleGroup invTG;
     private RoomController roomController;
+    private EventHandler[] fireHandlers;
 
     //=============== CONSTRUCTEURS/INITIALISEURS ===============
     public InventoryController(GameController c) {
@@ -73,17 +75,33 @@ public class InventoryController {
         btn.setOnAction(e -> {
             //On récupère tous les éléments visuels de la pièce associés à leurs étiquettes:
             LinkedHashMap<String, Shape> roomViews = roomController.getCurrentRoomView().getGameElementViews();
+            fireHandlers = new EventHandler[roomViews.size()];
+            int count = 0;
 
             //On parcourt chacun de ces éléments pour leur associer un gestionnaire d'événement:
-            for(String viewTag : roomViews.keySet()) {
-                System.out.println(viewTag);
-                roomController.getCurrentRoomView().getFromRoom(viewTag).addEventHandler(MouseEvent.MOUSE_PRESSED, ev -> {
-                    //Si c'est un clic gauche:
-                    if(ev.isPrimaryButtonDown()) {
-                        //On applique la fonction d'utilisation de l'objet définie dans le modèle:
-                        roomController.getCurrentRoomModel().getInventory().getItem(btn.getText()).isUsedOn(roomController.getCurrentRoomModel().getUsableBy(viewTag));
+            for(String viewTag : roomViews.keySet())
+            {
+                EventHandler useOnHandler = new EventHandler<javafx.scene.input.MouseEvent>() {
+                    public void handle(javafx.scene.input.MouseEvent ev) {
+                        if (ev.isPrimaryButtonDown()) {
+                            //On applique la fonction d'utilisation de l'objet définie dans le modèle:
+                            roomController.getCurrentRoomModel().getInventory().getItem(btn.getText()).isUsedOn(roomController.getCurrentRoomModel().getUsableBy(viewTag));
+                            int count2 = 0;
+
+                            //On supprime les eventHandler de tous les autres objets de la pièce et on déselectionne le bouton dans l'inventaire:
+                            for (String viewTag2 : roomViews.keySet()) {
+                                roomController.getCurrentRoomView().getFromRoom(viewTag2).removeEventHandler(MouseEvent.MOUSE_PRESSED, fireHandlers[count2]);
+                                count2++;
+                            }
+
+                            btn.setSelected(false);
+                        }
                     }
-                });
+                };
+
+                fireHandlers[count] = useOnHandler;
+                count++;
+                roomController.getCurrentRoomView().getFromRoom(viewTag).addEventHandler(MouseEvent.MOUSE_PRESSED, useOnHandler);
             }
         });
     }
