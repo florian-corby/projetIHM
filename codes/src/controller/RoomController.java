@@ -58,6 +58,22 @@ public class RoomController {
                 item.getScalar2D().getScalar2DCol(), item.getScalar2D().getScalar2DLine(), "CENTER");
     }
 
+    public void updateNPCFrame(NPC npc){
+        ActorView actorView = gameController.getNPCView(npc);
+        String colorString = "#"+actorView.getFill().toString().substring(2);
+        gameView.getActorVBox().setStyle("-fx-border-color:"+colorString+";");
+        gameView.getActorBtnHBox().setStyle("-fx-border-color:"+colorString+";");
+        gameView.getActorLabel().setText(npc.getName());
+    }
+
+    public void updatePlayerFrame(){
+        //0xffab8d devient #ffab8d car c'est c'est le format que comprend javafx:
+        String colorString = "#"+playerView.getFill().toString().substring(2);
+        gameView.getActorVBox().setStyle("-fx-border-color:"+colorString+";");
+        gameView.getActorBtnHBox().setStyle("-fx-border-color:"+colorString+";");
+        gameView.getActorLabel().setText(playerModel.getName());
+    }
+
     public void updateRoomModel(){ currentRoomModel = playerModel.getRoom(); }
     public void updateRoomView(int nbCol, int nbLignes) {
         gameView.getMapPane().getChildren().remove(currentRoomView);
@@ -146,11 +162,7 @@ public class RoomController {
                 if(e.isSecondaryButtonDown())
                     gameView.update(npc.getName());
                 else{
-                    //0xffab8d devient #ffab8d car c'est c'est le format que comprend javafx:
-                    String colorString = "#"+actorView.getFill().toString().substring(2);
-                    gameView.getActorVBox().setStyle("-fx-border-color:"+colorString+";");
-                    gameView.getActorBtnHBox().setStyle("-fx-border-color:"+colorString+";");
-                    gameView.getActorLabel().setText(npc.getName());
+                    updateNPCFrame(npc);
                     npc.talk();
                 }
             });
@@ -162,23 +174,15 @@ public class RoomController {
         int nbCol = currentRoomView.getNbCol();
         int nbLignes = currentRoomView.getNbLignes();
 
-        //0xffab8d devient #ffab8d car c'est c'est le format que comprend javafx:
-        String colorString = "#"+playerView.getFill().toString().substring(2);
-        gameView.getActorVBox().setStyle("-fx-border-color:"+colorString+";");
-        gameView.getActorBtnHBox().setStyle("-fx-border-color:"+colorString+";");
-        gameView.getActorLabel().setText(playerModel.getName());
+        updatePlayerFrame();
         currentRoomView.addInRoom(playerView, playerModel.getName(),
                 (nbCol - 1)/2, (nbLignes-1)/2, "CENTER");
         
         playerView.setOnMousePressed(e -> {
             if(e.isSecondaryButtonDown())
                 gameView.update(playerModel.getName());
-            else{
-                //0xffab8d devient #ffab8d car c'est c'est le format que comprend javafx:
-                gameView.getActorVBox().setStyle("-fx-border-color:"+colorString+";");
-                gameView.getActorBtnHBox().setStyle("-fx-border-color:"+colorString+";");
-                gameView.getActorLabel().setText(playerModel.getName());
-            }
+            else
+                updatePlayerFrame();
         });
     }
 }
