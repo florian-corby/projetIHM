@@ -128,7 +128,7 @@ public class Room implements Lookable, Serializable {
 			int count = 0;
 			for (String key : actors.keySet()) {
 				//On élimine le joueur de la liste:
-				if (!actors.get(key).getName().equals("me")) {
+				if (!actors.get(key).getName().equals(SHIP.getPlayer().getName())) {
 					res[count] = (NPC) actors.get(key);
 					count++;
 				}
@@ -143,7 +143,7 @@ public class Room implements Lookable, Serializable {
 		//On élimine le joueur de la liste:
 		int listLength = actorList.size();
 		for(int i = 0; i < listLength; i++) {
-			if(actors.get(actorList.get(i)).getName().equals("me"))
+			if(actors.get(actorList.get(i)).getName().equals(SHIP.getPlayer().getName()))
 				actorList.remove(i);
 		}
 

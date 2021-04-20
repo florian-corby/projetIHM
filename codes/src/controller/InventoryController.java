@@ -95,7 +95,8 @@ public class InventoryController {
             //On récupère tous les éléments visuels de la pièce associés à leurs étiquettes:
             LinkedHashMap<String, Shape> roomViews = roomController.getCurrentRoomView().getGameElementViews();
 
-            //On récupère l'élément du modèle qui devra appeler la fonction du modèle:
+            //On récupère l'élément du modèle qui devra appeler la fonction du modèle si cet élément n'est pas
+            //dans l'inventaire de la pièce c'est qu'il est dans l'inventaire du joueur:
             Item itemUsed;
             if(roomController.getCurrentRoomModel().getInventory().getItem(btn.getText()) != null)
                 itemUsed = roomController.getCurrentRoomModel().getInventory().getItem(btn.getText());

@@ -22,7 +22,7 @@ public class Player extends Actor implements Serializable
 {
 	private final Ship SHIP;
 	private SIS sis;
-	private static final String NAME = "me";
+	private static final String NAME = "Me";
 	private static final String DESCRIPTION = "Narcissism is an ugly trait of character but it is so common among humans";
 
 	public Player(Room r, Ship s)

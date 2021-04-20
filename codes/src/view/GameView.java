@@ -24,9 +24,11 @@ public class GameView implements MessageListener
     @FXML private Slider mapVerticalSlider;
 
     // -------- Le panneau droit (panneau du joueur):
+    @FXML private VBox actorVBox;
     @FXML private Label actorLabel;
     @FXML private ProgressBar actorHProgressBar;
     @FXML private ImageView actorImageView;
+    @FXML private HBox actorBtnHBox;
     @FXML private Button searchButton;
     @FXML private Button attackButton;
     @FXML private TextArea dialogTextArea;
@@ -52,9 +54,11 @@ public class GameView implements MessageListener
     public Slider getMapVerticalSlider() { return mapVerticalSlider; }
 
     // -------- Le panneau droit (panneau du joueur):
+    public VBox getActorVBox() { return actorVBox; }
     public Label getActorLabel() { return actorLabel; }
     public ProgressBar getActorHProgressBar() { return actorHProgressBar; }
     public ImageView getActorImageView() { return actorImageView; }
+    public HBox getActorBtnHBox() { return actorBtnHBox; }
     public Button getSearchButton() { return searchButton; }
     public Button getAttackButton() { return attackButton; }
     public TextArea getDialogTextArea() { return dialogTextArea; }

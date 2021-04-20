@@ -61,13 +61,13 @@
          <children>
             <VBox minWidth="250.0" prefHeight="400.0" prefWidth="250.0" spacing="5.0" HBox.hgrow="ALWAYS">
                <children>
-                  <VBox alignment="CENTER" prefHeight="329.0" prefWidth="258.0" style="-fx-border-color: blue;" VBox.vgrow="ALWAYS">
+                  <VBox fx:id="actorVBox" alignment="CENTER" prefHeight="329.0" prefWidth="258.0" style="-fx-border-color: blue;" VBox.vgrow="ALWAYS">
                       <children>
                           <Label fx:id="actorLabel" text="Player" />
                           <ProgressBar fx:id="actorHProgressBar" minHeight="-Infinity" minWidth="-Infinity" prefWidth="200.0" progress="0.0" />
                         <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
                           <ImageView fx:id="actorImageView" fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS" />
-                          <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-border-color: blue;" VBox.vgrow="NEVER">
+                          <HBox fx:id="actorBtnHBox" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-border-color: blue;" VBox.vgrow="NEVER">
                               <children>
                                   <Button fx:id="searchButton" mnemonicParsing="false" text="Search" />
                                   <Button fx:id="attackButton" mnemonicParsing="false" text="Attack" />

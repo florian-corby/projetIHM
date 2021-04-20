@@ -1,5 +1,6 @@
 package model.Items;
 
+import model.Game.Message;
 import model.Utils.Scalar2D;
 
 import java.io.Serializable;
@@ -22,12 +23,12 @@ public class Sign extends Item implements Serializable {
     @Override
     public void describe()
     {
-        System.out.println(this.getDescription());
+        Message.sendGameMessage(this.getDescription());
     }
 
     @Override
     public void isUsed(UsableBy u)
     {
-        System.out.println(CONTENT);
+        Message.sendGameMessage(CONTENT);
     }
 }
