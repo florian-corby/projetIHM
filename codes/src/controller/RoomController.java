@@ -1,6 +1,7 @@
 package controller;
 
 import javafx.beans.binding.Bindings;
+import javafx.scene.layout.VBox;
 import model.Characters.NPC;
 import model.Characters.Player;
 import model.Doors.Door;
@@ -75,21 +76,19 @@ public class RoomController {
                 item.getScalar2D().getScalar2DCol(), item.getScalar2D().getScalar2DLine(), "CENTER");
     }
 
+
     public void updateRoomModel(){ currentRoomModel = playerModel.getRoom(); }
     public void updateRoomView(int nbCol, int nbLignes) {
         gameView.getMapPane().getChildren().remove(currentRoomView);
         updateRoomModel();
         currentRoomView = new RoomView(nbCol, nbLignes);
         gameView.getRoomLabel().setText("Room " + currentRoomModel.getID());
-
-        if(gameView.getActorVBox() instanceof ComputerView)
-            gameController.updateStoryBox(gameController.getActorPanel());
-
         loadDoors();
         loadItems();
         loadPlayer();
         loadNPCs();
         loadHandlers();
+        gameController.getActorController().resetActorPanel();
         gameView.getMapPane().getChildren().add(currentRoomView);
     }
 

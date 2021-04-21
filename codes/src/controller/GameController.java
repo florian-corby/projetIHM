@@ -31,9 +31,6 @@ public class GameController {
     private String previousDialog;
     private Boolean isHelpManualOn = false;
 
-    //Gestion de l'ordinateur:
-    private VBox actorPanel;
-
     //=============== CONSTRUCTEURS/INITIALISEURS ===============
     public GameController() throws IOException {
         //On charge la vue:
@@ -121,7 +118,6 @@ public class GameController {
 
     //====================== GETTERS ==========================
     public ActorController getActorController() { return actorController; }
-    public VBox getActorPanel() { return actorPanel; }
     public InventoryController getInventoryController() { return inventoryController; }
     public SIS getGameModel(){ return gameModel; }
     public GameView getGameView() { return gameView; }
@@ -129,12 +125,4 @@ public class GameController {
     public ActorView getPlayerView() { return playerView; }
     public RoomController getRoomController() { return roomController; }
     public HBox getScene() { return gameView.getSceneHBox(); }
-
-    //====================== UPDATERS =========================
-    public void updateStoryBox(VBox replacer){
-        VBox currentActorPanel = getGameView().getActorVBox();
-        getGameView().getStoryBox().getChildren().remove(currentActorPanel);
-        getGameView().setActorVBox(replacer);
-        getGameView().getStoryBox().getChildren().add(0, replacer);
-    }
 }

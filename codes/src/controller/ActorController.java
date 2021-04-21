@@ -1,5 +1,6 @@
 package controller;
 
+import javafx.scene.layout.VBox;
 import model.Characters.NPC;
 import model.Characters.Player;
 import model.Location.Room;
@@ -16,6 +17,9 @@ public class ActorController {
     private Room currentRoomModel;
     private RoomView currentRoomView;
 
+    //Gestion de l'ordinateur:
+    private VBox actorPanel;
+
     //=============== CONSTRUCTEURS/INITIALISEURS ===============
     public ActorController(GameController c)
     {
@@ -24,6 +28,7 @@ public class ActorController {
         playerModel = c.getGameModel().getShip().getPlayer();
         playerView = c.getPlayerView();
         playerInvController = c.getInventoryController();
+        actorPanel = c.getGameView().getActorVBox();
     }
 
     //====================== UPDATERS =========================
@@ -43,5 +48,11 @@ public class ActorController {
         gameView.getActorBtnHBox().setStyle("-fx-border-color:"+colorString+";");
         gameView.getActorLabel().setText(playerModel.getName());
         gameView.getActorHProgressBar().setProgress(playerModel.getHp());
+    }
+
+    public void resetActorPanel(){
+        gameController.getGameView().getStoryBox().getChildren().remove(0);
+        gameController.getGameView().setActorVBox(actorPanel);
+        gameController.getGameView().getStoryBox().getChildren().add(0, actorPanel);
     }
 }

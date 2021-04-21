@@ -18,6 +18,7 @@ public class ComputerController {
     private ComputerView computerView;
     private final Computer computerModel;
     private final GameController gameController;
+    private final VBox actorPanel;
 
     //=============== CONSTRUCTEURS/INITIALISEURS ===============
     public ComputerController(Computer computerModel, GameController gameController) throws IOException {
@@ -28,12 +29,13 @@ public class ComputerController {
 
         this.computerModel = computerModel;
         this.gameController = gameController;
+        this.actorPanel = gameController.getGameView().getActorVBox();
 
         initFiles();
         initHandlers();
 
         //On met à jour la vue du jeu:
-        gameController.updateStoryBox(computerView.getComputer());
+        updateGameView(computerView.getComputer());
     }
 
     private void initFiles(){
@@ -74,11 +76,19 @@ public class ComputerController {
 
     private void initHandlers(){
         computerView.getQuitBtn().setOnAction(e -> {
-            gameController.updateStoryBox(gameController.getActorPanel());
+            updateGameView(actorPanel);
         });
 
         computerView.getEventBtn().setOnAction(e -> {
             computerModel.getEVENT().getE().raise(gameController.getPlayerModel());
         });
+    }
+
+    //====================== UPDATERS =========================
+    public void updateGameView(VBox replacer){
+        VBox currentActorPanel = gameController.getGameView().getActorVBox();
+        gameController.getGameView().getStoryBox().getChildren().remove(currentActorPanel);
+        gameController.getGameView().setActorVBox(replacer);
+        gameController.getGameView().getStoryBox().getChildren().add(0, replacer);
     }
 }
