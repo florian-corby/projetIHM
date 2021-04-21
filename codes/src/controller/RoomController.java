@@ -40,8 +40,12 @@ public class RoomController {
         containerView.setOnMousePressed(e -> {
             if(e.isSecondaryButtonDown())
                 item.describe();
-            else
-                item.isUsedOn(playerModel);
+            else {
+                if(item.getTag().equals("HealthStation"))
+                    item.isUsedOn(playerModel);
+                else
+                    item.isUsed(playerModel);
+            }
         });
         currentRoomView.addInRoom(containerView, item.getTag(),
                 item.getScalar2D().getScalar2DCol(), item.getScalar2D().getScalar2DLine(), "CENTER");
