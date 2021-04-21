@@ -8,6 +8,7 @@ import model.Doors.LockedDoor;
 import model.Events.Event;
 import model.Events.PlayerEvent;
 import model.Items.*;
+import model.Utils.Scalar2D;
 
 import java.io.Serializable;
 import java.util.*;
@@ -68,85 +69,86 @@ public class Ship implements Serializable {
 		// =================================================================================================== //
 
 		//Connexion de la pièce 11:
-		Door door11To14 = new Door("door14");
+		Door door11To14 = new Door("door14", new Scalar2D(5, 10));
 		room11.addDoor(door11To14, room14);
 
 		//Connexion de la pièce 13:
-		Door door13To17 = new Door("door17");
+		Door door13To17 = new Door("door17", new Scalar2D(5, 10));
 		room13.addDoor(door13To17, room17);
 
 		//Connexion de la pièce 14:
-		Door door14To11 = new Door("door11");
+		Door door14To11 = new Door("door11", new Scalar2D(5, 0));
 		room14.addDoor(door14To11, room11);
-		Door door14To19 = new Door("door19");
+		Door door14To19 = new Door("door19", new Scalar2D(5, 10));
 		room14.addDoor(door14To19, room19);
 
 		//Connexion de la pièce 17:
-		Door door17To22 = new Door("door22");
+		Door door17To22 = new Door("door22", new Scalar2D(5, 10));
 		room17.addDoor(door17To22, room22);
-		Door door17To13 = new Door("door13");
+		Door door17To13 = new Door("door13", new Scalar2D(5, 0));
 		room17.addDoor(door17To13, room13);
-		Door door17To18 = new Door("door18");
+		Door door17To18 = new Door("door18", new Scalar2D(10, 5));
 		room17.addDoor(door17To18, room18);
 
 		//Connexion de la pièce 18:
-		Door door18To17 = new Door("door17");
+		Door door18To17 = new Door("door17", new Scalar2D(0, 5));
 		room18.addDoor(door18To17, room17);
-		LockedDoor door18To19 = new LockedDoor("doorA", PassType.A);
+		LockedDoor door18To19 = new LockedDoor("doorA", PassType.A, new Scalar2D(10, 5));
 		room18.addDoor(door18To19, room19);
 
 		//Connexion de la pièce 19:
-		Door door19To14 = new Door("door14");
+		Door door19To14 = new Door("door14", new Scalar2D(5, 0));
 		room19.addDoor(door19To14, room14);
-		Door door19To18 = new Door("doorA");
+		Door door19To18 = new Door("doorA", new Scalar2D(0, 5));
 		room19.addDoor(door19To18, room18);
-		Door door19To24 = new Door("door24");
+		Door door19To24 = new Door("door24", new Scalar2D(5, 10));
 		room19.addDoor(door19To24, room24);
 
 		//Connexion de la pièce 21:
-		LockedDoor door21To22 = new LockedDoor("doorT", PassType.T);
+		LockedDoor door21To22 = new LockedDoor("doorT", PassType.T,  new Scalar2D(10, 5));
 		room21.addDoor(door21To22, room22);
 
 		//Connexion de la pièce 22:
-		Door door22To21 = new Door("doorT");
+		Door door22To21 = new Door("doorT", new Scalar2D(0, 5));
 		room22.addDoor(door22To21, room21);
-		Door door22To23 = new Door("door23");
+		Door door22To23 = new Door("door23", new Scalar2D(10, 5));
 		room22.addDoor(door22To23, room23);
-		Door door22To17 = new Door("door17");
+		Door door22To17 = new Door("door17", new Scalar2D(5, 0));
 		room22.addDoor(door22To17, room17);
-		Door door22To27 = new Door("door27");
+		Door door22To27 = new Door("door27", new Scalar2D(5, 10));
 		room22.addDoor(door22To27, room27);
 
 		//Connexion de la pièce 23:
-		LockedDoor door23To22 = new LockedDoor("door22", PassType.C);
+		LockedDoor door23To22 = new LockedDoor("door22", PassType.C, new Scalar2D(0, 5));
 		room23.addDoor(door23To22, room22);
 
 		//Connexion de la pièce 24:
-		Door door24To19 = new Door("door19");
+		Door door24To19 = new Door("door19", new Scalar2D(5, 0));
 		room24.addDoor(door24To19, room19);
-		Door door24To29 = new Door("door29");
+		Door door24To29 = new Door("door29", new Scalar2D(5, 10));
 		room24.addDoor(door24To29, room29);
 
 		//Connexion de la pièce 27:
-		Door door27To22 = new Door("door22");
+		Door door27To22 = new Door("door22", new Scalar2D(5, 0));
 		room27.addDoor(door27To22, room22);
-		Door door27To28 = new Door("door28");
+		Door door27To28 = new Door("door28", new Scalar2D(10, 5));
 		room27.addDoor(door27To28, room28);
-		Door door27To30 = new Door("door30");
+		Door door27To30 = new Door("door30", new Scalar2D(5, 10));
 		room27.addDoor(door27To30, room30);
 
 		//Connexion de la pièce 28:
-		Door door28To27 = new Door("door27");
+		Door door28To27 = new Door("door27", new Scalar2D(0, 5));
 		room28.addDoor(door28To27, room27);
 
 		//Connexion de la pièce 29:
-		Door door29To24 = new Door("door24");
+		Door door29To24 = new Door("door24", new Scalar2D(5, 0));
 		room29.addDoor(door29To24, room24);
 
 		//Connexion de la pièce 30:
-		Door door30To27 = new Door("door27");
+		Door door30To27 = new Door("door27", new Scalar2D(5, 0));
 		room30.addDoor(door30To27, room27);
-		Pass passA = new Pass("passA", "This is a pass... A letter 'A' is written on it.", PassType.A);
+		Pass passA = new Pass("passA", "This is a pass... A letter 'A' is written on it.",
+				PassType.A, new Scalar2D(1, 10));
 		room30.getInventory().addItem(passA);
 
 		// =================================================================================================== //
@@ -201,10 +203,10 @@ public class Ship implements Serializable {
 		List<Item> umhonItems = new ArrayList<>();
 		Umhon umhon = new Umhon("Umhon",  "Before meeting Umhon you couldn't think that aliens would feel so close to humans... " +
 				"She clearly likes anything shiny. Her whole body is covered with jewels of all kinds",false, false, umhonItems, room24);
-		umhon.setSpeech("Oh a human! You poor thing, you must be lost... You know, my husband," +
-				" Vik, is the captain's favorite. He even guards his personal computer! But I wonder," +
-				" what they are doing to you poor things?\n...\nYou know what? Bring me some evidence of" +
-				" what they are doing to your species, and I'll give you the code to the Captain's laptop!");
+		umhon.setSpeech("""
+				Oh a human! You poor thing, you must be lost... You know, my husband, Vik, is the captain's favorite. He even guards his personal computer! But I wonder, what they are doing to you poor things?
+				...
+				You know what? Bring me some evidence of what they are doing to your species, and I'll give you the code to the Captain's laptop!""");
 		File CaptainCode = new File("CaptainCode", "The code to the the Captain's laptop", "The code is: iwanttoeradicateallhumans");
 		umhon.getInventory().addItem(CaptainCode);
 		this.npcs.put(umhon.getName(), umhon);
@@ -224,9 +226,10 @@ public class Ship implements Serializable {
 		// ~~~~~~~~~~~~~~~~ Ajouts d'objets dans la pièce 14:
 
 		File journal = new File("journal", "a DataPad, belonging to the family from room 14.",
-				"All the files on this DataPad have the name dairy on it.\n" +
-				"It looks like Eelhoir's journal. She talks about her family, and how they escaped from the destruction of their planet.\n" +
-						"The last few entries mention their grim journey to Earth, with all the sacrifices and losses they made along the way.");
+				"""
+						All the files on this DataPad have the name dairy on it.
+						It looks like Eelhoir's journal. She talks about her family, and how they escaped from the destruction of their planet.
+						The last few entries mention their grim journey to Earth, with all the sacrifices and losses they made along the way.""");
 		room14.getInventory().addItem(journal);
 
 		// ~~~~~~~~~~~~~~~~ Ajouts d'objets dans la pièce 18:
@@ -241,21 +244,21 @@ public class Ship implements Serializable {
 		// ~~~~~~~~~~~~~~~~ Ajouts d'objets dans la pièce 19:
 
 		Sign sign = new Sign("sign", "An holographic sign.",
-				"The sign contains a map of this part of the ship. This room seems to serve as some kind of forum for the alien population." +
-						" There are some habitations beyond both exits of this room.\n" +
-						"Someone seems to have somehow violated the holographic sign, by writing \"I lov u Mary-Jane\" everywhere." +
-						" You can't read anything about the other rooms.\n" +
-						"A big red circle points to your current room, saying \"YOU ARE HERE\". This seems unnecessary.\n");
+				"""
+						The sign contains a map of this part of the ship. This room seems to serve as some kind of forum for the alien population. There are some habitations beyond both exits of this room.
+						Someone seems to have somehow violated the holographic sign, by writing "I lov u Mary-Jane" everywhere. You can't read anything about the other rooms.
+						A big red circle points to your current room, saying "YOU ARE HERE". This seems unnecessary.
+						""", new Scalar2D(10, 6));
 
 		room19.getInventory().addItem(sign);
 
 		// ~~~~~~~~~~~~~~~~ Ajouts d'objets dans la pièce 21:
 
 		HealthStation hs = new HealthStation("HealthStation", "This is a healthstation. I can heal myself " +
-				"here as much as I\n\twant but I can't bring this with me.");
+				"here as much as I want but I can't bring this with me.", new Scalar2D(9, 9));
 		room21.getInventory().addItem(hs);
 		Artefact statue = new Artefact("statue", "This is a statue showing an alien like Kilen... " +
-				"Maybe to prove that\n\tthis wasn't all a dream I should take it with me.");
+				"Maybe to prove that this wasn't all a dream I should take it with me.", new Scalar2D(1, 2));
 		room21.getInventory().addItem(statue);
 
 		// ~~~~~~~~~~~~~~~~ Ajouts d'objets dans la pièce 23:
@@ -263,23 +266,25 @@ public class Ship implements Serializable {
 		PlayerEvent playerEvt = (PlayerEvent & Serializable)
 				(Player player) -> player.getRoom().getLockedDoor("door22").unlock(new Pass("passC", "passC", PassType.C));
 		Event unlockEvt = new Event("unlock", "unlock the door", playerEvt);
-		Computer comp = new Computer("The lab computer", "computer", unlockEvt);
+		Computer comp = new Computer("The lab computer", "computer", unlockEvt, new Scalar2D(8, 8));
 
 		File file1 = new File("doctorLog", "Evidence of lab experiments on humans.",
-				"We have been abducting humans for the past few years now.\nWe have been conducting all sorts of " +
-						"experiments on these primates. We were tasked to understand how their immune system works, but" +
-						" the Commander refuses to tell us more.\nI hope he's not planning anything too bad, it would be a" +
-						" shame to lose such efficient guinea pigs.");
+				"""
+						We have been abducting humans for the past few years now.
+						We have been conducting all sorts of experiments on these primates. We were tasked to understand how their immune system works, but the Commander refuses to tell us more.
+						I hope he's not planning anything too bad, it would be a shame to lose such efficient guinea pigs.""");
 		File file2 = new File("importantMessage", "A message addressed to all Scientists by Commander Gelgax",
-				"Attention to all scientists. A new human has arrived yesterday.\n" +
+				"Attention to all scientists. A new human has arrived yesterday. " +
 						"Ready him as soon as possible for the next lab tests. Insubordination will not be tolerated.");
 		File file3 = new File("recipe", "A recipe from the lab computer",
-				"Step 1\n" +
-						"\tPreheat oven to 350 degrees F (180 degrees C).\n" +
-						"Step 2\n" +
-						"\tCream butter and sugar until fluffy. Stir in vanilla; add flour and mix well.\n" +
-						"Step 3\n" +
-						"\tPut through cookie press and form cookies onto baking sheets. Bake for 10 - 12 minutes.\n");
+				"""
+						Step 1
+						\tPreheat oven to 350 degrees F (180 degrees C).
+						Step 2
+						\tCream butter and sugar until fluffy. Stir in vanilla; add flour and mix well.
+						Step 3
+						\tPut through cookie press and form cookies onto baking sheets. Bake for 10 - 12 minutes.
+						""");
 
 		comp.addFile(file1);
 		comp.addFile(file2);
@@ -289,19 +294,19 @@ public class Ship implements Serializable {
 
 		// ~~~~~~~~~~~~~~~~ Ajouts d'objets dans la pièce 24:
 		File plunger = new File("plunger", "A... Man-made plunger? What is it even doing here?",
-				"Within all this apparent luxury you found an abnormal object : a plunger between two splendid Statues.\n" +
-				"Some aliens seem quite interested in the Human culture...  maybe too much interested.\n"
-				+"It just feels wrong here.");
+				"""
+						Within all this apparent luxury you found an abnormal object : a plunger between two splendid Statues.
+						Some aliens seem quite interested in the Human culture...  maybe too much interested.
+						It just feels wrong here.""");
 		room24.getInventory().addItem(plunger);
 
 		// ~~~~~~~~~~~~~~~~ Ajouts d'objets dans la pièce 28:
 
 		File Datapad = new File("Datapad", "A DataPad from the Lab.",
-				"Seems like someone has forgotten to lock their DataPad. I tried to read it, but some files are" +
-						" just way too complicated for me.\n" +
-						"I only managed to get that they're using humans as guinea pigs, in order to develop biological " +
-						"weapons so that they could invade earth.\n"
-				+"What a crazy plan... It could be a good story for a video-game!");
+				"""
+						Seems like someone has forgotten to lock their DataPad. I tried to read it, but some files are just way too complicated for me.
+						I only managed to get that they're using humans as guinea pigs, in order to develop biological weapons so that they could invade earth.
+						What a crazy plan... It could be a good story for a video-game!""");
 		room28.getInventory().addItem(Datapad);
 
 

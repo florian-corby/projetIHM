@@ -7,6 +7,8 @@ import model.Commands.Lookable;
 import model.Containers.Inventory;
 import model.Doors.*;
 import model.Characters.*;
+import model.Game.Message;
+import model.Items.UsableBy;
 
 public class Room implements Lookable, Serializable {
 
@@ -16,11 +18,10 @@ public class Room implements Lookable, Serializable {
 	private final int ID;
 	private final String description;
 
-	private final HashMap<Door, Room> doors;
-	private final HashMap<String, Actor> actors;
+	private final LinkedHashMap<Door, Room> doors;
+	private final LinkedHashMap<String, Actor> actors;
 
-	public Room(Ship ship, int id, String description)
-	{
+	public Room(Ship ship, int id, String description) {
 		this.SHIP = ship;
 		this.INVENTORY = new Inventory();
 		this.ID = id;
@@ -34,21 +35,20 @@ public class Room implements Lookable, Serializable {
 	{
 		this.actors.put(actor.getName(), actor);
 	}
-
 	public void addDoor(Door d, Room r)
 	{
 		this.doors.put(d, r);
 	}
 
 	@Override
-	public void describe()
-	{
-		System.out.println(this.description);
+	public void describe() {
+		Message.addGameMessage(this.description);
 
 		if(this.doors.size() == 1 && this.hasLockedDoor())
-			System.out.println("Suddenly, the door closed shut behind you! You try opening it... " +
+			Message.sendGameMessage("Suddenly, the door closed shut behind you! You try opening it... " +
 					"But it is hopeless, you are trapped in this room.");
 
+		Message.sendGameMessage("");
 		this.scanRoom();
 	}
 
@@ -56,29 +56,18 @@ public class Room implements Lookable, Serializable {
 	{
 		return this.actors.get(s);
 	}
-
-	public String getNPCTag(int index)
-	{
-		List<String> actorList = new ArrayList<String>(actors.keySet());
-
-		//On élimine le joueur de la liste:
-		int listLength = actorList.size();
-		for(int i = 0; i < listLength; i++)
-		{
-			if(actors.get(actorList.get(i)).getName() == "me")
-				actorList.remove(i);
-		}
-
-		return actorList.get(index);
+	public LinkedHashMap<String, Actor> getActors() {
+		return actors;
+	}
+	public LinkedHashMap<Door, Room> getDoors() {
+		return doors;
 	}
 
-	public Door getDoor(String s)
-	{
+	public Door getDoor(String s) {
 		Set<Door> doorSet = this.doors.keySet();
 		Door res = null;
 
-		for(Door d : doorSet)
-		{
+		for(Door d : doorSet) {
 			if(d.getTag().equals(s))
 				res = d;
 		}
@@ -86,12 +75,10 @@ public class Room implements Lookable, Serializable {
 		return res;
 	}
 
-	public Door getDoor(Room r)
-	{
+	public Door getDoor(Room r) {
 		Door res = null;
 
-		for(Map.Entry<Door, Room> e : this.doors.entrySet())
-		{
+		for(Map.Entry<Door, Room> e : this.doors.entrySet()) {
 			if(e.getValue().equals(r)) {
 				res = e.getKey();
 				break;
@@ -101,24 +88,66 @@ public class Room implements Lookable, Serializable {
 		return res;
 	}
 
-	public Door getDoor(int index)
-	{
-		List<Door> doorList = new ArrayList<Door>(doors.keySet());
+	public Door getDoor(int index) {
+		List<Door> doorList = new ArrayList<>(doors.keySet());
 		return doorList.get(index);
+	}
+
+	public UsableBy getUsableBy(String usableByTag){
+		if(getActor(usableByTag) != null)
+			return getActor(usableByTag);
+		else if(getDoor(usableByTag) != null)
+			return getDoor(usableByTag);
+		else if(getInventory().getItem(usableByTag) != null)
+			return getInventory().getItem(usableByTag);
+		else
+			return null;
 	}
 
 	public int getID() {
 		return ID;
 	}
-
 	public Inventory getInventory()
 	{
 		return this.INVENTORY;
 	}
-
 	public LockedDoor getLockedDoor(String s)
 	{
 		return (LockedDoor) getDoor(s);
+	}
+
+	public NPC[] getNPCs() {
+		int nbActors = actors.size();
+
+		//S'il n'y a que le joueur dans la salle:
+		if(nbActors == 1)
+			return null;
+
+		else {
+			NPC[] res = new NPC[nbActors - 1];
+			int count = 0;
+			for (String key : actors.keySet()) {
+				//On élimine le joueur de la liste:
+				if (!actors.get(key).getName().equals(SHIP.getPlayer().getName())) {
+					res[count] = (NPC) actors.get(key);
+					count++;
+				}
+			}
+			return res;
+		}
+	}
+
+	public String getNPCTag(int index) {
+		List<String> actorList = new ArrayList<>(actors.keySet());
+
+		//On élimine le joueur de la liste:
+		int listLength = actorList.size();
+		for(int i = 0; i < listLength; i++) {
+			if(actors.get(actorList.get(i)).getName().equals(SHIP.getPlayer().getName()))
+				actorList.remove(i);
+		}
+
+		return actorList.get(index);
 	}
 
 	public boolean hasActor(String name)
@@ -126,13 +155,11 @@ public class Room implements Lookable, Serializable {
 		return this.actors.get(name) != null;
 	}
 
-	public boolean hasLockedDoor()
-	{
+	public boolean hasLockedDoor() {
 		Set<Door> doorSet = this.doors.keySet();
 		boolean res = false;
 
-		for(Door d : doorSet)
-		{
+		for(Door d : doorSet) {
 			if (d instanceof LockedDoor && ((LockedDoor) d).isLocked()) {
 				res = true;
 				break;
@@ -147,8 +174,7 @@ public class Room implements Lookable, Serializable {
 		this.actors.remove(name);
 	}
 
-	public void scanRoom()
-	{
+	public void scanRoom() {
 		//Printing items:
 		System.out.println("\n\tObjects in the room:");
 		this.getInventory().showItems();
@@ -175,12 +201,11 @@ public class Room implements Lookable, Serializable {
 		}
 	}
 
-	public void useDoor(Actor a, Door d)
-	{
+	public void useDoor(Actor a, Door d) {
 		if( d.isOpen())
 			a.changeRoom(this.doors.get(d));
 
 		else
-			System.out.println("You can't use this door.");
+			Message.sendGameMessage("You can't use this door.");
 	}
 }

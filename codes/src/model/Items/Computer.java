@@ -4,6 +4,7 @@ import model.Characters.Actor;
 import model.Characters.Player;
 import model.Containers.*;
 import model.Events.Event;
+import model.Utils.Scalar2D;
 
 import java.io.Serializable;
 import java.util.InputMismatchException;
@@ -12,18 +13,31 @@ import java.util.Scanner;
 public class Computer extends Item implements Serializable {
 
     private final Inventory FILES;
-    private final Event EVENT;
+    private Event EVENT;
 
     public Computer(String description, String tag)
     {
-        super(tag, description);
+        super(tag, description, new Scalar2D(0, 0));
         this.FILES = new Inventory();
         this.EVENT = null;
     }
 
     public Computer(String description, String tag, Event event)
     {
-        super(tag, description);
+        this(description, tag);
+        this.EVENT = event;
+    }
+
+    public Computer(String description, String tag, Scalar2D scalar2D)
+    {
+        super(tag, description, scalar2D);
+        this.FILES = new Inventory();
+        this.EVENT = null;
+    }
+
+    public Computer(String description, String tag, Event event, Scalar2D scalar2D)
+    {
+        super(tag, description, scalar2D);
         this.FILES = new Inventory();
         this.EVENT = event;
     }

@@ -28,9 +28,6 @@ public class SIS implements Serializable {
 	}
 
 	public void initGame() {
-		this.printGameIntro();
-		this.printScenario();
-
 		/*Scanner scan = new Scanner(System.in);
 		Message.sendGameMessage("Load an existing game?\n(Type \"yes\" if you have a save file. Press Enter for a new game.)");
 		Message.sendGameMessage("\nCommand :> ");
@@ -55,27 +52,26 @@ public class SIS implements Serializable {
 				this.ship.getNPC("Kilen").setSpeech("You should hurry! I've managed to deal with the guards in the lab but it won't be long before they come back!");
 			}
 		} else {*/
-			Message.sendGameMessage("\t\t ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \n\n");
-			Message.sendGameMessage("You wake up feeling dizzy. Something is talking to you. Something not human.\n");
-			this.ship = new Ship();
-			this.ship.getNPC("Kilen").talk();
-			this.ship.getNPC("Kilen").give("passT", this.ship.getPlayer());
-			this.ship.getNPC("Kilen").setSpeech("You should hurry! I've managed to deal with the guards in the lab but it won't be long before they come back!");
+			Message.addGameMessage("You wake up feeling dizzy. Something is talking to you. Something not human.\n\n");
+			ship = new Ship();
+			ship.getNPC("Kilen").talk();
+			ship.getNPC("Kilen").give("passT", ship.getPlayer());
+			ship.getNPC("Kilen").setSpeech("You should hurry! I've managed to deal with the guards in the lab but it won't be long before they come back!");
 		//}
 
-		this.ship.getPlayer().setSIS(this);
+		ship.getPlayer().setSIS(this);
 	}
 
 	public boolean isEndGame() {
 		return (
-				(this.ship.getRoom(13).hasActor("me")
-						&& this.ship.getPlayer().getInventory().getItem("CaptainCode") != null)
-						|| this.ship.getPlayer().isDead()
+				(ship.getRoom(13).hasActor("me")
+						&& ship.getPlayer().getInventory().getItem("CaptainCode") != null)
+						|| ship.getPlayer().isDead()
 		);
 	}
 
 	public void endGame() {
-		Message.sendGameMessage("\n\n\t\t ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \n");
+		Message.addGameMessage("\n\n\t\t ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \n");
 		Message.sendGameMessage("Thanks for playing Silent In Space! And special thanks to our beta-tester Ophélie De Sousa Oliveira :) !\n");
 	}
 
@@ -83,12 +79,12 @@ public class SIS implements Serializable {
 		try {
 			FileInputStream fileIn = new FileInputStream("saveData.txt");
 			ObjectInputStream ois = new ObjectInputStream(fileIn);
-			this.ship = new Ship((Ship) ois.readObject());
+			ship = new Ship((Ship) ois.readObject());
 			ois.close();
-			Message.sendGameMessage("You successfully loaded the game!\n");
+			Message.addGameMessage("You successfully loaded the game!\n");
 			Message.sendGameMessage("\t\t ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \n\n");
 		} catch (IOException | ClassNotFoundException e) {
-			Message.sendGameMessage("No save data was found! You need to save at least one time before being able to load a save.");
+			Message.addGameMessage("No save data was found! You need to save at least one time before being able to load a save.");
 			Message.sendGameMessage("\t\t ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \n\n");
 		}
 	}
@@ -99,7 +95,7 @@ public class SIS implements Serializable {
 			this.playTurn();
 		}
 
-		if(this.ship.getNPC("Umhon").isDead())
+		if(ship.getNPC("Umhon").isDead())
 			Message.sendGameMessage("\nYou managed to escape but Umhon couldn't stop her husband and his commander. Thus, the aliens" +
 					" managed to create a virus which decimated all the human population. You were the last survivor and witnessed " +
 					"the fruits of your own actions.");
@@ -111,14 +107,11 @@ public class SIS implements Serializable {
 
 	public void playTurn()
 	{
-		this.ship.getPlayer().call();
+		ship.getPlayer().call();
 	}
 
-	public void printGameIntro() {
-		Message.addGameMessage("\t\t ========================================= \n");
-		Message.addGameMessage("\t\t ============ SILENT IN SPACE ============ \n");
-		Message.addGameMessage("\t\t ========================================= \n\n");
-
+	public void printHelp() {
+		Message.addGameMessage("--- SILENT IN SPACE --- \n");
 		Message.addGameMessage("""
 				WELCOME to Silent In Space! This game was developed by Florian Legendre, Alexis Louail
 				and Vincent Tourenne as a universitary project. This is a demo, hence all the features
@@ -128,10 +121,7 @@ public class SIS implements Serializable {
 				and effects, type help! Enjoy!
 
 				""");
-	}
-
-	public void printScenario() {
-		Message.addGameMessage("""
+		Message.sendGameMessage("""
 				SCENARIO: You wake up in an alien ship. You understand that you've been abducted and
 				you must escape. Yet, you can't use the escape pods of the ship without a code.
 				Umhon, an important alien person, can give you this code (OR you can take it from her
