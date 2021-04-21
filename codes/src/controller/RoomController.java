@@ -79,6 +79,7 @@ public class RoomController {
 
     public void updateRoomModel(){ currentRoomModel = playerModel.getRoom(); }
     public void updateRoomView(int nbCol, int nbLignes) {
+        gameController.isGameOver();
         gameView.getMapPane().getChildren().remove(currentRoomView);
         updateRoomModel();
         currentRoomView = new RoomView(nbCol, nbLignes);

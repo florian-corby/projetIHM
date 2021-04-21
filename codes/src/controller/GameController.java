@@ -1,11 +1,13 @@
 package controller;
 
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Popup;
 import model.Characters.Player;
 import model.Game.SIS;
 import model.Utils.Scalar2D;
@@ -114,6 +116,17 @@ public class GameController {
                 gameModel.printHelp();
             }
         });
+    }
+
+    //====================== PREDICATS ==========================
+    public void isGameOver(){
+        if(gameModel.isEndGame()){
+            Alert popup = new Alert(Alert.AlertType.INFORMATION);
+            popup.setTitle("Félicitations!");
+            popup.setContentText("Merci d'avoir joué à Silent In Space! Et tout particulièrement merci à notre bêta-testeuse Ophélie De Sousa Oliveira :) !");
+            popup.showAndWait();
+            Platform.exit();
+        }
     }
 
     //====================== GETTERS ==========================
