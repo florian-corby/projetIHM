@@ -28,7 +28,7 @@ hs_err_pid*
 # .idea
 .idea/usage.statistics.xml
 .idea/tasks.xml
-.idea/libraries/*
+codes/.idea/libraries/*
 
 # Custom
 *.vpp.*
