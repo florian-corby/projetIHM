@@ -1,6 +1,7 @@
 package controller;
 
 import javafx.event.EventHandler;
+import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
@@ -15,6 +16,7 @@ import java.util.LinkedHashMap;
 
 public class InventoryController {
     //====================== ATTRIBUTS ==========================
+    private final GameController gameController;
     private final GameView gameView;
     private final Inventory playerInvModel;
     private final VBox playerInvView;
@@ -24,6 +26,7 @@ public class InventoryController {
 
     //=============== CONSTRUCTEURS/INITIALISEURS ===============
     public InventoryController(GameController c) {
+        gameController = c;
         gameView = c.getGameView();
         Player playerModel = c.getPlayerModel();
         playerInvModel = playerModel.getInventory();
@@ -37,6 +40,10 @@ public class InventoryController {
         gameView.getDropButton().setOnAction(e -> {
             String itemTag = ((ToggleButton) invTG.getSelectedToggle()).getText();
             drop(itemTag);
+        });
+
+        gameView.getGiveButton().setOnAction(e -> {
+            give();
         });
     }
 
@@ -81,10 +88,24 @@ public class InventoryController {
         roomController.addItemInRoom(playerInvModel.getItem(itemTag));
 
         //On met à jour le modèle:
-        playerInvModel.removeItem(itemTag);
 
         //On élimine les handlers() dus à la sélection du bouton:
         clearEventHandlers();
+    }
+
+    public void give(){
+        ToggleButton itemBtn = (ToggleButton) invTG.getSelectedToggle();
+
+        if(itemBtn != null){
+            String actorTag = gameView.getActorLabel().getText();
+            String itemTag = itemBtn.getText();
+
+            //On met à jour le modèle:
+            gameController.getPlayerModel().give(itemTag, roomController.getCurrentRoomModel().getActor(actorTag));
+
+            //On met à jour la vue:
+            updateInventory();
+        }
     }
 
     public void setTgBtnHandler(ToggleButton btn){
@@ -118,6 +139,20 @@ public class InventoryController {
                 roomController.getCurrentRoomView().getFromRoom(viewTag).addEventHandler(MouseEvent.MOUSE_PRESSED, useOnHandler);
             }
         });
+    }
+
+    public void updateInventory(){
+        int nbToggleBtns = invTG.getToggles().size();
+
+        for(int i = 0; i < nbToggleBtns; i++){
+            //À chaque suppression les Toggles se réarrangent. On supprime donc le premier toggle "n" fois:
+            ToggleButton itemBtn = (ToggleButton) invTG.getToggles().get(0);
+            playerInvView.getChildren().remove(itemBtn);
+            invTG.getToggles().remove(itemBtn);
+        }
+
+        clearEventHandlers();
+        initInventory();
     }
 
     public void updateRoom(RoomController roomController){

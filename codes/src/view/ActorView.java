@@ -17,7 +17,7 @@ public class ActorView extends Circle
         switch (catActor) {
             case "player" -> this.setFill(Color.BLUE);
             case "ally" -> this.setFill(Color.LIME);
-            case "neutral" -> this.setFill(Color.YELLOW);
+            case "neutral" -> this.setFill(Color.DARKGOLDENROD);
             case "hostile" -> this.setFill(Color.RED);
             default -> this.setFill(Color.LIGHTGRAY);
         }
