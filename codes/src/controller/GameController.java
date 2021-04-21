@@ -4,6 +4,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import model.Characters.Player;
 import model.Game.SIS;
@@ -29,6 +30,9 @@ public class GameController {
     //Gestion du manuel d'aide:
     private String previousDialog;
     private Boolean isHelpManualOn = false;
+
+    //Gestion de l'ordinateur:
+    private VBox actorPanel;
 
     //=============== CONSTRUCTEURS/INITIALISEURS ===============
     public GameController() throws IOException {
@@ -117,15 +121,20 @@ public class GameController {
 
     //====================== GETTERS ==========================
     public ActorController getActorController() { return actorController; }
+    public VBox getActorPanel() { return actorPanel; }
     public InventoryController getInventoryController() { return inventoryController; }
     public SIS getGameModel(){ return gameModel; }
-    public GameView getGameView() {
-        return gameView;
-    }
+    public GameView getGameView() { return gameView; }
     public Player getPlayerModel() { return playerModel; }
     public ActorView getPlayerView() { return playerView; }
     public RoomController getRoomController() { return roomController; }
-    public HBox getScene() {
-        return gameView.getScene();
+    public HBox getScene() { return gameView.getSceneHBox(); }
+
+    //====================== UPDATERS =========================
+    public void updateStoryBox(VBox replacer){
+        VBox currentActorPanel = getGameView().getActorVBox();
+        getGameView().getStoryBox().getChildren().remove(currentActorPanel);
+        getGameView().setActorVBox(replacer);
+        getGameView().getStoryBox().getChildren().add(0, replacer);
     }
 }

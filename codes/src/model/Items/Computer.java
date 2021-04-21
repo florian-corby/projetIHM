@@ -4,6 +4,7 @@ import model.Characters.Actor;
 import model.Characters.Player;
 import model.Containers.*;
 import model.Events.Event;
+import model.Game.Message;
 import model.Utils.Scalar2D;
 
 import java.io.Serializable;
@@ -46,6 +47,7 @@ public class Computer extends Item implements Serializable {
         this.FILES.addItem(f);
     }
 
+    public Event getEVENT() { return this.EVENT; }
     public Inventory getFILES() { return this.FILES; }
 
     @Override
@@ -134,7 +136,7 @@ public class Computer extends Item implements Serializable {
             try {
                 File file = (File) this.FILES.getItem(tag);
                 player.getInventory().addItem(file.getCopy());
-                System.out.println("Now you have a copy of the " + file.getTag() + " in your inventory");
+                Message.sendGameMessage("Now you have a copy of the " + file.getTag() + " in your inventory");
             }
 
             catch(NullPointerException | ClassCastException e) {

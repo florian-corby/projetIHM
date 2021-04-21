@@ -8,7 +8,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import model.Game.MessageListener;
 
-public class GameView implements MessageListener
+public class GameView extends HBox implements MessageListener
 {
     //====================== ATTRIBUTS FXML ==========================
     @FXML
@@ -23,6 +23,7 @@ public class GameView implements MessageListener
     @FXML private Slider mapVerticalSlider;
 
     // -------- Le panneau droit (panneau du joueur):
+    @FXML private VBox storyBox;
     @FXML private VBox actorVBox;
     @FXML private Label actorLabel;
     @FXML private ProgressBar actorHProgressBar;
@@ -39,7 +40,7 @@ public class GameView implements MessageListener
     @FXML private Button dropButton;
 
     //====================== GETTERS ==========================
-    public HBox getScene() { return sceneHBox; }
+    public HBox getSceneHBox() { return sceneHBox; }
 
     // -------- Le panneau gauche (panneau de la map):
     public Button getZoomPlusButton() { return zoomPlusButton; }
@@ -52,6 +53,7 @@ public class GameView implements MessageListener
     public Slider getMapVerticalSlider() { return mapVerticalSlider; }
 
     // -------- Le panneau droit (panneau du joueur):
+    public VBox getStoryBox() { return storyBox; }
     public VBox getActorVBox() { return actorVBox; }
     public Label getActorLabel() { return actorLabel; }
     public ProgressBar getActorHProgressBar() { return actorHProgressBar; }
@@ -66,6 +68,9 @@ public class GameView implements MessageListener
     public VBox getInventoryVBox() { return inventoryVBox; }
     public Button getGiveButton() { return giveButton; }
     public Button getDropButton() { return dropButton; }
+
+    //====================== SETTERS ==========================
+    public void setActorVBox(VBox replacer){actorVBox = replacer;}
 
 
     //====================== AUTRES ==========================

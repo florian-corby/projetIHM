@@ -5,10 +5,13 @@ import model.Characters.NPC;
 import model.Characters.Player;
 import model.Doors.Door;
 import model.Doors.LockedDoor;
+import model.Items.Computer;
+import model.Items.HealthStation;
 import model.Items.Item;
 import model.Location.Room;
 import view.*;
 
+import java.io.IOException;
 import java.util.Set;
 
 public class RoomController {
@@ -38,11 +41,19 @@ public class RoomController {
     public void addContainerInRoom(Item item){
         ContainerView containerView = new ContainerView("HealthStation");
         containerView.setOnMousePressed(e -> {
-            if(e.isSecondaryButtonDown())
+            if (e.isSecondaryButtonDown())
                 item.describe();
             else {
-                if(item.getTag().equals("HealthStation"))
+                if (item instanceof HealthStation)
                     item.isUsedOn(playerModel);
+                else if(item instanceof Computer){
+                    Computer computer = (Computer) item;
+                    try {
+                        new ComputerController(computer, gameController);
+                    } catch (IOException exception) {
+                        exception.printStackTrace();
+                    }
+                }
                 else
                     item.isUsed(playerModel);
             }
@@ -52,12 +63,14 @@ public class RoomController {
     }
     public void addItemInRoom(Item item){
         ItemView itemView = new ItemView();
+
         itemView.setOnMousePressed(e -> {
-            if(e.isSecondaryButtonDown())
+            if (e.isSecondaryButtonDown())
                 item.describe();
             else
                 playerInvController.addInInventory(item);
         });
+
         currentRoomView.addInRoom(itemView, item.getTag(),
                 item.getScalar2D().getScalar2DCol(), item.getScalar2D().getScalar2DLine(), "CENTER");
     }
@@ -68,6 +81,10 @@ public class RoomController {
         updateRoomModel();
         currentRoomView = new RoomView(nbCol, nbLignes);
         gameView.getRoomLabel().setText("Room " + currentRoomModel.getID());
+
+        if(gameView.getActorVBox() instanceof ComputerView)
+            gameController.updateStoryBox(gameController.getActorPanel());
+
         loadDoors();
         loadItems();
         loadPlayer();

@@ -59,7 +59,7 @@
       </BorderPane>
       <HBox prefHeight="400.0" prefWidth="301.0" HBox.hgrow="ALWAYS">
          <children>
-            <VBox minWidth="250.0" prefHeight="400.0" prefWidth="250.0" spacing="5.0" HBox.hgrow="ALWAYS">
+            <VBox fx:id="storyBox" minWidth="250.0" prefHeight="400.0" prefWidth="250.0" spacing="5.0" HBox.hgrow="ALWAYS">
                <children>
                   <VBox fx:id="actorVBox" alignment="CENTER" prefHeight="329.0" prefWidth="258.0" style="-fx-border-color: blue;" VBox.vgrow="ALWAYS">
                       <children>
