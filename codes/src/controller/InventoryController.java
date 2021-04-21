@@ -84,6 +84,9 @@ public class InventoryController {
         invTG.getToggles().remove(invTG.getSelectedToggle());
         roomController.addItemInRoom(playerInvModel.getItem(itemTag));
 
+        //On met à jour le modèle:
+        playerInvModel.moveItem(itemTag, roomController.getCurrentRoomModel().getInventory());
+
         //On élimine les handlers() dus à la sélection du bouton:
         clearEventHandlers();
     }
