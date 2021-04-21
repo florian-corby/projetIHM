@@ -1,10 +1,17 @@
 package view;
 
+import controller.GameController;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import model.Characters.Player;
+import model.Commands.Command;
+import model.Doors.Door;
+import model.Game.Message;
 import model.Game.MessageListener;
+
+import java.io.IOException;
 
 
 public class GameView implements MessageListener
@@ -41,7 +48,7 @@ public class GameView implements MessageListener
     //====================== ATTRIBUTS ===============================
     private String previousDialog = "";
     private String helpMessage = "";
-
+    private Player player;
 
     //====================== GETTERS ==========================
     public HBox getScene() { return sceneHBox; }
@@ -107,4 +114,6 @@ public class GameView implements MessageListener
     {
         helpMessage = message;
     }
+
+    public void setPlayer(Player p) { this.player = p; }
 }

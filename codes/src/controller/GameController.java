@@ -1,7 +1,9 @@
 package controller;
 
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.HPos;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -42,14 +44,43 @@ public class GameController {
         initHelpManual();
         initTestRoom();
         initHandlers();
+        initPlayer();
     }
 
     public void initHandlers()
     {
+/*
+        // ========== ALIEN
+        currentRoomView.getFromRoom("Alien").setOnMousePressed(e -> {
+            if(e.isPrimaryButtonDown())
+            gameView.getActorImageView().setImage(new Image("../../libraries/img/alien"));
+                });
+*/
+
+        // ========== BACK BUTTON
+        gameView.getBackButton().setOnMouseClicked(e-> {
+            playerModel.back();
+            gameView.update("You pressed the back button.");
+        });
+
+        // ========== HEALTH STATION
         currentRoomView.getFromRoom("HealthStation").setOnMousePressed(e -> {
             if(e.isSecondaryButtonDown())
                 gameView.update(currentRoomModel.getInventory().getItem("HealthStation").getDescription());
         });
+
+        // ========== SAVE & LOAD BUTTON
+        gameView.getSaveButton().setOnMouseClicked(e-> {
+            playerModel.save();
+            gameView.update("You successfully saved the game!");
+        });
+
+        gameView.getLoadButton().setOnMouseClicked(e-> {
+            playerModel.load();
+            gameView.update("You successfully loaded the game!");
+        });
+
+
     }
 
     public void initHelpManual()
@@ -112,6 +143,11 @@ public class GameController {
         statuette.setRadiusY(10);
         statuette.setFill(Color.BLACK);
         currentRoomView.addInRoom(statuette, currentRoomModel.getInventory().getItemTag(1), 2, 2);
+    }
+
+    public void initPlayer()
+    {
+        gameView.setPlayer(this.playerModel);
     }
 
     //====================== GETTERS ==========================
