@@ -1,7 +1,6 @@
 package controller;
 
 import javafx.event.EventHandler;
-import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
@@ -42,9 +41,7 @@ public class InventoryController {
             drop(itemTag);
         });
 
-        gameView.getGiveButton().setOnAction(e -> {
-            give();
-        });
+        gameView.getGiveButton().setOnAction(e -> { give(); });
     }
 
     public void initInventory(){
@@ -86,8 +83,6 @@ public class InventoryController {
         playerInvView.getChildren().remove((ToggleButton) invTG.getSelectedToggle());
         invTG.getToggles().remove(invTG.getSelectedToggle());
         roomController.addItemInRoom(playerInvModel.getItem(itemTag));
-
-        //On met à jour le modèle:
 
         //On élimine les handlers() dus à la sélection du bouton:
         clearEventHandlers();

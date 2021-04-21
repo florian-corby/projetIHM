@@ -12,10 +12,10 @@ import view.*;
 import java.util.Set;
 
 public class RoomController {
+    private Player playerModel;
+    private ActorView playerView;
     private final GameController gameController;
     private final GameView gameView;
-    private final Player playerModel;
-    private final ActorView playerView;
     private final InventoryController playerInvController;
     private Room currentRoomModel;
     private RoomView currentRoomView;
@@ -56,22 +56,6 @@ public class RoomController {
         });
         currentRoomView.addInRoom(itemView, item.getTag(),
                 item.getScalar2D().getScalar2DCol(), item.getScalar2D().getScalar2DLine(), "CENTER");
-    }
-
-    public void updateNPCFrame(NPC npc){
-        ActorView actorView = gameController.getNPCView(npc);
-        String colorString = "#"+actorView.getFill().toString().substring(2);
-        gameView.getActorVBox().setStyle("-fx-border-color:"+colorString+";");
-        gameView.getActorBtnHBox().setStyle("-fx-border-color:"+colorString+";");
-        gameView.getActorLabel().setText(npc.getName());
-    }
-
-    public void updatePlayerFrame(){
-        //0xffab8d devient #ffab8d car c'est c'est le format que comprend javafx:
-        String colorString = "#"+playerView.getFill().toString().substring(2);
-        gameView.getActorVBox().setStyle("-fx-border-color:"+colorString+";");
-        gameView.getActorBtnHBox().setStyle("-fx-border-color:"+colorString+";");
-        gameView.getActorLabel().setText(playerModel.getName());
     }
 
     public void updateRoomModel(){ currentRoomModel = playerModel.getRoom(); }
@@ -157,12 +141,12 @@ public class RoomController {
 
         for (NPC npc : npcs) {
             int[] roomPos = currentRoomView.getRandPos();
-            ActorView actorView = gameController.getNPCView(npc);
+            ActorView actorView = ActorView.getNPCView(npc);
             actorView.setOnMousePressed(e -> {
                 if(e.isSecondaryButtonDown())
                     gameView.update(npc.getName());
                 else{
-                    updateNPCFrame(npc);
+                    gameController.getActorController().updateNPCFrame(npc);
                     npc.talk();
                 }
             });
@@ -174,7 +158,7 @@ public class RoomController {
         int nbCol = currentRoomView.getNbCol();
         int nbLignes = currentRoomView.getNbLignes();
 
-        updatePlayerFrame();
+        gameController.getActorController().updatePlayerFrame();
         currentRoomView.addInRoom(playerView, playerModel.getName(),
                 (nbCol - 1)/2, (nbLignes-1)/2, "CENTER");
         
@@ -182,7 +166,7 @@ public class RoomController {
             if(e.isSecondaryButtonDown())
                 gameView.update(playerModel.getName());
             else
-                updatePlayerFrame();
+                gameController.getActorController().updatePlayerFrame();
         });
     }
 }

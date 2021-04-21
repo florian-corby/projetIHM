@@ -19,15 +19,16 @@ public class GameController {
     //====================== ATTRIBUTS ==========================
     public final static Scalar2D DEFAULT_ROOMS_SIZE = new Scalar2D(11, 11);
 
-    //Quelques éléments du modèle:
+    //Quelques éléments du modèle et leurs vues associées:
     private final SIS gameModel;
+    private final GameView gameView;
     private final Player playerModel;
+    private final ActorView playerView = new ActorView("player");
 
     //Quelques éléments de la vue (pour manipuler une pièce on passe par son contrôleur):
-    private final GameView gameView;
+    private final ActorController actorController;
     private final RoomController roomController;
     private final InventoryController inventoryController;
-    private final ActorView playerView = new ActorView("player");
 
     //Gestion du manuel d'aide:
     private String previousDialog;
@@ -43,6 +44,7 @@ public class GameController {
         //On charge le modèle et le gestionnaire d'inventaire:
         gameModel = new SIS(gameView);
         playerModel = gameModel.getShip().getPlayer();
+        actorController = new ActorController(this);
         inventoryController = new InventoryController(this);
 
         //On charge la pièce:
@@ -98,17 +100,11 @@ public class GameController {
     }
 
     //====================== GETTERS ==========================
+    public ActorController getActorController() { return actorController; }
     public InventoryController getInventoryController() { return inventoryController; }
+    public SIS getGameModel(){ return gameModel; }
     public GameView getGameView() {
         return gameView;
-    }
-    public ActorView getNPCView(NPC npc) {
-        if(npc.isHostile())
-            return new ActorView("hostile");
-        else if (npc.isAlly())
-            return new ActorView("ally");
-        else
-            return new ActorView("neutral");
     }
     public Player getPlayerModel() { return playerModel; }
     public ActorView getPlayerView() { return playerView; }
