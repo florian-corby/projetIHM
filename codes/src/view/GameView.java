@@ -6,13 +6,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Rectangle;
 import model.Game.MessageListener;
 
 public class GameView extends HBox implements MessageListener
 {
-    //====================== ATTRIBUTS FXML ==========================
-    @FXML
-    private HBox sceneHBox;
+    @FXML private HBox sceneHBox;
 
     // -------- Le panneau gauche (panneau de la map):
     @FXML private Button zoomPlusButton;
@@ -71,6 +70,15 @@ public class GameView extends HBox implements MessageListener
 
     //====================== SETTERS ==========================
     public void setActorVBox(VBox replacer){actorVBox = replacer;}
+    public void setMapPaneClip(){
+        //Pour que la pièce passe derrière la fenêtre si débordement:
+        final Rectangle clipPane = new Rectangle();
+        this.getMapPane().setClip(clipPane);
+        this.getMapPane().layoutBoundsProperty().addListener((ov, oldValue, newValue) -> {
+            clipPane.setWidth(newValue.getWidth());
+            clipPane.setHeight(newValue.getHeight());
+        });
+    }
 
 
     //====================== AUTRES ==========================

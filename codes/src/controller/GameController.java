@@ -48,12 +48,13 @@ public class GameController {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/GameView.fxml"));
         loader.load();
         gameView = loader.getController();
+        gameView.setMapPaneClip();
 
         //On charge le modèle:
         gameModel = new SIS(gameView);
         playerModel = gameModel.getShip().getPlayer();
 
-        //On initialise les sous-contrôleurs spécialisés:
+        //On initialise les sous-contrôleurs spécialisés qui par incidence lancent le jeu:
         actorController = new ActorController(this);
         inventoryController = new InventoryController(this);
         roomController = new RoomController(this);
@@ -64,40 +65,21 @@ public class GameController {
 
     public void initHandlers()
     {
-        // ========== SAVE & LOAD BUTTON
-        gameView.getSaveButton().setOnMouseClicked(e-> {
-            playerModel.save();
-            gameView.update("You successfully saved the game!");
-        });
+        initSaveLoadHandlers();
 
-        gameView.getLoadButton().setOnMouseClicked(e-> {
-            playerModel.load();
-            gameView.update("You successfully loaded the game!");
-        });
 
-        //Pour que la pièce passe derrière la fenêtre si débordement:
-        final Rectangle clipPane = new Rectangle();
-        gameView.getMapPane().setClip(clipPane);
-        gameView.getMapPane().layoutBoundsProperty().addListener((ov, oldValue, newValue) -> {
-            clipPane.setWidth(newValue.getWidth());
-            clipPane.setHeight(newValue.getHeight());
-        });
+
 
         //Les sliders réinitialisent la pièce au centre du panneau à chaque redimensionnement de la fenêtre:
-        gameView.getMapHorizontalSlider().maxProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
-                gameView.getMapHorizontalSlider().setValue(gameView.getMapHorizontalSlider().getMax()/2);
-            }
-        });
-        gameView.getMapVerticalSlider().maxProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
-                gameView.getMapVerticalSlider().setValue(gameView.getMapVerticalSlider().getMax()/2);
-            }
-        });
+        gameView.getMapHorizontalSlider().maxProperty().addListener((observableValue, number, t1) ->
+                gameView.getMapHorizontalSlider().setValue(gameView.getMapHorizontalSlider().getMax()/2));
+        gameView.getMapVerticalSlider().maxProperty().addListener((observableValue, number, t1) ->
+                gameView.getMapVerticalSlider().setValue(gameView.getMapVerticalSlider().getMax()/2));
 
-        //Le manuel d'aide:
+        initHelpManual();
+    }
+
+    public void initHelpManual(){
         previousDialog = gameView.getDialogTextArea().getText();
         gameView.getHelpButton().setOnAction(e -> {
             if(isHelpManualOn) {
@@ -113,6 +95,18 @@ public class GameController {
                 gameView.getHelpButton().setText("Back to the Game");
                 gameModel.printHelp();
             }
+        });
+    }
+
+    public void initSaveLoadHandlers(){
+        gameView.getSaveButton().setOnMouseClicked(e-> {
+            playerModel.save();
+            gameView.update("You successfully saved the game!");
+        });
+
+        gameView.getLoadButton().setOnMouseClicked(e-> {
+            playerModel.load();
+            gameView.update("You successfully loaded the game!");
         });
     }
 
