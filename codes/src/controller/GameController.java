@@ -2,11 +2,8 @@ package controller;
 
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.HBox;
-import javafx.scene.shape.Rectangle;
 import model.Characters.Player;
 import model.Game.SIS;
 import model.Utils.Scalar2D;
@@ -110,10 +107,10 @@ public class GameController {
     //====================== GETTERS ==========================
     public ActorController getActorController() { return actorController; }
     public InventoryController getInventoryController() { return inventoryController; }
+    public RoomController getRoomController() { return roomController; }
     public SIS getGameModel(){ return gameModel; }
     public GameView getGameView() { return gameView; }
     public Player getPlayerModel() { return playerModel; }
     public ActorView getPlayerView() { return playerView; }
-    public RoomController getRoomController() { return roomController; }
     public HBox getScene() { return gameView.getSceneHBox(); }
 }

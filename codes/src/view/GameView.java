@@ -70,8 +70,10 @@ public class GameView extends HBox implements MessageListener
 
     //====================== SETTERS ==========================
     public void setActorVBox(VBox replacer){ actorVBox = replacer; }
+
+    // Active un comportement du mapPane où tout enfant qui déborde en-dehors du mapPane est clippé
+    // derrière celui-ci (utile pour la fonction zoom où l'élément contenu peut aisément débordé, par exemple):
     public void setMapPaneClip(){
-        //Pour que la pièce passe derrière la fenêtre si débordement:
         final Rectangle clipPane = new Rectangle();
         this.getMapPane().setClip(clipPane);
         this.getMapPane().layoutBoundsProperty().addListener((ov, oldValue, newValue) -> {
@@ -79,8 +81,10 @@ public class GameView extends HBox implements MessageListener
             clipPane.setHeight(newValue.getHeight());
         });
     }
+
+    // Réinitialisent les sliders au centre. Aussi si un élément (comme un élément dans le mapPane) est bindé
+    // à ces sliders il est recentré (ou redimensionné) sur la nouvelle valeur "centrale" de ces sliders:
     public void setCenteredSlidersOnWindowRedimensionned(){
-        //Les sliders réinitialisent la pièce au centre du panneau à chaque redimensionnement de la fenêtre:
         this.getMapHorizontalSlider().maxProperty().addListener((observableValue, number, t1) ->
                 this.getMapHorizontalSlider().setValue(this.getMapHorizontalSlider().getMax()/2));
         this.getMapVerticalSlider().maxProperty().addListener((observableValue, number, t1) ->
