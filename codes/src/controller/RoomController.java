@@ -81,6 +81,7 @@ public class RoomController {
         currentRoomView.addInRoom(containerView, item.getTag(),
                 item.getScalar2D().getScalar2DCol(), item.getScalar2D().getScalar2DLine(), "CENTER");
     }
+
     public void addItemInRoom(Item item){
         ItemView itemView = new ItemView();
 
@@ -94,7 +95,6 @@ public class RoomController {
         currentRoomView.addInRoom(itemView, item.getTag(),
                 item.getScalar2D().getScalar2DCol(), item.getScalar2D().getScalar2DLine(), "CENTER");
     }
-
 
     public void updateRoomView(int nbCol, int nbLignes) {
         //À chaque nouvelle pièce chargée on vérifie si le jeu est terminé:
@@ -150,19 +150,22 @@ public class RoomController {
     }
 
     public void loadHandlers() {
+        //On bind les sliders de la vue du jeu à la nouvelle pièce chargée:
         currentRoomView.layoutXProperty().bind(gameView.getMapHorizontalSlider().valueProperty());
         currentRoomView.layoutYProperty().bind(gameView.getMapVerticalSlider().valueProperty());
 
+        //On bind les boutons de zoom à la vue de la nouvelle pièce chargée:
         gameView.getZoomPlusButton().setOnAction(e -> {
             currentRoomView.setScaleX(currentRoomView.getScaleX() * 1.1);
             currentRoomView.setScaleY(currentRoomView.getScaleY() * 1.1);
         });
-
         gameView.getZoomMinusButton().setOnAction(e -> {
             currentRoomView.setScaleX(currentRoomView.getScaleX() * 10.0/11.0);
             currentRoomView.setScaleY(currentRoomView.getScaleY() * 10.0/11.0);
         });
 
+        //On bind les valeurs maximum des sliders du jeu pour que la nouvelle pièce chargées ne déborde pas
+        //sur le panneau qui la contient (sauf si en cas de zoom mais pour ça on a setMapPaneClip() dans GameView:
         gameView.getMapHorizontalSlider().maxProperty().bind(
                 Bindings.subtract(gameView.getMapPane().widthProperty(), currentRoomView.widthProperty()));
         gameView.getMapVerticalSlider().maxProperty().bind(

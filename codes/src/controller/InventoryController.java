@@ -13,6 +13,16 @@ import view.GameView;
 
 import java.util.LinkedHashMap;
 
+
+/* -----------------------------------------------------------------------------
+ * Contrôleur de l'inventaire du jeu:
+ *
+ * Rôle: Contrôleur global du jeu qui gère l'inventaire du joueur et son UI. Il
+ * connaît le contrôleur des pièces afin de pouvoir dropper l'item de l'inventaire
+ * ou encore d'activer les effets des items en cliquant sur un autre élément de la
+ * vue de la pièce du jeu.
+ * ----------------------------------------------------------------------------- */
+
 public class InventoryController {
     //====================== ATTRIBUTS ==========================
     private final GameController gameController;

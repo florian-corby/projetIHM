@@ -6,6 +6,14 @@ import model.Characters.Player;
 import view.ActorView;
 import view.GameView;
 
+
+/* -----------------------------------------------------------------------------
+ * Contrôleur des acteurs du jeu:
+ *
+ * Rôle: Contrôleur global du jeu qui gère les acteurs (les npcs et le joueur) du
+ * jeu ainsi que le panneau qui leur est dédié dans la vue du jeu
+ * ----------------------------------------------------------------------------- */
+
 public class ActorController {
     private final GameController gameController;
     private final GameView gameView;
