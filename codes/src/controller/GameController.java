@@ -49,6 +49,7 @@ public class GameController {
         loader.load();
         gameView = loader.getController();
         gameView.setMapPaneClip();
+        gameView.setCenteredSlidersOnWindowRedimensionned();
 
         //On charge le modèle:
         gameModel = new SIS(gameView);
@@ -60,22 +61,7 @@ public class GameController {
         roomController = new RoomController(this);
 
         //On charge les gestionnaires d'événement globaux du jeu:
-        initHandlers();
-    }
-
-    public void initHandlers()
-    {
         initSaveLoadHandlers();
-
-
-
-
-        //Les sliders réinitialisent la pièce au centre du panneau à chaque redimensionnement de la fenêtre:
-        gameView.getMapHorizontalSlider().maxProperty().addListener((observableValue, number, t1) ->
-                gameView.getMapHorizontalSlider().setValue(gameView.getMapHorizontalSlider().getMax()/2));
-        gameView.getMapVerticalSlider().maxProperty().addListener((observableValue, number, t1) ->
-                gameView.getMapVerticalSlider().setValue(gameView.getMapVerticalSlider().getMax()/2));
-
         initHelpManual();
     }
 

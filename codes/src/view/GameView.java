@@ -69,7 +69,7 @@ public class GameView extends HBox implements MessageListener
     public Button getDropButton() { return dropButton; }
 
     //====================== SETTERS ==========================
-    public void setActorVBox(VBox replacer){actorVBox = replacer;}
+    public void setActorVBox(VBox replacer){ actorVBox = replacer; }
     public void setMapPaneClip(){
         //Pour que la pièce passe derrière la fenêtre si débordement:
         final Rectangle clipPane = new Rectangle();
@@ -78,6 +78,13 @@ public class GameView extends HBox implements MessageListener
             clipPane.setWidth(newValue.getWidth());
             clipPane.setHeight(newValue.getHeight());
         });
+    }
+    public void setCenteredSlidersOnWindowRedimensionned(){
+        //Les sliders réinitialisent la pièce au centre du panneau à chaque redimensionnement de la fenêtre:
+        this.getMapHorizontalSlider().maxProperty().addListener((observableValue, number, t1) ->
+                this.getMapHorizontalSlider().setValue(this.getMapHorizontalSlider().getMax()/2));
+        this.getMapVerticalSlider().maxProperty().addListener((observableValue, number, t1) ->
+                this.getMapVerticalSlider().setValue(this.getMapVerticalSlider().getMax()/2));
     }
 
 
