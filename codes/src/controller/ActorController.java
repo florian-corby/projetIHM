@@ -21,8 +21,7 @@ public class ActorController {
     private VBox actorPanel;
 
     //=============== CONSTRUCTEURS/INITIALISEURS ===============
-    public ActorController(GameController c)
-    {
+    public ActorController(GameController c) {
         gameController = c;
         gameView = c.getGameView();
         playerModel = c.getGameModel().getShip().getPlayer();
@@ -50,6 +49,7 @@ public class ActorController {
         gameView.getActorHProgressBar().setProgress(playerModel.getHp());
     }
 
+    //Gestion de l'ordinateur:
     public void resetActorPanel(){
         gameController.getGameView().getStoryBox().getChildren().remove(0);
         gameController.getGameView().setActorVBox(actorPanel);

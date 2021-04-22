@@ -7,15 +7,24 @@ import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Rectangle;
-import javafx.stage.Popup;
 import model.Characters.Player;
 import model.Game.SIS;
 import model.Utils.Scalar2D;
 import view.*;
 import java.io.IOException;
 
+
+/* -----------------------------------------------------------------------------
+ * Contrôleur du jeu:
+ *
+ * Rôle: Lance le jeu par le biais de plusieurs modèles MVC chacun spécialisé
+ * sur une partie du jeu (Exemple: pour les pièces du jeu => le RoomController,
+ * pour les acteurs => le ActorController, etc.) Il initialise les gestionnaires
+ * d'événements globaux du jeu (menu d'aide, load()/save(), etc.) et fournit les
+ * méthodes de réactions aux événements principaux du jeu comme la fin de partie
+ * ----------------------------------------------------------------------------- */
+
 public class GameController {
-    //====================== ATTRIBUTS ==========================
     public final static Scalar2D DEFAULT_ROOMS_SIZE = new Scalar2D(11, 11);
 
     //Quelques éléments du modèle et leurs vues associées:
@@ -24,7 +33,7 @@ public class GameController {
     private final Player playerModel;
     private final ActorView playerView = new ActorView("player");
 
-    //Quelques éléments de la vue (pour manipuler une pièce on passe par son contrôleur):
+    //Les sous-contrôleurs spécialisés:
     private final ActorController actorController;
     private final RoomController roomController;
     private final InventoryController inventoryController;
@@ -40,17 +49,14 @@ public class GameController {
         loader.load();
         gameView = loader.getController();
 
-        //On charge le modèle et le gestionnaire d'inventaire:
+        //On charge le modèle:
         gameModel = new SIS(gameView);
         playerModel = gameModel.getShip().getPlayer();
+
+        //On initialise les sous-contrôleurs spécialisés:
         actorController = new ActorController(this);
         inventoryController = new InventoryController(this);
-
-        //On charge la pièce:
         roomController = new RoomController(this);
-        roomController.updateRoomView(DEFAULT_ROOMS_SIZE.getScalar2DCol(), DEFAULT_ROOMS_SIZE.getScalar2DLine());
-        inventoryController.updateRoom(roomController);
-        inventoryController.initInventory();
 
         //On charge les gestionnaires d'événement globaux du jeu:
         initHandlers();
@@ -58,14 +64,6 @@ public class GameController {
 
     public void initHandlers()
     {
-/*
-        // ========== ALIEN
-        currentRoomView.getFromRoom("Alien").setOnMousePressed(e -> {
-            if(e.isPrimaryButtonDown())
-            gameView.getActorImageView().setImage(new Image("../../libraries/img/alien"));
-                });
-*/
-
         // ========== SAVE & LOAD BUTTON
         gameView.getSaveButton().setOnMouseClicked(e-> {
             playerModel.save();

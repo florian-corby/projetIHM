@@ -15,9 +15,11 @@ import view.*;
 import java.io.IOException;
 import java.util.Set;
 
+import static controller.GameController.DEFAULT_ROOMS_SIZE;
+
 public class RoomController {
-    private Player playerModel;
-    private ActorView playerView;
+    private final Player playerModel;
+    private final ActorView playerView;
     private final GameController gameController;
     private final GameView gameView;
     private final InventoryController playerInvController;
@@ -25,18 +27,23 @@ public class RoomController {
     private RoomView currentRoomView;
 
     //=============== CONSTRUCTEURS/INITIALISEURS ===============
-    public RoomController(GameController c)
-    {
+    public RoomController(GameController c) {
         gameController = c;
         gameView = c.getGameView();
         playerModel = c.getPlayerModel();
         playerView = c.getPlayerView();
         playerInvController = c.getInventoryController();
+
+        //On charge la première pièce:
+        this.updateRoomView(DEFAULT_ROOMS_SIZE.getScalar2DCol(), DEFAULT_ROOMS_SIZE.getScalar2DLine());
+        gameController.getInventoryController().updateRoom(this);
+        gameController.getInventoryController().initInventory();
     }
 
     //====================== GETTERS ==========================
     public Room getCurrentRoomModel() { return currentRoomModel; }
     public RoomView getCurrentRoomView() { return currentRoomView; }
+
 
     //====================== UPDATERS =========================
     public void addContainerInRoom(Item item){
@@ -118,7 +125,7 @@ public class RoomController {
                     d.describe();
                 else{
                     playerModel.go(d);
-                    updateRoomView(GameController.DEFAULT_ROOMS_SIZE.getScalar2DCol(), GameController.DEFAULT_ROOMS_SIZE.getScalar2DLine());
+                    updateRoomView(DEFAULT_ROOMS_SIZE.getScalar2DCol(), DEFAULT_ROOMS_SIZE.getScalar2DLine());
                 }
             });
         }
