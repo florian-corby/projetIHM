@@ -17,6 +17,13 @@ import java.util.Set;
 
 import static controller.GameController.DEFAULT_ROOMS_SIZE;
 
+
+/* -----------------------------------------------------------------------------
+ * Contrôleur des pièces du jeu:
+ *
+ * Rôle:
+ * ----------------------------------------------------------------------------- */
+
 public class RoomController {
     private final Player playerModel;
     private final ActorView playerView;
@@ -36,6 +43,8 @@ public class RoomController {
 
         //On charge la première pièce:
         this.updateRoomView(DEFAULT_ROOMS_SIZE.getScalar2DCol(), DEFAULT_ROOMS_SIZE.getScalar2DLine());
+
+        //On branche la pièce créée à l'inventaire pour que celui-ci sache où dropper les objets, par exemple:
         gameController.getInventoryController().updateRoom(this);
         gameController.getInventoryController().initInventory();
     }
@@ -84,11 +93,15 @@ public class RoomController {
     }
 
 
-    public void updateRoomModel(){ currentRoomModel = playerModel.getRoom(); }
     public void updateRoomView(int nbCol, int nbLignes) {
+        //À chaque nouvelle pièce chargée on vérifie si le jeu est terminé:
         gameController.isGameOver();
+
+        //On met à jour le modèle:
+        currentRoomModel = playerModel.getRoom();
+
+        //On met à jour la vue:
         gameView.getMapPane().getChildren().remove(currentRoomView);
-        updateRoomModel();
         currentRoomView = new RoomView(nbCol, nbLignes);
         gameView.getRoomLabel().setText("Room " + currentRoomModel.getID());
         loadDoors();
@@ -96,8 +109,10 @@ public class RoomController {
         loadPlayer();
         loadNPCs();
         loadHandlers();
-        gameController.getActorController().resetActorPanel();
         gameView.getMapPane().getChildren().add(currentRoomView);
+
+        //"Éteint" l'ordinateur si le joueur quitte la pièce sans appuyer sur le bouton 'quitter':
+        gameController.getActorController().resetActorPanel();
     }
 
 

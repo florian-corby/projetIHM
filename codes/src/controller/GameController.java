@@ -18,7 +18,7 @@ import java.io.IOException;
  * sur une partie du jeu (Exemple: pour les pièces du jeu => le RoomController,
  * pour les acteurs => le ActorController, etc.) Il initialise les gestionnaires
  * d'événements globaux du jeu (menu d'aide, load()/save(), etc.) et fournit les
- * méthodes de réactions aux événements principaux du jeu comme la fin de partie
+ * méthodes principale du jeu comme la réaction à une fin de partie.
  * ----------------------------------------------------------------------------- */
 
 public class GameController {
