@@ -32,6 +32,7 @@ public class InventoryController {
         playerInvView = gameView.getInventoryVBox();
         invTG = new ToggleGroup();
         initHandlers();
+        initInventory();
     }
 
     public void initHandlers(){

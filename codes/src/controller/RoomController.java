@@ -21,7 +21,11 @@ import static controller.GameController.DEFAULT_ROOMS_SIZE;
 /* -----------------------------------------------------------------------------
  * Contrôleur des pièces du jeu:
  *
- * Rôle:
+ * Rôle: S'occupe de charger les pièces du jeu. Elle charge aussi des événements
+ * liés aux objets/portes/... du jeu tant que ces événements ne deviennent pas
+ * trop complexes. Si c'est le cas, ces-derniers sont relayés à des contrôleurs
+ * spécialisés qui connaissent ce contrôleur (comme pour le contrôleur de
+ * l'inventaire)
  * ----------------------------------------------------------------------------- */
 
 public class RoomController {
@@ -44,9 +48,8 @@ public class RoomController {
         //On charge la première pièce:
         this.updateRoomView(DEFAULT_ROOMS_SIZE.getScalar2DCol(), DEFAULT_ROOMS_SIZE.getScalar2DLine());
 
-        //On branche la pièce créée à l'inventaire pour que celui-ci sache où dropper les objets, par exemple:
+        //On branche ce contrôleur au contrôleur de l'inventaire
         gameController.getInventoryController().updateRoom(this);
-        gameController.getInventoryController().initInventory();
     }
 
     //====================== GETTERS ==========================
