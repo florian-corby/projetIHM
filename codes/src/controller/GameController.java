@@ -1,8 +1,10 @@
 package controller;
 
-import javafx.fxml.FXMLLoader;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Rectangle;
 import model.Characters.Player;
@@ -11,8 +13,18 @@ import model.Utils.Scalar2D;
 import view.*;
 import java.io.IOException;
 
+
+/* -----------------------------------------------------------------------------
+ * Contrôleur du jeu:
+ *
+ * Rôle: Lance le jeu par le biais de plusieurs modèles MVC chacun spécialisé
+ * sur une partie du jeu (Exemple: pour les pièces du jeu => le RoomController,
+ * pour les acteurs => le ActorController, etc.) Il initialise les gestionnaires
+ * d'événements globaux du jeu (menu d'aide, load()/save(), etc.) et fournit les
+ * méthodes principale du jeu comme la réaction à une fin de partie.
+ * ----------------------------------------------------------------------------- */
+
 public class GameController {
-    //====================== ATTRIBUTS ==========================
     public final static Scalar2D DEFAULT_ROOMS_SIZE = new Scalar2D(11, 11);
 
     //Quelques éléments du modèle et leurs vues associées:
@@ -21,7 +33,7 @@ public class GameController {
     private final Player playerModel;
     private final ActorView playerView = new ActorView("player");
 
-    //Quelques éléments de la vue (pour manipuler une pièce on passe par son contrôleur):
+    //Les sous-contrôleurs spécialisés:
     private final ActorController actorController;
     private final RoomController roomController;
     private final InventoryController inventoryController;
@@ -36,21 +48,21 @@ public class GameController {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/GameView.fxml"));
         loader.load();
         gameView = loader.getController();
+        gameView.setMapPaneClip();
+        gameView.setCenteredSlidersOnWindowRedimensionned();
 
-        //On charge le modèle et le gestionnaire d'inventaire:
+        //On charge le modèle:
         gameModel = new SIS(gameView);
         playerModel = gameModel.getShip().getPlayer();
+
+        //On initialise les sous-contrôleurs spécialisés qui par incidence lancent le jeu:
         actorController = new ActorController(this);
         inventoryController = new InventoryController(this);
-
-        //On charge la pièce:
         roomController = new RoomController(this);
-        roomController.updateRoomView(DEFAULT_ROOMS_SIZE.getScalar2DCol(), DEFAULT_ROOMS_SIZE.getScalar2DLine());
-        inventoryController.updateRoom(roomController);
-        inventoryController.initInventory();
 
         //On charge les gestionnaires d'événement globaux du jeu:
-        initHandlers();
+        initSaveLoadHandlers();
+        initHelpManual();
     }
 
     public void initHandlers()
@@ -77,16 +89,27 @@ public class GameController {
             }
         });
 
-        //Le manuel d'aide:
+        // ========== ATTACK BUTTON
+        gameView.getAttackButton().setOnMouseClicked(e-> { actorController.attack(); });
+
+        // ========== SAVE & LOAD BUTTON
+        gameView.getSaveButton().setOnMouseClicked(e-> { playerModel.save(); });
+
+        gameView.getLoadButton().setOnMouseClicked(e-> {
+            playerModel.load();
+            roomController.updateRoomView(DEFAULT_ROOMS_SIZE.getScalar2DCol(), DEFAULT_ROOMS_SIZE.getScalar2DLine());
+        });
+    }
+
+    //Le manuel d'aide:
+    public void initHelpManual() {
         previousDialog = gameView.getDialogTextArea().getText();
         gameView.getHelpButton().setOnAction(e -> {
-            if(isHelpManualOn) {
+            if (isHelpManualOn) {
                 isHelpManualOn = false;
                 gameView.getHelpButton().setText("?");
                 gameView.getDialogTextArea().setText(previousDialog);
-            }
-
-            else {
+            } else {
                 isHelpManualOn = true;
                 previousDialog = gameView.getDialogTextArea().getText();
                 gameView.getDialogTextArea().setText("");
@@ -94,30 +117,38 @@ public class GameController {
                 gameModel.printHelp();
             }
         });
+    }
 
-        // ========== SAVE & LOAD BUTTON
-        gameView.getSaveButton().setOnMouseClicked(e-> { playerModel.save(); });
+    public void initSaveLoadHandlers(){
+        gameView.getSaveButton().setOnMouseClicked(e-> {
+            playerModel.save();
+            gameView.update("You successfully saved the game!");
+        });
 
         gameView.getLoadButton().setOnMouseClicked(e-> {
             playerModel.load();
-            roomController.updateRoomModel();
-            roomController.updateRoomView(DEFAULT_ROOMS_SIZE.getScalar2DCol(), DEFAULT_ROOMS_SIZE.getScalar2DLine());
+            gameView.update("You successfully loaded the game!");
         });
+    }
 
-        gameView.getAttackButton().setOnMouseClicked(e-> { actorController.attack(); });
+    //====================== PREDICATS ==========================
+    public void isGameOver(){
+        if(gameModel.isEndGame()){
+            Alert popup = new Alert(Alert.AlertType.INFORMATION);
+            popup.setTitle("Félicitations!");
+            popup.setContentText("Merci d'avoir joué à Silent In Space! Et tout particulièrement merci à notre bêta-testeuse Ophélie De Sousa Oliveira :) !");
+            popup.showAndWait();
+            Platform.exit();
+        }
     }
 
     //====================== GETTERS ==========================
     public ActorController getActorController() { return actorController; }
     public InventoryController getInventoryController() { return inventoryController; }
+    public RoomController getRoomController() { return roomController; }
     public SIS getGameModel(){ return gameModel; }
-    public GameView getGameView() {
-        return gameView;
-    }
+    public GameView getGameView() { return gameView; }
     public Player getPlayerModel() { return playerModel; }
     public ActorView getPlayerView() { return playerView; }
-    public RoomController getRoomController() { return roomController; }
-    public HBox getScene() {
-        return gameView.getScene();
-    }
+    public HBox getScene() { return gameView.getSceneHBox(); }
 }

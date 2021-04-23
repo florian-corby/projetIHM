@@ -13,6 +13,16 @@ import view.GameView;
 
 import java.util.LinkedHashMap;
 
+
+/* -----------------------------------------------------------------------------
+ * Contrôleur de l'inventaire du jeu:
+ *
+ * Rôle: Contrôleur global du jeu qui gère l'inventaire du joueur et son UI. Il
+ * connaît le contrôleur des pièces afin de pouvoir dropper l'item de l'inventaire
+ * ou encore d'activer les effets des items en cliquant sur un autre élément de la
+ * vue de la pièce du jeu.
+ * ----------------------------------------------------------------------------- */
+
 public class InventoryController {
     //====================== ATTRIBUTS ==========================
     private final GameController gameController;
@@ -32,6 +42,7 @@ public class InventoryController {
         playerInvView = gameView.getInventoryVBox();
         invTG = new ToggleGroup();
         initHandlers();
+        initInventory();
     }
 
     public void initHandlers(){
@@ -83,6 +94,9 @@ public class InventoryController {
         playerInvView.getChildren().remove((ToggleButton) invTG.getSelectedToggle());
         invTG.getToggles().remove(invTG.getSelectedToggle());
         roomController.addItemInRoom(playerInvModel.getItem(itemTag));
+
+        //On met à jour le modèle:
+        playerInvModel.moveItem(itemTag, roomController.getCurrentRoomModel().getInventory());
 
         //On élimine les handlers() dus à la sélection du bouton:
         clearEventHandlers();

@@ -64,7 +64,7 @@ public class SIS implements Serializable {
 
 	public boolean isEndGame() {
 		return (
-				(ship.getRoom(13).hasActor("me")
+				(ship.getRoom(13).hasActor("Me")
 						&& ship.getPlayer().getInventory().getItem("CaptainCode") != null)
 						|| ship.getPlayer().isDead()
 		);

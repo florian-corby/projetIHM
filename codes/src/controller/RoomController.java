@@ -4,19 +4,36 @@ import javafx.beans.binding.Bindings;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import model.Characters.Actor;
+import javafx.scene.layout.VBox;
 import model.Characters.NPC;
 import model.Characters.Player;
 import model.Doors.Door;
 import model.Doors.LockedDoor;
+import model.Items.Computer;
+import model.Items.HealthStation;
 import model.Items.Item;
 import model.Location.Room;
 import view.*;
 
+import java.io.IOException;
 import java.util.Set;
 
+import static controller.GameController.DEFAULT_ROOMS_SIZE;
+
+
+/* -----------------------------------------------------------------------------
+ * Contrôleur des pièces du jeu:
+ *
+ * Rôle: S'occupe de charger les pièces du jeu. Elle charge aussi des événements
+ * liés aux objets/portes/... du jeu tant que ces événements ne deviennent pas
+ * trop complexes. Si c'est le cas, ces-derniers sont relayés à des contrôleurs
+ * spécialisés qui connaissent ce contrôleur (comme pour le contrôleur de
+ * l'inventaire)
+ * ----------------------------------------------------------------------------- */
+
 public class RoomController {
-    private Player playerModel;
-    private ActorView playerView;
+    private final Player playerModel;
+    private final ActorView playerView;
     private final GameController gameController;
     private final GameView gameView;
     private final InventoryController playerInvController;
@@ -24,47 +41,73 @@ public class RoomController {
     private RoomView currentRoomView;
 
     //=============== CONSTRUCTEURS/INITIALISEURS ===============
-    public RoomController(GameController c)
-    {
+    public RoomController(GameController c) {
         gameController = c;
         gameView = c.getGameView();
         playerModel = c.getPlayerModel();
         playerView = c.getPlayerView();
         playerInvController = c.getInventoryController();
+
+        //On charge la première pièce:
+        this.updateRoomView(DEFAULT_ROOMS_SIZE.getScalar2DCol(), DEFAULT_ROOMS_SIZE.getScalar2DLine());
+
+        //On branche ce contrôleur au contrôleur de l'inventaire
+        gameController.getInventoryController().updateRoom(this);
     }
 
     //====================== GETTERS ==========================
     public Room getCurrentRoomModel() { return currentRoomModel; }
     public RoomView getCurrentRoomView() { return currentRoomView; }
 
+
     //====================== UPDATERS =========================
     public void addContainerInRoom(Item item){
         ContainerView containerView = new ContainerView("HealthStation");
         containerView.setOnMousePressed(e -> {
-            if(e.isSecondaryButtonDown())
+            if (e.isSecondaryButtonDown())
                 item.describe();
-            else
-                item.isUsedOn(playerModel);
+            else {
+                if (item instanceof HealthStation)
+                    item.isUsedOn(playerModel);
+                else if(item instanceof Computer){
+                    Computer computer = (Computer) item;
+                    try {
+                        new ComputerController(computer, gameController);
+                    } catch (IOException exception) {
+                        exception.printStackTrace();
+                    }
+                }
+                else
+                    item.isUsed(playerModel);
+            }
         });
         currentRoomView.addInRoom(containerView, item.getTag(),
                 item.getScalar2D().getScalar2DCol(), item.getScalar2D().getScalar2DLine(), "CENTER");
     }
+
     public void addItemInRoom(Item item){
         ItemView itemView = new ItemView();
+
         itemView.setOnMousePressed(e -> {
-            if(e.isSecondaryButtonDown())
+            if (e.isSecondaryButtonDown())
                 item.describe();
             else
                 playerInvController.addInInventory(item);
         });
+
         currentRoomView.addInRoom(itemView, item.getTag(),
                 item.getScalar2D().getScalar2DCol(), item.getScalar2D().getScalar2DLine(), "CENTER");
     }
 
-    public void updateRoomModel(){ currentRoomModel = playerModel.getRoom(); }
     public void updateRoomView(int nbCol, int nbLignes) {
+        //À chaque nouvelle pièce chargée on vérifie si le jeu est terminé:
+        gameController.isGameOver();
+
+        //On met à jour le modèle:
+        currentRoomModel = playerModel.getRoom();
+
+        //On met à jour la vue:
         gameView.getMapPane().getChildren().remove(currentRoomView);
-        updateRoomModel();
         currentRoomView = new RoomView(nbCol, nbLignes);
         gameView.getRoomLabel().setText("Room " + currentRoomModel.getID());
         loadDoors();
@@ -73,6 +116,9 @@ public class RoomController {
         loadNPCs();
         loadHandlers();
         gameView.getMapPane().getChildren().add(currentRoomView);
+
+        //"Éteint" l'ordinateur si le joueur quitte la pièce sans appuyer sur le bouton 'quitter':
+        gameController.getActorController().resetActorPanel();
     }
 
 
@@ -100,26 +146,29 @@ public class RoomController {
                     d.describe();
                 else{
                     playerModel.go(d);
-                    updateRoomView(GameController.DEFAULT_ROOMS_SIZE.getScalar2DCol(), GameController.DEFAULT_ROOMS_SIZE.getScalar2DLine());
+                    updateRoomView(DEFAULT_ROOMS_SIZE.getScalar2DCol(), DEFAULT_ROOMS_SIZE.getScalar2DLine());
                 }
             });
         }
     }
 
     public void loadHandlers() {
+        //On bind les sliders de la vue du jeu à la nouvelle pièce chargée:
         currentRoomView.layoutXProperty().bind(gameView.getMapHorizontalSlider().valueProperty());
         currentRoomView.layoutYProperty().bind(gameView.getMapVerticalSlider().valueProperty());
 
+        //On bind les boutons de zoom à la vue de la nouvelle pièce chargée:
         gameView.getZoomPlusButton().setOnAction(e -> {
             currentRoomView.setScaleX(currentRoomView.getScaleX() * 1.1);
             currentRoomView.setScaleY(currentRoomView.getScaleY() * 1.1);
         });
-
         gameView.getZoomMinusButton().setOnAction(e -> {
             currentRoomView.setScaleX(currentRoomView.getScaleX() * 10.0/11.0);
             currentRoomView.setScaleY(currentRoomView.getScaleY() * 10.0/11.0);
         });
 
+        //On bind les valeurs maximum des sliders du jeu pour que la nouvelle pièce chargées ne déborde pas
+        //sur le panneau qui la contient (sauf si en cas de zoom mais pour ça on a setMapPaneClip() dans GameView:
         gameView.getMapHorizontalSlider().maxProperty().bind(
                 Bindings.subtract(gameView.getMapPane().widthProperty(), currentRoomView.widthProperty()));
         gameView.getMapVerticalSlider().maxProperty().bind(

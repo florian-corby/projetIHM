@@ -2,30 +2,36 @@ package controller;
 
 import javafx.scene.paint.Color;
 import model.Characters.Actor;
+import javafx.scene.layout.VBox;
 import model.Characters.NPC;
 import model.Characters.Player;
-import model.Location.Room;
 import view.ActorView;
 import view.GameView;
-import view.RoomView;
+
+
+/* -----------------------------------------------------------------------------
+ * Contrôleur des acteurs du jeu:
+ *
+ * Rôle: Contrôleur global du jeu qui gère les acteurs (les npcs et le joueur) du
+ * jeu ainsi que le panneau qui leur est dédié dans la vue du jeu
+ * ----------------------------------------------------------------------------- */
 
 public class ActorController {
     private final GameController gameController;
     private final GameView gameView;
     private final Player playerModel;
     private final ActorView playerView;
-    private final InventoryController playerInvController;
-    private Room currentRoomModel;
-    private RoomView currentRoomView;
+
+    //Gestion de l'ordinateur:
+    private final VBox actorPanel;
 
     //=============== CONSTRUCTEURS/INITIALISEURS ===============
-    public ActorController(GameController c)
-    {
+    public ActorController(GameController c) {
         gameController = c;
         gameView = c.getGameView();
         playerModel = c.getGameModel().getShip().getPlayer();
         playerView = c.getPlayerView();
-        playerInvController = c.getInventoryController();
+        actorPanel = c.getGameView().getActorVBox();
     }
 
     //====================== UPDATERS =========================
@@ -68,13 +74,19 @@ public class ActorController {
         Actor target = gameController.getRoomController().getCurrentRoomModel().getActor(actorTag);
 
         playerModel.attack(target);
-        if(target instanceof NPC) {
+        if (target instanceof NPC) {
             updateNPCFrame((NPC) target);
             updateNPCView((NPC) target);
-        }
-        else {
+        } else {
             updatePlayerFrame();
             updatePlayerView();
         }
+    }
+
+    //Gestion de l'ordinateur:
+    public void resetActorPanel(){
+        gameController.getGameView().getStoryBox().getChildren().remove(0);
+        gameController.getGameView().setActorVBox(actorPanel);
+        gameController.getGameView().getStoryBox().getChildren().add(0, actorPanel);
     }
 }
