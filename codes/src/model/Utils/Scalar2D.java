@@ -1,6 +1,8 @@
 package model.Utils;
 
-public class Scalar2D {
+import java.io.Serializable;
+
+public class Scalar2D implements Serializable {
     private int[] scalar2D = new int[2];
 
     public Scalar2D(int x, int y)

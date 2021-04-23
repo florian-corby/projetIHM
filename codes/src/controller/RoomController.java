@@ -1,6 +1,9 @@
 package controller;
 
 import javafx.beans.binding.Bindings;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.image.Image;
+import model.Characters.Actor;
 import model.Characters.NPC;
 import model.Characters.Player;
 import model.Doors.Door;
@@ -144,9 +147,10 @@ public class RoomController {
             ActorView actorView = ActorView.getNPCView(npc);
             actorView.setOnMousePressed(e -> {
                 if(e.isSecondaryButtonDown())
-                    gameView.update(npc.getName());
+                    npc.describe();
                 else{
                     gameController.getActorController().updateNPCFrame(npc);
+                    gameView.getActorImageView().setImage(new Image(getClass().getResource("../img/alien.png").toString(), true));
                     npc.talk();
                 }
             });
@@ -164,9 +168,11 @@ public class RoomController {
         
         playerView.setOnMousePressed(e -> {
             if(e.isSecondaryButtonDown())
-                gameView.update(playerModel.getName());
-            else
+                playerModel.describe();
+            else {
                 gameController.getActorController().updatePlayerFrame();
+                gameView.getActorImageView().setImage(new Image(getClass().getResource("../img/main_character.png").toString(), true));
+            }
         });
     }
 }

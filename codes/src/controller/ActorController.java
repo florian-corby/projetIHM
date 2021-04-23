@@ -1,5 +1,7 @@
 package controller;
 
+import javafx.scene.paint.Color;
+import model.Characters.Actor;
 import model.Characters.NPC;
 import model.Characters.Player;
 import model.Location.Room;
@@ -43,5 +45,36 @@ public class ActorController {
         gameView.getActorBtnHBox().setStyle("-fx-border-color:"+colorString+";");
         gameView.getActorLabel().setText(playerModel.getName());
         gameView.getActorHProgressBar().setProgress(playerModel.getHp());
+    }
+
+    public void updateNPCView(NPC npc){
+        if(npc.isDead())
+            ActorView.getNPCView(npc).setFill(Color.LIGHTGRAY);
+        else if(npc.isHostile())
+            ActorView.getNPCView(npc).setFill(Color.RED);
+        else if(npc.isAlly())
+            ActorView.getNPCView(npc).setFill(Color.LIME);
+        else ActorView.getNPCView(npc).setFill(Color.DARKGOLDENROD);
+    }
+
+    public void updatePlayerView(){
+        if(playerModel.isDead())
+            playerView.setFill(Color.LIGHTGRAY);
+    }
+
+    // ================== ATTACK
+    public void attack() {
+        String actorTag = gameView.getActorLabel().getText();
+        Actor target = gameController.getRoomController().getCurrentRoomModel().getActor(actorTag);
+
+        playerModel.attack(target);
+        if(target instanceof NPC) {
+            updateNPCFrame((NPC) target);
+            updateNPCView((NPC) target);
+        }
+        else {
+            updatePlayerFrame();
+            updatePlayerView();
+        }
     }
 }

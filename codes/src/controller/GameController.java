@@ -55,25 +55,6 @@ public class GameController {
 
     public void initHandlers()
     {
-/*
-        // ========== ALIEN
-        currentRoomView.getFromRoom("Alien").setOnMousePressed(e -> {
-            if(e.isPrimaryButtonDown())
-            gameView.getActorImageView().setImage(new Image("../../libraries/img/alien"));
-                });
-*/
-
-        // ========== SAVE & LOAD BUTTON
-        gameView.getSaveButton().setOnMouseClicked(e-> {
-            playerModel.save();
-            gameView.update("You successfully saved the game!");
-        });
-
-        gameView.getLoadButton().setOnMouseClicked(e-> {
-            playerModel.load();
-            gameView.update("You successfully loaded the game!");
-        });
-
         //Pour que la pièce passe derrière la fenêtre si débordement:
         final Rectangle clipPane = new Rectangle();
         gameView.getMapPane().setClip(clipPane);
@@ -113,6 +94,17 @@ public class GameController {
                 gameModel.printHelp();
             }
         });
+
+        // ========== SAVE & LOAD BUTTON
+        gameView.getSaveButton().setOnMouseClicked(e-> { playerModel.save(); });
+
+        gameView.getLoadButton().setOnMouseClicked(e-> {
+            playerModel.load();
+            roomController.updateRoomModel();
+            roomController.updateRoomView(DEFAULT_ROOMS_SIZE.getScalar2DCol(), DEFAULT_ROOMS_SIZE.getScalar2DLine());
+        });
+
+        gameView.getAttackButton().setOnMouseClicked(e-> { actorController.attack(); });
     }
 
     //====================== GETTERS ==========================

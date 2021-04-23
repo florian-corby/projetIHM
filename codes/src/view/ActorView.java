@@ -2,6 +2,7 @@ package view;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import model.Characters.Actor;
 import model.Characters.NPC;
 
 public class ActorView extends Circle
@@ -34,4 +35,6 @@ public class ActorView extends Circle
             default -> this.setFill(Color.LIGHTGRAY);
         }
     }
+
+
 }
