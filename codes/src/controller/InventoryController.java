@@ -9,7 +9,6 @@ import javafx.scene.shape.Shape;
 import model.Characters.Player;
 import model.Containers.Inventory;
 import model.Items.Item;
-import view.GameView;
 
 import java.util.LinkedHashMap;
 
@@ -45,8 +44,8 @@ public class InventoryController {
             drop(itemTag);
         });
 
-        gameController.getGameView().getGiveButton().setOnAction(e -> { give(); });
-        gameController.getGameView().getLookButton().setOnAction(e -> { look(); });
+        gameController.getGameView().getGiveButton().setOnAction(e -> give());
+        gameController.getGameView().getLookButton().setOnAction(e -> look());
     }
 
     public void initInventory(){
@@ -172,10 +171,9 @@ public class InventoryController {
         initInventory();
     }
 
-    public void updateRoom(RoomController roomController){
-        LinkedHashMap<String, Shape> roomViews = roomController.getCurrentRoomView().getGameElementViews();
-
-        //On va stocker tous les gestionnaires d'événements que la sélection d'un bouton aura créé dans un tableau:
-        fireHandlers = new EventHandler[roomViews.size()];
+    public void resetUseItemHandlersArray(int nbCol, int nbLignes){
+        //On va stocker tous les gestionnaires d'événements que la sélection d'un bouton aura créé dans un tableau.
+        //La taille de ce tableau correspond au nombre maximum d'objets que peut contenir une pièce, ie. 1 objet par case:
+        fireHandlers = new EventHandler[nbCol*nbLignes];
     }
 }

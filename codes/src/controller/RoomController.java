@@ -39,9 +39,6 @@ public class RoomController {
 
         //On charge la première pièce:
         this.updateRoomView(DEFAULT_ROOMS_SIZE.getScalar2DCol(), DEFAULT_ROOMS_SIZE.getScalar2DLine());
-
-        //On branche ce contrôleur au contrôleur de l'inventaire
-        gameController.getInventoryController().updateRoom(this);
     }
 
 
@@ -105,6 +102,10 @@ public class RoomController {
         loadNPCs();
         loadHandlers();
         gameController.getGameView().getMapPane().getChildren().add(currentRoomView);
+
+        //On signale à l'inventaire de mettre à jour la taille du tableau de gestionnaires d'événements utilisé
+        //pour la gestion de la fonction use() des objets (quand on clique gauche sur un objet de la pièce):
+        gameController.getInventoryController().resetUseItemHandlersArray(nbCol, nbLignes);
 
         //"Éteint" l'ordinateur si le joueur quitte la pièce sans appuyer sur le bouton 'quitter':
         gameController.getActorController().resetActorPanel();
