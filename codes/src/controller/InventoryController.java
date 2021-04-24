@@ -90,7 +90,8 @@ public class InventoryController {
         //On met à jour la vue:
         playerInvView.getChildren().remove((ToggleButton) invTG.getSelectedToggle());
         invTG.getToggles().remove(invTG.getSelectedToggle());
-        gameController.getRoomController().addItemInRoom(playerInvModel.getItem(itemTag));
+        gameController.getRoomController().addItemInRoom(playerInvModel.getItem(itemTag),
+                playerInvModel.getItem(itemTag).getScalar2D().getScalar2DCol(), playerInvModel.getItem(itemTag).getScalar2D().getScalar2DLine());
 
         //On met à jour le modèle:
         playerInvModel.moveItem(itemTag, gameController.getRoomController().getCurrentRoomModel().getInventory());

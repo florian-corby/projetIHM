@@ -43,14 +43,15 @@ public class RoomController {
         gameController.getInventoryController().updateRoom(this);
     }
 
+
     //====================== GETTERS ==========================
     public Room getCurrentRoomModel() { return currentRoomModel; }
     public RoomView getCurrentRoomView() { return currentRoomView; }
 
-
     //====================== UPDATERS =========================
     public void addContainerInRoom(Item item){
         ContainerView containerView = new ContainerView("HealthStation");
+
         containerView.setOnMousePressed(e -> {
             if (e.isSecondaryButtonDown())
                 item.describe();
@@ -69,11 +70,12 @@ public class RoomController {
                     item.isUsed(gameController.getPlayerModel());
             }
         });
+
         currentRoomView.addInRoom(containerView, item.getTag(),
                 item.getScalar2D().getScalar2DCol(), item.getScalar2D().getScalar2DLine(), "CENTER");
     }
 
-    public void addItemInRoom(Item item){
+    public void addItemInRoom(Item item, int col, int line){
         ItemView itemView = new ItemView();
 
         itemView.setOnMousePressed(e -> {
@@ -83,8 +85,7 @@ public class RoomController {
                 gameController.getInventoryController().addInInventory(item);
         });
 
-        currentRoomView.addInRoom(itemView, item.getTag(),
-                item.getScalar2D().getScalar2DCol(), item.getScalar2D().getScalar2DLine(), "CENTER");
+        currentRoomView.addInRoom(itemView, item.getTag(), col, line, "CENTER");
     }
 
     public void updateRoomView(int nbCol, int nbLignes) {
@@ -167,7 +168,7 @@ public class RoomController {
         Item[] items = currentRoomModel.getInventory().getItems();
         for (Item item : items) {
             if(item.isTakable())
-                addItemInRoom(item);
+                addItemInRoom(item, item.getScalar2D().getScalar2DCol(), item.getScalar2D().getScalar2DLine());
             else
                 addContainerInRoom(item);
         }

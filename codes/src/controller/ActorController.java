@@ -79,6 +79,7 @@ public class ActorController {
         if (target instanceof NPC) {
             updateNPCFrame((NPC) target);
             gameController.getRoomController().getCurrentRoomView().getFromRoom(actorTag).setFill(getNPCView((NPC) target).getFill());
+            onNPCDeath(target);
         } else {
             updatePlayerFrame();
             updatePlayerView();
