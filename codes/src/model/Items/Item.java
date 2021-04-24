@@ -1,6 +1,7 @@
 package model.Items;
 
 import model.Commands.Lookable;
+import model.Game.Message;
 import model.Utils.Scalar2D;
 
 import java.io.Serializable;
@@ -32,7 +33,7 @@ public abstract class Item implements Usable, UsableBy, UsableOn, Serializable, 
 	@Override
 	public void describe()
 	{
-		System.out.print(this.getDescription());
+		Message.sendGameMessage(this.getDescription());
 	}
 	public String getDescription()
 	{
