@@ -24,22 +24,18 @@ import java.util.LinkedHashMap;
  * ----------------------------------------------------------------------------- */
 
 public class InventoryController {
-    //====================== ATTRIBUTS ==========================
     private final GameController gameController;
-    private final GameView gameView;
     private final Inventory playerInvModel;
     private final VBox playerInvView;
     private final ToggleGroup invTG;
-    private RoomController roomController;
     private EventHandler<MouseEvent>[] fireHandlers;
 
     //=============== CONSTRUCTEURS/INITIALISEURS ===============
     public InventoryController(GameController c) {
         gameController = c;
-        gameView = c.getGameView();
         Player playerModel = c.getPlayerModel();
         playerInvModel = playerModel.getInventory();
-        playerInvView = gameView.getInventoryVBox();
+        playerInvView = c.getGameView().getInventoryVBox();
         invTG = new ToggleGroup();
         initHandlers();
         initInventory();
@@ -47,13 +43,13 @@ public class InventoryController {
 
     public void initHandlers(){
         //On initialise le handler du bouton drop():
-        gameView.getDropButton().setOnAction(e -> {
+        gameController.getGameView().getDropButton().setOnAction(e -> {
             String itemTag = ((ToggleButton) invTG.getSelectedToggle()).getText();
             drop(itemTag);
         });
 
-        gameView.getGiveButton().setOnAction(e -> { give(); });
-        gameView.getLookButton().setOnAction(e -> { look(); });
+        gameController.getGameView().getGiveButton().setOnAction(e -> { give(); });
+        gameController.getGameView().getLookButton().setOnAction(e -> { look(); });
     }
 
     public void initInventory(){
@@ -69,22 +65,22 @@ public class InventoryController {
     public void addInInventory(Item item){
         //On met à jour le modèle:
         playerInvModel.addItem(item);
-        roomController.getCurrentRoomModel().getInventory().removeItem(item.getTag());
+        gameController.getRoomController().getCurrentRoomModel().getInventory().removeItem(item.getTag());
 
         //On met à jour la vue:
         ToggleButton tgBtn = new ToggleButton(item.getTag());
         setTgBtnHandler(tgBtn);
         invTG.getToggles().add(tgBtn);
         playerInvView.getChildren().add(tgBtn);
-        roomController.getCurrentRoomView().removeFromRoom(item.getTag());
+        gameController.getRoomController().getCurrentRoomView().removeFromRoom(item.getTag());
     }
 
     public void clearEventHandlers(){
-        LinkedHashMap<String, Shape> roomViews = roomController.getCurrentRoomView().getGameElementViews();
+        LinkedHashMap<String, Shape> roomViews = gameController.getRoomController().getCurrentRoomView().getGameElementViews();
         int count = 0;
         for (String viewTag : roomViews.keySet()) {
             if(fireHandlers[count] != null) {
-                roomController.getCurrentRoomView().getFromRoom(viewTag).removeEventHandler(MouseEvent.MOUSE_PRESSED, fireHandlers[count]);
+                gameController.getRoomController().getCurrentRoomView().getFromRoom(viewTag).removeEventHandler(MouseEvent.MOUSE_PRESSED, fireHandlers[count]);
                 count++;
             }
         }
@@ -94,10 +90,10 @@ public class InventoryController {
         //On met à jour la vue:
         playerInvView.getChildren().remove((ToggleButton) invTG.getSelectedToggle());
         invTG.getToggles().remove(invTG.getSelectedToggle());
-        roomController.addItemInRoom(playerInvModel.getItem(itemTag));
+        gameController.getRoomController().addItemInRoom(playerInvModel.getItem(itemTag));
 
         //On met à jour le modèle:
-        playerInvModel.moveItem(itemTag, roomController.getCurrentRoomModel().getInventory());
+        playerInvModel.moveItem(itemTag, gameController.getRoomController().getCurrentRoomModel().getInventory());
 
         //On élimine les handlers() dus à la sélection du bouton:
         clearEventHandlers();
@@ -107,11 +103,11 @@ public class InventoryController {
         ToggleButton itemBtn = (ToggleButton) invTG.getSelectedToggle();
 
         if(itemBtn != null){
-            String actorTag = gameView.getActorLabel().getText();
+            String actorTag = gameController.getGameView().getActorLabel().getText();
             String itemTag = itemBtn.getText();
 
             //On met à jour le modèle:
-            gameController.getPlayerModel().give(itemTag, roomController.getCurrentRoomModel().getActor(actorTag));
+            gameController.getPlayerModel().give(itemTag, gameController.getRoomController().getCurrentRoomModel().getActor(actorTag));
 
             //On met à jour la vue:
             updateInventory();
@@ -133,13 +129,13 @@ public class InventoryController {
             clearEventHandlers();
 
             //On récupère tous les éléments visuels de la pièce associés à leurs étiquettes:
-            LinkedHashMap<String, Shape> roomViews = roomController.getCurrentRoomView().getGameElementViews();
+            LinkedHashMap<String, Shape> roomViews = gameController.getRoomController().getCurrentRoomView().getGameElementViews();
 
             //On récupère l'élément du modèle qui devra appeler la fonction du modèle si cet élément n'est pas
             //dans l'inventaire de la pièce c'est qu'il est dans l'inventaire du joueur:
             Item itemUsed;
-            if(roomController.getCurrentRoomModel().getInventory().getItem(btn.getText()) != null)
-                itemUsed = roomController.getCurrentRoomModel().getInventory().getItem(btn.getText());
+            if(gameController.getRoomController().getCurrentRoomModel().getInventory().getItem(btn.getText()) != null)
+                itemUsed = gameController.getRoomController().getCurrentRoomModel().getInventory().getItem(btn.getText());
             else
                 itemUsed = playerInvModel.getItem(btn.getText());
 
@@ -149,13 +145,13 @@ public class InventoryController {
                 EventHandler<MouseEvent> useOnHandler = ev -> {
                     if (ev.isPrimaryButtonDown()) {
                         //On applique la fonction d'utilisation de l'objet définie dans le modèle:
-                        itemUsed.isUsedOn(roomController.getCurrentRoomModel().getUsableBy(viewTag));
+                        itemUsed.isUsedOn(gameController.getRoomController().getCurrentRoomModel().getUsableBy(viewTag));
                         clearEventHandlers();
                         btn.setSelected(false);
                     }
                 };
                 fireHandlers[count++] = useOnHandler;
-                roomController.getCurrentRoomView().getFromRoom(viewTag).addEventHandler(MouseEvent.MOUSE_PRESSED, useOnHandler);
+                gameController.getRoomController().getCurrentRoomView().getFromRoom(viewTag).addEventHandler(MouseEvent.MOUSE_PRESSED, useOnHandler);
             }
         });
     }
@@ -175,7 +171,6 @@ public class InventoryController {
     }
 
     public void updateRoom(RoomController roomController){
-        this.roomController = roomController;
         LinkedHashMap<String, Shape> roomViews = roomController.getCurrentRoomView().getGameElementViews();
 
         //On va stocker tous les gestionnaires d'événements que la sélection d'un bouton aura créé dans un tableau:

@@ -32,21 +32,13 @@ import static controller.GameController.DEFAULT_ROOMS_SIZE;
  * ----------------------------------------------------------------------------- */
 
 public class RoomController {
-    private final Player playerModel;
-    private final ActorView playerView;
     private final GameController gameController;
-    private final GameView gameView;
-    private final InventoryController playerInvController;
     private Room currentRoomModel;
     private RoomView currentRoomView;
 
     //=============== CONSTRUCTEURS/INITIALISEURS ===============
     public RoomController(GameController c) {
         gameController = c;
-        gameView = c.getGameView();
-        playerModel = c.getPlayerModel();
-        playerView = c.getPlayerView();
-        playerInvController = c.getInventoryController();
 
         //On charge la première pièce:
         this.updateRoomView(DEFAULT_ROOMS_SIZE.getScalar2DCol(), DEFAULT_ROOMS_SIZE.getScalar2DLine());
@@ -68,7 +60,7 @@ public class RoomController {
                 item.describe();
             else {
                 if (item instanceof HealthStation)
-                    item.isUsedOn(playerModel);
+                    item.isUsedOn(gameController.getPlayerModel());
                 else if(item instanceof Computer){
                     Computer computer = (Computer) item;
                     try {
@@ -78,7 +70,7 @@ public class RoomController {
                     }
                 }
                 else
-                    item.isUsed(playerModel);
+                    item.isUsed(gameController.getPlayerModel());
             }
         });
         currentRoomView.addInRoom(containerView, item.getTag(),
@@ -92,7 +84,7 @@ public class RoomController {
             if (e.isSecondaryButtonDown())
                 item.describe();
             else
-                playerInvController.addInInventory(item);
+                gameController.getInventoryController().addInInventory(item);
         });
 
         currentRoomView.addInRoom(itemView, item.getTag(),
@@ -107,15 +99,15 @@ public class RoomController {
         currentRoomModel = gameController.getPlayerModel().getRoom();
 
         //On met à jour la vue:
-        gameView.getMapPane().getChildren().remove(currentRoomView);
+        gameController.getGameView().getMapPane().getChildren().remove(currentRoomView);
         currentRoomView = new RoomView(nbCol, nbLignes);
-        gameView.getRoomLabel().setText("Room " + currentRoomModel.getID());
+        gameController.getGameView().getRoomLabel().setText("Room " + currentRoomModel.getID());
         loadDoors();
         loadItems();
         loadPlayer();
         loadNPCs();
         loadHandlers();
-        gameView.getMapPane().getChildren().add(currentRoomView);
+        gameController.getGameView().getMapPane().getChildren().add(currentRoomView);
 
         //"Éteint" l'ordinateur si le joueur quitte la pièce sans appuyer sur le bouton 'quitter':
         gameController.getActorController().resetActorPanel();
@@ -145,7 +137,7 @@ public class RoomController {
                 if(e.isSecondaryButtonDown())
                     d.describe();
                 else{
-                    playerModel.go(d);
+                    gameController.getPlayerModel().go(d);
                     updateRoomView(DEFAULT_ROOMS_SIZE.getScalar2DCol(), DEFAULT_ROOMS_SIZE.getScalar2DLine());
                 }
             });
@@ -154,25 +146,25 @@ public class RoomController {
 
     public void loadHandlers() {
         //On bind les sliders de la vue du jeu à la nouvelle pièce chargée:
-        currentRoomView.layoutXProperty().bind(gameView.getMapHorizontalSlider().valueProperty());
-        currentRoomView.layoutYProperty().bind(gameView.getMapVerticalSlider().valueProperty());
+        currentRoomView.layoutXProperty().bind(gameController.getGameView().getMapHorizontalSlider().valueProperty());
+        currentRoomView.layoutYProperty().bind(gameController.getGameView().getMapVerticalSlider().valueProperty());
 
         //On bind les boutons de zoom à la vue de la nouvelle pièce chargée:
-        gameView.getZoomPlusButton().setOnAction(e -> {
+        gameController.getGameView().getZoomPlusButton().setOnAction(e -> {
             currentRoomView.setScaleX(currentRoomView.getScaleX() * 1.1);
             currentRoomView.setScaleY(currentRoomView.getScaleY() * 1.1);
         });
-        gameView.getZoomMinusButton().setOnAction(e -> {
+        gameController.getGameView().getZoomMinusButton().setOnAction(e -> {
             currentRoomView.setScaleX(currentRoomView.getScaleX() * 10.0/11.0);
             currentRoomView.setScaleY(currentRoomView.getScaleY() * 10.0/11.0);
         });
 
         //On bind les valeurs maximum des sliders du jeu pour que la nouvelle pièce chargées ne déborde pas
         //sur le panneau qui la contient (sauf si en cas de zoom mais pour ça on a setMapPaneClip() dans GameView:
-        gameView.getMapHorizontalSlider().maxProperty().bind(
-                Bindings.subtract(gameView.getMapPane().widthProperty(), currentRoomView.widthProperty()));
-        gameView.getMapVerticalSlider().maxProperty().bind(
-                Bindings.subtract(gameView.getMapPane().heightProperty(), currentRoomView.heightProperty()));
+        gameController.getGameView().getMapHorizontalSlider().maxProperty().bind(
+                Bindings.subtract(gameController.getGameView().getMapPane().widthProperty(), currentRoomView.widthProperty()));
+        gameController.getGameView().getMapVerticalSlider().maxProperty().bind(
+                Bindings.subtract(gameController.getGameView().getMapPane().heightProperty(), currentRoomView.heightProperty()));
     }
 
     public void loadItems() {
@@ -199,7 +191,7 @@ public class RoomController {
                     npc.describe();
                 else{
                     gameController.getActorController().updateNPCFrame(npc);
-                    gameView.getActorImageView().setImage(new Image(getClass().getResource("../img/alien.png").toString(), true));
+                    gameController.getGameView().getActorImageView().setImage(new Image(getClass().getResource("../img/alien.png").toString(), true));
                     npc.talk();
                 }
             });
@@ -212,16 +204,16 @@ public class RoomController {
         int nbLignes = currentRoomView.getNbLignes();
 
         gameController.getActorController().updatePlayerFrame();
-        currentRoomView.addInRoom(playerView, playerModel.getName(),
+        currentRoomView.addInRoom(gameController.getPlayerView(), gameController.getPlayerModel().getName(),
                 (nbCol - 1)/2, (nbLignes-1)/2, "CENTER");
-        gameView.getActorImageView().setImage(new Image(getClass().getResource("../img/main_character.png").toString(), true));
+        gameController.getGameView().getActorImageView().setImage(new Image(getClass().getResource("../img/main_character.png").toString(), true));
 
-        playerView.setOnMousePressed(e -> {
+        gameController.getPlayerView().setOnMousePressed(e -> {
             if(e.isSecondaryButtonDown())
-                playerModel.describe();
+                gameController.getPlayerModel().describe();
             else {
                 gameController.getActorController().updatePlayerFrame();
-                gameView.getActorImageView().setImage(new Image(getClass().getResource("../img/main_character.png").toString(), true));
+                gameController.getGameView().getActorImageView().setImage(new Image(getClass().getResource("../img/main_character.png").toString(), true));
             }
         });
     }

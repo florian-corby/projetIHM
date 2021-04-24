@@ -1,12 +1,9 @@
 package controller;
 
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.HBox;
-import javafx.scene.shape.Rectangle;
 import model.Characters.Player;
 import model.Game.SIS;
 import model.Utils.Scalar2D;
@@ -66,31 +63,6 @@ public class GameController {
         initHelpManual();
     }
 
-    public void initHandlers()
-    {
-        //Pour que la pièce passe derrière la fenêtre si débordement:
-        final Rectangle clipPane = new Rectangle();
-        gameView.getMapPane().setClip(clipPane);
-        gameView.getMapPane().layoutBoundsProperty().addListener((ov, oldValue, newValue) -> {
-            clipPane.setWidth(newValue.getWidth());
-            clipPane.setHeight(newValue.getHeight());
-        });
-
-        //Les sliders réinitialisent la pièce au centre du panneau à chaque redimensionnement de la fenêtre:
-        gameView.getMapHorizontalSlider().maxProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
-                gameView.getMapHorizontalSlider().setValue(gameView.getMapHorizontalSlider().getMax()/2);
-            }
-        });
-        gameView.getMapVerticalSlider().maxProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
-                gameView.getMapVerticalSlider().setValue(gameView.getMapVerticalSlider().getMax()/2);
-            }
-        });
-    }
-
     //Le manuel d'aide:
     public void initHelpManual() {
         previousDialog = gameView.getDialogTextArea().getText();
@@ -110,9 +82,7 @@ public class GameController {
     }
 
     public void initSaveLoadHandlers(){
-        gameView.getSaveButton().setOnMouseClicked(e-> {
-            playerModel.save();
-        });
+        gameView.getSaveButton().setOnMouseClicked(e -> playerModel.save());
 
         gameView.getLoadButton().setOnMouseClicked(e-> {
             gameModel.load();
