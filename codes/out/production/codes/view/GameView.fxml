@@ -69,7 +69,6 @@
                           <ImageView fx:id="actorImageView" fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS" />
                           <HBox fx:id="actorBtnHBox" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-border-color: blue;" VBox.vgrow="NEVER">
                               <children>
-                                  <Button fx:id="searchButton" mnemonicParsing="false" text="Search" />
                                   <Button fx:id="attackButton" mnemonicParsing="false" text="Attack" />
                               </children>
                           </HBox>
@@ -112,8 +111,8 @@
                     <FlowPane alignment="CENTER" prefHeight="16.0" prefWidth="97.0">
                         <children>
                             <Button fx:id="giveButton" mnemonicParsing="false" text="Give" />
-                            <Button fx:id="dropButton" mnemonicParsing="false" text="Drop" />
                         <Button fx:id="lookButton" mnemonicParsing="false" text="Look" />
+                            <Button fx:id="dropButton" mnemonicParsing="false" text="Drop" />
                         </children>
                         <VBox.margin>
                             <Insets top="5.0" />

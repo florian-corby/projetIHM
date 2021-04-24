@@ -53,6 +53,7 @@ public class InventoryController {
         });
 
         gameView.getGiveButton().setOnAction(e -> { give(); });
+        gameView.getLookButton().setOnAction(e -> { look(); });
     }
 
     public void initInventory(){
@@ -114,6 +115,15 @@ public class InventoryController {
 
             //On met à jour la vue:
             updateInventory();
+        }
+    }
+
+    public void look(){
+        ToggleButton itemBtn = (ToggleButton) invTG.getSelectedToggle();
+
+        if(itemBtn != null){
+            String itemTag = itemBtn.getText();
+            playerInvModel.getItem(itemTag).describe();
         }
     }
 

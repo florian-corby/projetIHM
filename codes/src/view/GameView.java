@@ -28,7 +28,6 @@ public class GameView extends HBox implements MessageListener
     @FXML private ProgressBar actorHProgressBar;
     @FXML private ImageView actorImageView;
     @FXML private HBox actorBtnHBox;
-    @FXML private Button searchButton;
     @FXML private Button attackButton;
     @FXML private TextArea dialogTextArea;
     @FXML private Button saveButton;
@@ -36,6 +35,7 @@ public class GameView extends HBox implements MessageListener
     @FXML private Button loadButton;
     @FXML private VBox inventoryVBox;
     @FXML private Button giveButton;
+    @FXML private Button lookButton;
     @FXML private Button dropButton;
 
     //====================== GETTERS ==========================
@@ -58,7 +58,6 @@ public class GameView extends HBox implements MessageListener
     public ProgressBar getActorHProgressBar() { return actorHProgressBar; }
     public ImageView getActorImageView() { return actorImageView; }
     public HBox getActorBtnHBox() { return actorBtnHBox; }
-    public Button getSearchButton() { return searchButton; }
     public Button getAttackButton() { return attackButton; }
     public TextArea getDialogTextArea() { return dialogTextArea; }
     public Button getSaveButton() { return saveButton; }
@@ -66,6 +65,7 @@ public class GameView extends HBox implements MessageListener
     public Button getLoadButton() { return loadButton; }
     public VBox getInventoryVBox() { return inventoryVBox; }
     public Button getGiveButton() { return giveButton; }
+    public Button getLookButton() { return lookButton; }
     public Button getDropButton() { return dropButton; }
 
     //====================== SETTERS ==========================
