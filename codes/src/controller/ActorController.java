@@ -36,7 +36,7 @@ public class ActorController {
 
     //====================== UPDATERS =========================
     public void updateNPCFrame(NPC npc){
-        ActorView actorView = ActorView.getNPCView(npc);
+        ActorView actorView = updateNPCView(npc);
         String colorString = "#"+actorView.getFill().toString().substring(2);
         gameView.getActorVBox().setStyle("-fx-border-color:"+colorString+";");
         gameView.getActorBtnHBox().setStyle("-fx-border-color:"+colorString+";");
@@ -53,14 +53,15 @@ public class ActorController {
         gameView.getActorHProgressBar().setProgress(playerModel.getHp()/100.0);
     }
 
-    public void updateNPCView(NPC npc){
+    public ActorView updateNPCView(NPC npc){
         if(npc.isDead())
-            ActorView.getNPCView(npc).setFill(Color.LIGHTGRAY);
+            return new ActorView("Dead");
         else if(npc.isHostile())
-            ActorView.getNPCView(npc).setFill(Color.RED);
+            return new ActorView("hostile");
         else if(npc.isAlly())
-            ActorView.getNPCView(npc).setFill(Color.LIME);
-        else ActorView.getNPCView(npc).setFill(Color.DARKGOLDENROD);
+            return new ActorView("ally");
+        else
+            return new ActorView("neutral");
     }
 
     public void updatePlayerView(){
@@ -76,7 +77,7 @@ public class ActorController {
         playerModel.attack(target);
         if (target instanceof NPC) {
             updateNPCFrame((NPC) target);
-            gameController.getRoomController().getCurrentRoomView().getFromRoom(actorTag).setFill(ActorView.getNPCView((NPC) target).getFill());
+            gameController.getRoomController().getCurrentRoomView().getFromRoom(actorTag).setFill(updateNPCView((NPC) target).getFill());
         } else {
             updatePlayerFrame();
             updatePlayerView();

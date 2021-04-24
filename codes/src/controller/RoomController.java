@@ -185,7 +185,7 @@ public class RoomController {
 
         for (NPC npc : npcs) {
             int[] roomPos = currentRoomView.getRandPos();
-            ActorView actorView = ActorView.getNPCView(npc);
+            ActorView actorView = gameController.getActorController().updateNPCView(npc);
             actorView.setOnMousePressed(e -> {
                 if(e.isSecondaryButtonDown())
                     npc.describe();
