@@ -214,7 +214,8 @@ public class RoomController {
         gameController.getActorController().updatePlayerFrame();
         currentRoomView.addInRoom(playerView, playerModel.getName(),
                 (nbCol - 1)/2, (nbLignes-1)/2, "CENTER");
-        
+        gameView.getActorImageView().setImage(new Image(getClass().getResource("../img/main_character.png").toString(), true));
+
         playerView.setOnMousePressed(e -> {
             if(e.isSecondaryButtonDown())
                 playerModel.describe();
