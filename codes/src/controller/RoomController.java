@@ -101,7 +101,7 @@ public class RoomController {
         gameController.isGameOver();
 
         //On met à jour le modèle:
-        currentRoomModel = playerModel.getRoom();
+        currentRoomModel = gameController.getPlayerModel().getRoom();
 
         //On met à jour la vue:
         gameView.getMapPane().getChildren().remove(currentRoomView);

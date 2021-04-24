@@ -27,7 +27,7 @@ public class GameController {
     //Quelques éléments du modèle et leurs vues associées:
     private final SIS gameModel;
     private final GameView gameView;
-    private final Player playerModel;
+    private Player playerModel;
     private final ActorView playerView = new ActorView("player");
 
     //Les sous-contrôleurs spécialisés:
@@ -88,7 +88,9 @@ public class GameController {
         });
 
         gameView.getLoadButton().setOnMouseClicked(e-> {
-            playerModel.load();
+            gameModel.load();
+            playerModel = gameModel.getShip().getPlayer();
+            roomController.updateRoomView(DEFAULT_ROOMS_SIZE.getScalar2DCol(), DEFAULT_ROOMS_SIZE.getScalar2DLine());
             gameView.update("You successfully loaded the game!");
         });
     }
