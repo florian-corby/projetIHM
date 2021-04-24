@@ -49,7 +49,7 @@ public class RoomController {
     public RoomView getCurrentRoomView() { return currentRoomView; }
 
     //====================== UPDATERS =========================
-    public void addContainerInRoom(Item item){
+    public void addContainerInRoom(Item item, int col, int line){
         ContainerView containerView = new ContainerView("HealthStation");
 
         containerView.setOnMousePressed(e -> {
@@ -71,8 +71,7 @@ public class RoomController {
             }
         });
 
-        currentRoomView.addInRoom(containerView, item.getTag(),
-                item.getScalar2D().getScalar2DCol(), item.getScalar2D().getScalar2DLine(), "CENTER");
+        currentRoomView.addInRoom(containerView, item.getTag(), col, line, "CENTER");
     }
 
     public void addItemInRoom(Item item, int col, int line){
@@ -170,7 +169,7 @@ public class RoomController {
             if(item.isTakable())
                 addItemInRoom(item, item.getScalar2D().getScalar2DCol(), item.getScalar2D().getScalar2DLine());
             else
-                addContainerInRoom(item);
+                addContainerInRoom(item, item.getScalar2D().getScalar2DCol(), item.getScalar2D().getScalar2DLine());
         }
     }
 

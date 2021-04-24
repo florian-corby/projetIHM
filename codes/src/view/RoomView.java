@@ -72,6 +72,7 @@ public class RoomView extends GridPane {
         }
     }
 
+
     // ============================== PREDICATS ========================================
     public boolean isAvailablePos(int colIndex, int LigneIndex) { return availablePos[colIndex][LigneIndex]; }
 

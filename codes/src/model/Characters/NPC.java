@@ -14,14 +14,12 @@ public class NPC extends Actor implements Serializable, Lookable
 	private boolean isAlly;
 	private String speech;
 
-	public NPC(String name, String description, boolean isHostile, boolean isAlly, List<Item> items, Room r)
-	{
+	public NPC(String name, String description, boolean isHostile, boolean isAlly, List<Item> items, Room r) {
 		super(name, description, r);
 		this.isHostile = isHostile;
 		this.isAlly = isAlly;
 
-		for(Item i : items)
-		{
+		for(Item i : items){
 			this.getInventory().addItem(i);
 		}
 	}
@@ -32,24 +30,20 @@ public class NPC extends Actor implements Serializable, Lookable
 	}
 
 	@Override
-	public void isAttacked(Attacker a)
-	{
+	public void isAttacked(Attacker a) {
 		super.isAttacked(a);
 
 		if(this.isDead())
 			Message.sendGameMessage(this.getName() + " is dead...");
 
-		else
-		{
+		else {
 			Message.sendGameMessage(this.getName() + " gasps with pain, " + this.getName() + " only has " + this.getHp() + "hp left!");
 
-			if (this.isAlly)
-			{
+			if (this.isAlly) {
 				this.isAlly = false;
 			}
 
-			else
-			{
+			else {
 				if (!(this.isHostile))
 					this.isHostile = true;
 
