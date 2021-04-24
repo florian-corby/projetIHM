@@ -225,7 +225,7 @@ public class Ship implements Serializable {
 
 		// ~~~~~~~~~~~~~~~~ Ajouts d'objets dans la pièce 14:
 
-		File journal = new File("journal", "a DataPad, belonging to the family from room 14.",
+		File journal = new File("journal", "a journale belonging to the family from room 14.",
 				"""
 						All the files on this DataPad have the name dairy on it.
 						It looks like Eelhoir's journal. She talks about her family, and how they escaped from the destruction of their planet.

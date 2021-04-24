@@ -54,7 +54,8 @@ public class ComputerController {
                     gameController.getGameView().update(file.getContent());
                 }
                 else{
-                    gameController.getInventoryController().addInInventory(item);
+                    computerModel.printFile(item.getTag(), gameController.getPlayerModel());
+                    gameController.getInventoryController().updateInventory();
                 }
             });
 

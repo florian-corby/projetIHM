@@ -60,6 +60,7 @@ public class InventoryController {
 
     //====================== UPDATERS =========================
     public void addInInventory(Item item){
+        gameController.getPlayerModel().getInventory().showItems();
         //On met à jour le modèle:
         playerInvModel.addItem(item);
         gameController.getRoomController().getCurrentRoomModel().getInventory().removeItem(item.getTag());
@@ -72,6 +73,7 @@ public class InventoryController {
 
         if(gameController.getRoomController().getCurrentRoomView().getFromRoom(item.getTag()) != null)
             gameController.getRoomController().getCurrentRoomView().removeFromRoom(item.getTag());
+        gameController.getPlayerModel().getInventory().showItems();
     }
 
     public void clearEventHandlers(){

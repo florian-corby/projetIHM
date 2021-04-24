@@ -140,7 +140,7 @@ public class Computer extends Item implements Serializable {
             }
 
             catch(NullPointerException | ClassCastException e) {
-                System.out.println("Error :> This file doesn't exist");
+                Message.sendGameMessage("Error :> This file doesn't exist");
             }
         }
     }
