@@ -8,6 +8,7 @@ import model.Characters.Player;
 import view.ActorView;
 import view.GameView;
 
+import static controller.GameController.DEFAULT_ROOMS_SIZE;
 
 /* -----------------------------------------------------------------------------
  * Contrôleur des acteurs du jeu:
@@ -68,6 +69,13 @@ public class ActorController {
             playerView.setFill(Color.LIGHTGRAY);
     }
 
+    public void onNPCDeath(Actor npc){
+        if(npc.isDead()) {
+            while(npc.getInventory().getItems().length != 0) { npc.drop(npc.getInventory().getItems()[0]); }
+            gameController.getRoomController().updateRoomView(DEFAULT_ROOMS_SIZE.getScalar2DCol(), DEFAULT_ROOMS_SIZE.getScalar2DLine());
+        }
+    }
+
     // ================== ATTACK
     public void attack() {
         String actorTag = gameView.getActorLabel().getText();
@@ -77,6 +85,7 @@ public class ActorController {
         if (target instanceof NPC) {
             updateNPCFrame((NPC) target);
             gameController.getRoomController().getCurrentRoomView().getFromRoom(actorTag).setFill(ActorView.getNPCView((NPC) target).getFill());
+            onNPCDeath(target);
         } else {
             updatePlayerFrame();
             updatePlayerView();

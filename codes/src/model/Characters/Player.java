@@ -69,13 +69,6 @@ public class Player extends Actor implements Serializable
 		}
 	}
 
-	public void drop(Item item)
-	{
-		this.getInventory().removeItem(item.getTag());
-		this.getRoom().getInventory().addItem(item);
-		Message.sendGameMessage("You have dropped " + item.getTag());
-	}
-
 	@Override
 	public void give(String tag, Actor a)
 	{

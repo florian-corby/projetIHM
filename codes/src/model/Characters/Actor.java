@@ -50,6 +50,13 @@ public abstract class Actor implements Attackable, Attacker, UsableBy, Serializa
 		Message.sendGameMessage(this.DESCRIPTION);
 	}
 
+	public void drop(Item item)
+	{
+		this.getInventory().removeItem(item.getTag());
+		this.getRoom().getInventory().addItem(item);
+		Message.sendGameMessage(item.getTag() + " was dropped on the floor. ");
+	}
+
 	public int getAttackPower()
 	{
 		return this.ATTACKPOWER;
