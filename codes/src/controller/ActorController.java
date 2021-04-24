@@ -64,10 +64,12 @@ public class ActorController {
     }
 
     public void onNPCDeath(Actor npc){
-        if(npc.isDead()) {
-            while(npc.getInventory().getItems().length != 0) { npc.drop(npc.getInventory().getItems()[0]); }
+
+            while(npc.getInventory().getItems().length != 0) {
+                npc.drop(npc.getInventory().getItems()[0]);
+            }
+
             gameController.getRoomController().updateRoomView(DEFAULT_ROOMS_SIZE.getScalar2DCol(), DEFAULT_ROOMS_SIZE.getScalar2DLine());
-        }
     }
 
     // ================== ATTACK
@@ -79,10 +81,15 @@ public class ActorController {
         if (target instanceof NPC) {
             updateNPCFrame((NPC) target);
             gameController.getRoomController().getCurrentRoomView().getFromRoom(actorTag).setFill(getNPCView((NPC) target).getFill());
-            onNPCDeath(target);
+
+            if(target.isDead()) {
+                onNPCDeath(target);
+            }
+
         } else {
             updatePlayerFrame();
             updatePlayerView();
+            gameController.isGameOver();
         }
     }
 
