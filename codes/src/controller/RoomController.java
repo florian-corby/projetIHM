@@ -1,12 +1,8 @@
 package controller;
 
 import javafx.beans.binding.Bindings;
-import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
-import model.Characters.Actor;
-import javafx.scene.layout.VBox;
 import model.Characters.NPC;
-import model.Characters.Player;
 import model.Doors.Door;
 import model.Doors.LockedDoor;
 import model.Items.Computer;
@@ -185,7 +181,7 @@ public class RoomController {
 
         for (NPC npc : npcs) {
             int[] roomPos = currentRoomView.getRandPos();
-            ActorView actorView = gameController.getActorController().updateNPCView(npc);
+            ActorView actorView = gameController.getActorController().getNPCView(npc);
             actorView.setOnMousePressed(e -> {
                 if(e.isSecondaryButtonDown())
                     npc.describe();

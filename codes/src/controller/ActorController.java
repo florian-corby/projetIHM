@@ -4,9 +4,7 @@ import javafx.scene.paint.Color;
 import model.Characters.Actor;
 import javafx.scene.layout.VBox;
 import model.Characters.NPC;
-import model.Characters.Player;
 import view.ActorView;
-import view.GameView;
 
 import static controller.GameController.DEFAULT_ROOMS_SIZE;
 
@@ -19,9 +17,6 @@ import static controller.GameController.DEFAULT_ROOMS_SIZE;
 
 public class ActorController {
     private final GameController gameController;
-    private final GameView gameView;
-    private final Player playerModel;
-    private final ActorView playerView;
 
     //Gestion de l'ordinateur:
     private final VBox actorPanel;
@@ -29,32 +24,11 @@ public class ActorController {
     //=============== CONSTRUCTEURS/INITIALISEURS ===============
     public ActorController(GameController c) {
         gameController = c;
-        gameView = c.getGameView();
-        playerModel = c.getGameModel().getShip().getPlayer();
-        playerView = c.getPlayerView();
         actorPanel = c.getGameView().getActorVBox();
     }
 
-    //====================== UPDATERS =========================
-    public void updateNPCFrame(NPC npc){
-        ActorView actorView = updateNPCView(npc);
-        String colorString = "#"+actorView.getFill().toString().substring(2);
-        gameView.getActorVBox().setStyle("-fx-border-color:"+colorString+";");
-        gameView.getActorBtnHBox().setStyle("-fx-border-color:"+colorString+";");
-        gameView.getActorLabel().setText(npc.getName());
-        gameView.getActorHProgressBar().setProgress(npc.getHp()/100.0);
-    }
-
-    public void updatePlayerFrame(){
-        //0xffab8d devient #ffab8d car c'est c'est le format que comprend javafx:
-        String colorString = "#"+playerView.getFill().toString().substring(2);
-        gameView.getActorVBox().setStyle("-fx-border-color:"+colorString+";");
-        gameView.getActorBtnHBox().setStyle("-fx-border-color:"+colorString+";");
-        gameView.getActorLabel().setText(playerModel.getName());
-        gameView.getActorHProgressBar().setProgress(playerModel.getHp()/100.0);
-    }
-
-    public ActorView updateNPCView(NPC npc){
+    //====================== GETTERS ==========================
+    public ActorView getNPCView(NPC npc){
         if(npc.isDead())
             return new ActorView("Dead");
         else if(npc.isHostile())
@@ -65,9 +39,28 @@ public class ActorController {
             return new ActorView("neutral");
     }
 
+    //====================== UPDATERS =========================
+    public void updateNPCFrame(NPC npc){
+        ActorView actorView = getNPCView(npc);
+        String colorString = "#"+actorView.getFill().toString().substring(2);
+        gameController.getGameView().getActorVBox().setStyle("-fx-border-color:"+colorString+";");
+        gameController.getGameView().getActorBtnHBox().setStyle("-fx-border-color:"+colorString+";");
+        gameController.getGameView().getActorLabel().setText(npc.getName());
+        gameController.getGameView().getActorHProgressBar().setProgress(npc.getHp()/100.0);
+    }
+
+    public void updatePlayerFrame(){
+        //0xffab8d devient #ffab8d car c'est le format que comprend javafx:
+        String colorString = "#"+gameController.getPlayerView().getFill().toString().substring(2);
+        gameController.getGameView().getActorVBox().setStyle("-fx-border-color:"+colorString+";");
+        gameController.getGameView().getActorBtnHBox().setStyle("-fx-border-color:"+colorString+";");
+        gameController.getGameView().getActorLabel().setText(gameController.getPlayerModel().getName());
+        gameController.getGameView().getActorHProgressBar().setProgress(gameController.getPlayerModel().getHp()/100.0);
+    }
+
     public void updatePlayerView(){
-        if(playerModel.isDead())
-            playerView.setFill(Color.LIGHTGRAY);
+        if(gameController.getPlayerModel().isDead())
+            gameController.getPlayerView().setFill(Color.LIGHTGRAY);
     }
 
     public void onNPCDeath(Actor npc){
@@ -79,13 +72,13 @@ public class ActorController {
 
     // ================== ATTACK
     public void attack() {
-        String actorTag = gameView.getActorLabel().getText();
+        String actorTag = gameController.getGameView().getActorLabel().getText();
         Actor target = gameController.getRoomController().getCurrentRoomModel().getActor(actorTag);
 
-        playerModel.attack(target);
+        gameController.getPlayerModel().attack(target);
         if (target instanceof NPC) {
             updateNPCFrame((NPC) target);
-            gameController.getRoomController().getCurrentRoomView().getFromRoom(actorTag).setFill(updateNPCView((NPC) target).getFill());
+            gameController.getRoomController().getCurrentRoomView().getFromRoom(actorTag).setFill(getNPCView((NPC) target).getFill());
         } else {
             updatePlayerFrame();
             updatePlayerView();
