@@ -50,7 +50,7 @@ public class ActorController {
         gameView.getActorVBox().setStyle("-fx-border-color:"+colorString+";");
         gameView.getActorBtnHBox().setStyle("-fx-border-color:"+colorString+";");
         gameView.getActorLabel().setText(playerModel.getName());
-        gameView.getActorHProgressBar().setProgress(playerModel.getHp());
+        gameView.getActorHProgressBar().setProgress(playerModel.getHp()/100.0);
     }
 
     public void updateNPCView(NPC npc){
