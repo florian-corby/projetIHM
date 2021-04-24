@@ -30,7 +30,7 @@ public class GameController {
     //Quelques éléments du modèle et leurs vues associées:
     private final SIS gameModel;
     private final GameView gameView;
-    private final Player playerModel;
+    private Player playerModel;
     private final ActorView playerView = new ActorView("player");
 
     //Les sous-contrôleurs spécialisés:
@@ -62,6 +62,7 @@ public class GameController {
 
         //On charge les gestionnaires d'événement globaux du jeu:
         initSaveLoadHandlers();
+        initAttackHandler();
         initHelpManual();
     }
 
@@ -88,17 +89,6 @@ public class GameController {
                 gameView.getMapVerticalSlider().setValue(gameView.getMapVerticalSlider().getMax()/2);
             }
         });
-
-        // ========== ATTACK BUTTON
-        gameView.getAttackButton().setOnMouseClicked(e-> { actorController.attack(); });
-
-        // ========== SAVE & LOAD BUTTON
-        gameView.getSaveButton().setOnMouseClicked(e-> { playerModel.save(); });
-
-        gameView.getLoadButton().setOnMouseClicked(e-> {
-            playerModel.load();
-            roomController.updateRoomView(DEFAULT_ROOMS_SIZE.getScalar2DCol(), DEFAULT_ROOMS_SIZE.getScalar2DLine());
-        });
     }
 
     //Le manuel d'aide:
@@ -122,14 +112,16 @@ public class GameController {
     public void initSaveLoadHandlers(){
         gameView.getSaveButton().setOnMouseClicked(e-> {
             playerModel.save();
-            gameView.update("You successfully saved the game!");
         });
 
         gameView.getLoadButton().setOnMouseClicked(e-> {
-            playerModel.load();
-            gameView.update("You successfully loaded the game!");
+            gameModel.load();
+            playerModel = gameModel.getShip().getPlayer();
+            roomController.updateRoomView(DEFAULT_ROOMS_SIZE.getScalar2DCol(), DEFAULT_ROOMS_SIZE.getScalar2DLine());
         });
     }
+
+    public void initAttackHandler(){ gameView.getAttackButton().setOnMouseClicked(e-> { actorController.attack(); }); }
 
     //====================== PREDICATS ==========================
     public void isGameOver(){
