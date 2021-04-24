@@ -88,6 +88,7 @@ public class GameController {
             gameModel.load();
             playerModel = gameModel.getShip().getPlayer();
             roomController.updateRoomView(DEFAULT_ROOMS_SIZE.getScalar2DCol(), DEFAULT_ROOMS_SIZE.getScalar2DLine());
+            inventoryController.updateInventory();
         });
     }
 
