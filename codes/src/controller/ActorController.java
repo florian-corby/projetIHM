@@ -41,7 +41,7 @@ public class ActorController {
         gameView.getActorVBox().setStyle("-fx-border-color:"+colorString+";");
         gameView.getActorBtnHBox().setStyle("-fx-border-color:"+colorString+";");
         gameView.getActorLabel().setText(npc.getName());
-        gameView.getActorHProgressBar().setProgress((int) (npc.getHp() * 100 / npc.getDEFAULT_HP_MAX()));
+        gameView.getActorHProgressBar().setProgress(npc.getHp()/100.0);
     }
 
     public void updatePlayerFrame(){
@@ -76,7 +76,7 @@ public class ActorController {
         playerModel.attack(target);
         if (target instanceof NPC) {
             updateNPCFrame((NPC) target);
-            updateNPCView((NPC) target);
+            gameController.getRoomController().getCurrentRoomView().getFromRoom(actorTag).setFill(ActorView.getNPCView((NPC) target).getFill());
         } else {
             updatePlayerFrame();
             updatePlayerView();

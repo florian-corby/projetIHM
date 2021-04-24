@@ -17,7 +17,9 @@ public class ActorView extends Circle
     public static ActorView getPlayerView(){ return new ActorView("player"); }
 
     public static ActorView getNPCView(NPC npc) {
-        if(npc.isHostile())
+        if(npc.isDead())
+            return new ActorView("Dead");
+        else if(npc.isHostile())
             return new ActorView("hostile");
         else if (npc.isAlly())
             return new ActorView("ally");
