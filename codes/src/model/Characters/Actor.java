@@ -37,6 +37,20 @@ public abstract class Actor implements Attackable, Attacker, UsableBy, Serializa
 		r.addActor(this);
 	}
 
+	public Actor(String name, String description, Room r, Scalar2D pos)
+	{
+		this.NAME = name;
+		this.DESCRIPTION = description;
+		this.hp = DEFAULT_HP;
+		this.ATTACKPOWER = DEFAULT_ATTACKPOWER;
+		this.room = r;
+		this.previousRoom = r;
+		this.INVENTORY = new Inventory();
+		this.pos = pos;
+
+		r.addActor(this);
+	}
+
 	public void changeRoom(Room r)
 	{
 		this.previousRoom = this.getRoom();

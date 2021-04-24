@@ -9,6 +9,7 @@ import model.Items.Computer;
 import model.Items.HealthStation;
 import model.Items.Item;
 import model.Location.Room;
+import model.Utils.Scalar2D;
 import view.*;
 
 import java.io.IOException;
@@ -180,7 +181,13 @@ public class RoomController {
             return;
 
         for (NPC npc : npcs) {
-            int[] roomPos = currentRoomView.getRandPos();
+            //On cherche une position disponible dans la pièce et on met à jour la position du modèle:
+            int[] availableRoomPos = currentRoomView.getRandPos();
+            Scalar2D npcPos = new Scalar2D(availableRoomPos[0], availableRoomPos[1]);
+
+            if (!npc.isDead())
+                npc.setPos(npcPos);
+
             ActorView actorView = gameController.getActorController().getNPCView(npc);
             actorView.setOnMousePressed(e -> {
                 if(e.isSecondaryButtonDown())
@@ -191,7 +198,7 @@ public class RoomController {
                     npc.talk();
                 }
             });
-            currentRoomView.addInRoom(actorView, npc.getName(), roomPos[0], roomPos[1], "CENTER");
+            currentRoomView.addInRoom(actorView, npc.getName(), npc.getPos().getScalar2DCol(), npc.getPos().getScalar2DLine(), "CENTER");
         }
     }
 

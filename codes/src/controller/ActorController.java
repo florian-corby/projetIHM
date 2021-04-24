@@ -66,11 +66,15 @@ public class ActorController {
 
     public void onNPCDeath(Actor npc){
             while(npc.getInventory().getItems().length != 0) {
+                //On redonne une position aléatoire à l'objet qui va être droppé au sol:
                 int[] availableRandPosInRoom = gameController.getRoomController().getCurrentRoomView().getRandPos();
                 Scalar2D droppedPos = new Scalar2D(availableRandPosInRoom[0], availableRandPosInRoom[1]);
                 npc.getInventory().getItems()[0].setScalar2D(droppedPos);
+
+                //On met à jour le modèle:
                 npc.drop(npc.getInventory().getItems()[0]);
             }
+
             gameController.getRoomController().updateRoomView(DEFAULT_ROOMS_SIZE.getScalar2DCol(), DEFAULT_ROOMS_SIZE.getScalar2DLine());
     }
 
