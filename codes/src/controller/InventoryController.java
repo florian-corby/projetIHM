@@ -69,7 +69,9 @@ public class InventoryController {
         setTgBtnHandler(tgBtn);
         invTG.getToggles().add(tgBtn);
         playerInvView.getChildren().add(tgBtn);
-        gameController.getRoomController().getCurrentRoomView().removeFromRoom(item.getTag());
+
+        if(gameController.getRoomController().getCurrentRoomView().getFromRoom(item.getTag()) != null)
+            gameController.getRoomController().getCurrentRoomView().removeFromRoom(item.getTag());
     }
 
     public void clearEventHandlers(){

@@ -64,11 +64,9 @@ public class ActorController {
     }
 
     public void onNPCDeath(Actor npc){
-
             while(npc.getInventory().getItems().length != 0) {
                 npc.drop(npc.getInventory().getItems()[0]);
             }
-
             gameController.getRoomController().updateRoomView(DEFAULT_ROOMS_SIZE.getScalar2DCol(), DEFAULT_ROOMS_SIZE.getScalar2DLine());
     }
 
@@ -82,9 +80,8 @@ public class ActorController {
             updateNPCFrame((NPC) target);
             gameController.getRoomController().getCurrentRoomView().getFromRoom(actorTag).setFill(getNPCView((NPC) target).getFill());
 
-            if(target.isDead()) {
+            if(target.isDead())
                 onNPCDeath(target);
-            }
 
         } else {
             updatePlayerFrame();

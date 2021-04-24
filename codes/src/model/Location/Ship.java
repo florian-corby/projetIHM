@@ -207,7 +207,7 @@ public class Ship implements Serializable {
 				Oh a human! You poor thing, you must be lost... You know, my husband, Vik, is the captain's favorite. He even guards his personal computer! But I wonder, what they are doing to you poor things?
 				...
 				You know what? Bring me some evidence of what they are doing to your species, and I'll give you the code to the Captain's laptop!""");
-		File CaptainCode = new File("CaptainCode", "The code to the the Captain's laptop", new Scalar2D(3, 6), "The code is: iwanttoeradicateallhumans");
+		File CaptainCode = new File("CaptainCode", "The code to the the Captain's laptop", new Scalar2D(3, 6), true, false,"The code is: iwanttoeradicateallhumans");
 		umhon.getInventory().addItem(CaptainCode);
 		this.npcs.put(umhon.getName(), umhon);
 
