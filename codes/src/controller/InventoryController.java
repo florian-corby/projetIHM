@@ -6,6 +6,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Shape;
 import model.Items.Item;
+import model.Utils.Scalar2D;
 
 import java.util.LinkedHashMap;
 
@@ -86,7 +87,9 @@ public class InventoryController {
         int[] pos = gameController.getRoomController().getCurrentRoomView().getRandPos();
         gameController.getRoomController().addItemInRoom(gameController.getPlayerModel().getInventory().getItem(itemTag), pos[0], pos[1]);
 
-        //Puis on met à jour le modèle:
+        //Puis on met à jour le modèle. On met à jour la position de l'objet dans le modèle pour que ce-dernier
+        // ne bouge pas en utilisant sa position du modèle lorsqu'on rafraichît une pièce:
+        gameController.getPlayerModel().getInventory().getItem(itemTag).setScalar2D(new Scalar2D(pos[0], pos[1]));
         gameController.getPlayerModel().getInventory().moveItem(itemTag, gameController.getRoomController().getCurrentRoomModel().getInventory());
 
         //Enfin on élimine les gestionnaires d'événements générés par la sélection du bouton:
