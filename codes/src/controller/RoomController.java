@@ -203,7 +203,6 @@ public class RoomController {
                     npc.describe();
                 else{
                     gameController.getActorController().updateNPCFrame(npc);
-                    gameController.getGameView().getActorImageView().setImage(new Image(getClass().getResource("../img/alien.png").toString(), true));
                     npc.talk();
                 }
 

@@ -1,6 +1,7 @@
 package controller;
 
 import javafx.concurrent.Task;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.application.Platform;
 import javafx.concurrent.ScheduledService;
@@ -77,6 +78,7 @@ public class ActorController {
         gameController.getGameView().getActorVBox().setStyle("-fx-border-color:"+colorString+";");
         gameController.getGameView().getActorBtnHBox().setStyle("-fx-border-color:"+colorString+";");
         gameController.getGameView().getActorLabel().setText(npc.getName());
+        gameController.getGameView().getActorImageView().setImage(new Image(getClass().getResource("../img/alien.png").toString(), true));
         gameController.getGameView().getActorHProgressBar().setProgress(npc.getHp()/100.0);
     }
     // Mise a jour de la Vue pour le cadre du Joueur (barre de vie, couleur du cadre, image)
@@ -86,6 +88,7 @@ public class ActorController {
         gameController.getGameView().getActorVBox().setStyle("-fx-border-color:"+colorString+";");
         gameController.getGameView().getActorBtnHBox().setStyle("-fx-border-color:"+colorString+";");
         gameController.getGameView().getActorLabel().setText(gameController.getPlayerModel().getName());
+        gameController.getGameView().getActorImageView().setImage(new Image(getClass().getResource("../img/main_character.png").toString(), true));
         gameController.getGameView().getActorHProgressBar().setProgress(gameController.getPlayerModel().getHp()/100.0);
     }
 
