@@ -20,15 +20,17 @@ public class ActorController {
     private final GameController gameController;
 
     //Gestion de l'ordinateur:
-    private final VBox actorPanel;
+    private final VBox initialActorPanel;
 
     //=============== CONSTRUCTEURS/INITIALISEURS ===============
     public ActorController(GameController c) {
         gameController = c;
-        actorPanel = c.getGameView().getActorVBox();
+        initialActorPanel = c.getGameView().getActorVBox();
     }
 
     //====================== GETTERS ==========================
+    public VBox getInitialActorPanel() { return initialActorPanel; }
+
     public ActorView getNPCView(NPC npc){
         if(npc.isDead())
             return new ActorView("Dead");
@@ -101,7 +103,7 @@ public class ActorController {
     //Gestion de l'ordinateur:
     public void resetActorPanel(){
         gameController.getGameView().getStoryBox().getChildren().remove(0);
-        gameController.getGameView().setActorVBox(actorPanel);
-        gameController.getGameView().getStoryBox().getChildren().add(0, actorPanel);
+        gameController.getGameView().setActorVBox(initialActorPanel);
+        gameController.getGameView().getStoryBox().getChildren().add(0, initialActorPanel);
     }
 }

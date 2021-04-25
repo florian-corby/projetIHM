@@ -16,11 +16,9 @@ import java.io.IOException;
 import static controller.GameController.DEFAULT_ROOMS_SIZE;
 
 public class ComputerController {
-    //====================== ATTRIBUTS ==========================
+    private final GameController gameController;
     private ComputerView computerView;
     private final Computer computerModel;
-    private final GameController gameController;
-    private final VBox actorPanel;
 
     //=============== CONSTRUCTEURS/INITIALISEURS ===============
     public ComputerController(Computer computerModel, GameController gameController) throws IOException {
@@ -31,7 +29,6 @@ public class ComputerController {
 
         this.computerModel = computerModel;
         this.gameController = gameController;
-        this.actorPanel = gameController.getGameView().getActorVBox();
 
         initFiles();
         initHandlers();
@@ -78,9 +75,7 @@ public class ComputerController {
     }
 
     private void initHandlers(){
-        computerView.getQuitBtn().setOnAction(e -> {
-            updateGameView(actorPanel);
-        });
+        computerView.getQuitBtn().setOnAction(e -> updateGameView(gameController.getActorController().getInitialActorPanel()));
 
         computerView.getEventBtn().setOnAction(e -> {
             computerModel.getEVENT().getE().raise(gameController.getPlayerModel());

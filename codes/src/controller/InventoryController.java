@@ -27,7 +27,6 @@ public class InventoryController {
     //=============== CONSTRUCTEURS/INITIALISEURS ===============
     public InventoryController(GameController c) {
         gameController = c;
-        Player playerModel = c.getPlayerModel();
         invTG = new ToggleGroup();
         initHandlers();
         initInventory();
@@ -68,7 +67,6 @@ public class InventoryController {
 
         if(gameController.getRoomController().getCurrentRoomView().getFromRoom(item.getTag()) != null)
             gameController.getRoomController().getCurrentRoomView().removeFromRoom(item.getTag());
-        gameController.getPlayerModel().getInventory().showItems();
     }
 
     public void clearEventHandlers(){
