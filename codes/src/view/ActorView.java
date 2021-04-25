@@ -13,6 +13,7 @@ public class ActorView extends Circle
 
     public static ActorView getPlayerView(){ return new ActorView("player"); }
 
+    // Gestion de la couleur du personnage sur la carte, suivant sa catégorie
     public void setActorViewColor(String catActor) {
         switch (catActor) {
             case "player" -> this.setFill(Color.BLUE);

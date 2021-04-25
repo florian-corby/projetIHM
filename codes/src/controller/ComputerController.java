@@ -37,6 +37,7 @@ public class ComputerController {
         updateGameView(computerView.getComputer());
     }
 
+    // Initialisation des différents documents dans un ordinateur
     private void initFiles(){
         GridPane computerDesk = computerView.getComputerDesk();
         int nbCols = computerDesk.getColumnCount();
@@ -73,7 +74,7 @@ public class ComputerController {
             }
         }
     }
-
+    // Initialisation des handlers
     private void initHandlers(){
         computerView.getQuitBtn().setOnAction(e -> updateGameView(gameController.getActorController().getInitialActorPanel()));
 

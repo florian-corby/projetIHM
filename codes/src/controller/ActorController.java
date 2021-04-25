@@ -1,9 +1,9 @@
 package controller;
 
-import javafx.application.Platform;
-import javafx.concurrent.ScheduledService;
 import javafx.concurrent.Task;
 import javafx.scene.paint.Color;
+import javafx.application.Platform;
+import javafx.concurrent.ScheduledService;
 import javafx.util.Duration;
 import model.Characters.Actor;
 import javafx.scene.layout.VBox;
@@ -26,7 +26,9 @@ public class ActorController {
     //Gestion de l'ordinateur:
     private final VBox initialActorPanel;
 
+
     //=============== CONSTRUCTEURS/INITIALISEURS ===============
+
     public ActorController(GameController c) {
         gameController = c;
         initialActorPanel = c.getGameView().getActorVBox();
@@ -67,6 +69,8 @@ public class ActorController {
     }
 
     //====================== UPDATERS =========================
+
+    // Mise a jour de la Vue pour le cadre des NPCs (barre de vie, couleur du cadre, image)
     public void updateNPCFrame(NPC npc){
         ActorView actorView = getNPCView(npc);
         String colorString = "#"+actorView.getFill().toString().substring(2);
@@ -75,7 +79,7 @@ public class ActorController {
         gameController.getGameView().getActorLabel().setText(npc.getName());
         gameController.getGameView().getActorHProgressBar().setProgress(npc.getHp()/100.0);
     }
-
+    // Mise a jour de la Vue pour le cadre du Joueur (barre de vie, couleur du cadre, image)
     public void updatePlayerFrame(){
         //0xffab8d devient #ffab8d car c'est le format que comprend javafx:
         String colorString = "#"+gameController.getPlayerView().getFill().toString().substring(2);
@@ -85,26 +89,30 @@ public class ActorController {
         gameController.getGameView().getActorHProgressBar().setProgress(gameController.getPlayerModel().getHp()/100.0);
     }
 
+    // Mise a jour du Joueur sur la Carte
     public void updatePlayerView(){
         if(gameController.getPlayerModel().isDead())
             gameController.getPlayerView().setFill(Color.LIGHTGRAY);
     }
 
+    // Gestion de la mort d'un personnage et des items qu'il laisse tomber
     public void onNPCDeath(Actor npc){
-            while(npc.getInventory().getItems().length != 0) {
-                //On redonne une position aléatoire à l'objet qui va être droppé au sol:
-                int[] availableRandPosInRoom = gameController.getRoomController().getCurrentRoomView().getRandPos();
-                Scalar2D droppedPos = new Scalar2D(availableRandPosInRoom[0], availableRandPosInRoom[1]);
-                npc.getInventory().getItems()[0].setScalar2D(droppedPos);
+        while(npc.getInventory().getItems().length != 0) {
+            //On redonne une position aléatoire à l'objet qui va être droppé au sol:
+            int[] availableRandPosInRoom = gameController.getRoomController().getCurrentRoomView().getRandPos();
+            Scalar2D droppedPos = new Scalar2D(availableRandPosInRoom[0], availableRandPosInRoom[1]);
+            npc.getInventory().getItems()[0].setScalar2D(droppedPos);
 
-                //On met à jour le modèle:
-                npc.drop(npc.getInventory().getItems()[0]);
-            }
+            //On met à jour le modèle:
+            npc.drop(npc.getInventory().getItems()[0]);
+        }
 
-            gameController.getRoomController().updateRoomView(DEFAULT_ROOMS_SIZE.getScalar2DCol(), DEFAULT_ROOMS_SIZE.getScalar2DLine());
+        gameController.getRoomController().updateRoomView(DEFAULT_ROOMS_SIZE.getScalar2DCol(), DEFAULT_ROOMS_SIZE.getScalar2DLine());
     }
 
-    // ================== ATTACK
+    //====================== ATTACK  =========================
+
+    // Gestion de l'attaque sur un personnage (joueur ou npcs)
     public void attack() {
         String actorTag = gameController.getGameView().getActorLabel().getText();
         Actor target = gameController.getRoomController().getCurrentRoomModel().getActor(actorTag);
@@ -124,7 +132,9 @@ public class ActorController {
         }
     }
 
-    //Gestion de l'ordinateur:
+    //====================== RESET =========================
+
+    // Gestion de l'ordinateur:
     public void resetActorPanel(){
         gameController.getGameView().getStoryBox().getChildren().remove(0);
         gameController.getGameView().setActorVBox(initialActorPanel);

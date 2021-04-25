@@ -98,7 +98,7 @@ public abstract class Actor implements Attackable, Attacker, UsableBy, Serializa
 		return this.NAME;
 	}
 
-	public Scalar2D getPos() { return pos; }
+	public Scalar2D getPos() { return this.pos; }
 
 	public Room getPreviousRoom()
 	{
@@ -109,6 +109,8 @@ public abstract class Actor implements Attackable, Attacker, UsableBy, Serializa
 	{
 		return this.room;
 	}
+
+	public void setPos(int x, int y) {this.pos = new Scalar2D(x, y);}
 
 	public void give(String tag, Actor a)
 	{

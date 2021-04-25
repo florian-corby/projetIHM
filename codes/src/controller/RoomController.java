@@ -2,7 +2,6 @@ package controller;
 
 import javafx.beans.binding.Bindings;
 import javafx.scene.image.Image;
-import javafx.util.Duration;
 import model.Characters.NPC;
 import model.Doors.Door;
 import model.Doors.LockedDoor;
@@ -33,7 +32,7 @@ public class RoomController {
     private final GameController gameController;
     private Room currentRoomModel;
     private RoomView currentRoomView;
-
+    
     //=============== CONSTRUCTEURS/INITIALISEURS ===============
     public RoomController(GameController c) {
         gameController = c;
@@ -48,6 +47,8 @@ public class RoomController {
     public RoomView getCurrentRoomView() { return currentRoomView; }
 
     //====================== UPDATERS =========================
+
+    // Crée le visuel d'un Container dans la piece (Ordinateur, Station de Vie...)
     public void addContainerInRoom(Item item, int col, int line){
         ContainerView containerView = new ContainerView("HealthStation");
 
@@ -75,6 +76,7 @@ public class RoomController {
         currentRoomView.addInRoom(containerView, item.getTag(), col, line, "CENTER");
     }
 
+    // Ajout un item dans la pièce, et gestion de ses réactions
     public void addItemInRoom(Item item, int col, int line){
         ItemView itemView = new ItemView();
 
@@ -88,6 +90,7 @@ public class RoomController {
         currentRoomView.addInRoom(itemView, item.getTag(), col, line, "CENTER");
     }
 
+    // Mise a jour de la vue de la pièce et des differents composants a l'interieur
     public void updateRoomView(int nbCol, int nbLignes) {
         //À chaque nouvelle pièce chargée on vérifie si le jeu est terminé:
         gameController.isGameOver();
@@ -168,6 +171,7 @@ public class RoomController {
                 Bindings.subtract(gameController.getGameView().getMapPane().heightProperty(), currentRoomView.heightProperty()));
     }
 
+    // Gestion de l'affichage des item dans la pièce
     public void loadItems() {
         Item[] items = currentRoomModel.getInventory().getItems();
         for (Item item : items) {
@@ -178,6 +182,7 @@ public class RoomController {
         }
     }
 
+    // Gestion des affichages des NPCs dans la pièce
     public void loadNPCs() {
         NPC[] npcs = currentRoomModel.getNPCs();
 
@@ -201,11 +206,13 @@ public class RoomController {
                     gameController.getGameView().getActorImageView().setImage(new Image(getClass().getResource("../img/alien.png").toString(), true));
                     npc.talk();
                 }
+
             });
             currentRoomView.addInRoom(actorView, npc.getName(), npc.getPos().getScalar2DCol(), npc.getPos().getScalar2DLine(), "CENTER");
         }
     }
 
+    // Gestion de l'affichage du joueur dans la pièce
     public void loadPlayer() {
         int nbCol = currentRoomView.getNbCol();
         int nbLignes = currentRoomView.getNbLignes();

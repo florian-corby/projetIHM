@@ -9,6 +9,7 @@ public class DoorView extends Rectangle
         setDoorViewColor(catDoor);
     }
 
+    // Détermination de l'orientation d'un porte
     public String getAlignment(int[] roomSize, int[] doorPos) {
         if(doorPos[0] == 0)
             return "LEFT";
@@ -20,6 +21,7 @@ public class DoorView extends Rectangle
             return "BOTTOM";
     }
 
+    // Vue de la porte
     public void setDoorGeometry(int[] roomSize, int[] doorPos){
         if(doorPos[0] == 0 || doorPos[0] == roomSize[0]-1){
             setWidth(10);
@@ -31,6 +33,7 @@ public class DoorView extends Rectangle
         }
     }
 
+    // Changement de couleur suivant la catégorie de la porte
     public void setDoorViewColor(String catDoor) {
         switch (catDoor) {
             case "normal" -> setFill(Color.BLACK);

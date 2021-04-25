@@ -4,10 +4,7 @@ import javafx.event.EventHandler;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.VBox;
 import javafx.scene.shape.Shape;
-import model.Characters.Player;
-import model.Containers.Inventory;
 import model.Items.Item;
 
 import java.util.LinkedHashMap;
@@ -80,6 +77,7 @@ public class InventoryController {
         }
     }
 
+    // Gestionnaire du drop (Poser un item dans un pièce, en l'enlevant de l'Inventaire)
     public void drop(String itemTag){
         //On met à jour la vue:
         gameController.getGameView().getInventoryVBox().getChildren().remove((ToggleButton) invTG.getSelectedToggle());
@@ -93,7 +91,7 @@ public class InventoryController {
         //On élimine les handlers() dus à la sélection du bouton:
         clearEventHandlers();
     }
-
+    // Gestionnaire du give (Donner un item à un PNJ)
     public void give(){
         ToggleButton itemBtn = (ToggleButton) invTG.getSelectedToggle();
 
@@ -109,6 +107,7 @@ public class InventoryController {
         }
     }
 
+    // Gestionnaire de look (Envoie dans la boite de dialogue la description d'un objet selectioné)
     public void look(){
         ToggleButton itemBtn = (ToggleButton) invTG.getSelectedToggle();
 
@@ -151,6 +150,7 @@ public class InventoryController {
         });
     }
 
+    // Gestionnaire des modification visuel apporter à l'inventaire du joueur
     public void updateInventory(){
         int nbToggleBtns = invTG.getToggles().size();
 

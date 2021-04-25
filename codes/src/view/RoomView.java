@@ -6,7 +6,6 @@ import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
 import javafx.scene.shape.Shape;
-
 import java.util.LinkedHashMap;
 import java.util.Random;
 
@@ -28,6 +27,7 @@ public class RoomView extends GridPane {
         initStyle();
     }
 
+    // Création de pièce
     private void initRoom(int nbCol, int nbLignes) {
         for(int i = 0; i < nbCol; i++) {
             for(int j = 0; j < nbLignes; j++) {
@@ -53,6 +53,7 @@ public class RoomView extends GridPane {
     public int getNbCol() { return nbCol; }
     public int getNbLignes() { return nbLignes; }
 
+
     public String getTag(Shape shape) {
         for (String tag : gameElementViews.keySet()) {
             if (gameElementViews.get(tag).equals(shape)) {
@@ -72,11 +73,12 @@ public class RoomView extends GridPane {
         }
     }
 
-
     // ============================== PREDICATS ========================================
     public boolean isAvailablePos(int colIndex, int LigneIndex) { return availablePos[colIndex][LigneIndex]; }
 
     // =========================== SETTERS/UNSETTERS ===================================
+
+    // Ajout d'un élement dans la pièce a un endroit precis avec un tag
     public void addInRoom(Shape gameElementView, String viewTag, int colIndex, int ligneIndex, String align) {
         gameElementViews.put(viewTag, gameElementView);
         alignInRoom(gameElementView, align);
@@ -84,6 +86,7 @@ public class RoomView extends GridPane {
         availablePos[colIndex][ligneIndex] = false;
     }
 
+    // Suppresion d'un element dans la pièce grace à un tag
     public void removeFromRoom(String viewTag) {
         Node nodeToRemove = gameElementViews.get(viewTag);
         int colIndex = GridPane.getRowIndex(nodeToRemove);
@@ -96,6 +99,8 @@ public class RoomView extends GridPane {
 
 
     // ================================= OTHERS =========================================
+
+    // Fonction gérant l'alignement dans une piece
     public void alignInRoom(Node nodeToAlign, String align) {
         switch (align) {
             case "TOP" -> GridPane.setValignment(nodeToAlign, VPos.TOP);
