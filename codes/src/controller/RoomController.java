@@ -55,8 +55,10 @@ public class RoomController {
             if (e.isSecondaryButtonDown())
                 item.describe();
             else {
-                if (item instanceof HealthStation)
+                if (item instanceof HealthStation) {
                     item.isUsedOn(gameController.getPlayerModel());
+                    gameController.getActorController().updatePlayerFrame();
+                }
                 else if(item instanceof Computer){
                     Computer computer = (Computer) item;
                     try {

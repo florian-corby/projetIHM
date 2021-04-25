@@ -49,7 +49,7 @@ public class ActorController {
                 };
             }
         };
-        
+
         moveNPCsService.setPeriod(Duration.seconds(2));
         moveNPCsService.start();
     }
