@@ -1,10 +1,20 @@
 package controller;
 
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Shape;
 import model.Characters.Actor;
 import javafx.scene.layout.VBox;
 import model.Characters.NPC;
 import view.ActorView;
+
+
+import view.GameView;
+import view.RoomView;
+
+import java.util.concurrent.TimeUnit;
+
 
 import static controller.GameController.DEFAULT_ROOMS_SIZE;
 
@@ -20,6 +30,7 @@ public class ActorController {
 
     //Gestion de l'ordinateur:
     private final VBox actorPanel;
+
 
     //=============== CONSTRUCTEURS/INITIALISEURS ===============
     public ActorController(GameController c) {

@@ -5,6 +5,7 @@ import model.Game.Message;
 import model.Items.*;
 import model.Location.*;
 import model.Containers.*;
+import model.Utils.Scalar2D;
 
 import java.io.Serializable;
 
@@ -17,6 +18,7 @@ public abstract class Actor implements Attackable, Attacker, UsableBy, Serializa
 	private Room room;
 	private Room previousRoom;
 	private final Inventory INVENTORY;
+	private Scalar2D pos ;
 
 	private static final int DEFAULT_ATTACKPOWER = 25;
 	private static final int DEFAULT_HP = 100;
@@ -91,6 +93,10 @@ public abstract class Actor implements Attackable, Attacker, UsableBy, Serializa
 	{
 		return this.room;
 	}
+
+	public Scalar2D getPos() {return this.pos;}
+
+	public void setPos(int x, int y) {this.pos = new Scalar2D(x, y);}
 
 	public void give(String tag, Actor a)
 	{

@@ -1,6 +1,8 @@
 package controller;
 
 import javafx.beans.binding.Bindings;
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
 import javafx.scene.image.Image;
 import model.Characters.NPC;
 import model.Doors.Door;
@@ -13,6 +15,7 @@ import view.*;
 
 import java.io.IOException;
 import java.util.Set;
+import java.util.Timer;
 
 import static controller.GameController.DEFAULT_ROOMS_SIZE;
 
@@ -31,7 +34,7 @@ public class RoomController {
     private final GameController gameController;
     private Room currentRoomModel;
     private RoomView currentRoomView;
-
+    
     //=============== CONSTRUCTEURS/INITIALISEURS ===============
     public RoomController(GameController c) {
         gameController = c;
@@ -182,6 +185,7 @@ public class RoomController {
 
         for (NPC npc : npcs) {
             int[] roomPos = currentRoomView.getRandPos();
+            npc.setPos(roomPos[0], roomPos[1]);
             ActorView actorView = gameController.getActorController().getNPCView(npc);
             actorView.setOnMousePressed(e -> {
                 if(e.isSecondaryButtonDown())
@@ -191,6 +195,7 @@ public class RoomController {
                     gameController.getGameView().getActorImageView().setImage(new Image(getClass().getResource("../img/alien.png").toString(), true));
                     npc.talk();
                 }
+
             });
             currentRoomView.addInRoom(actorView, npc.getName(), roomPos[0], roomPos[1], "CENTER");
         }

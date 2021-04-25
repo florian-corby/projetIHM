@@ -6,6 +6,7 @@ import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
 import javafx.scene.shape.Shape;
+import model.Utils.Scalar2D;
 
 import java.util.LinkedHashMap;
 import java.util.Random;
@@ -53,6 +54,7 @@ public class RoomView extends GridPane {
     public int getNbCol() { return nbCol; }
     public int getNbLignes() { return nbLignes; }
 
+
     public String getTag(Shape shape) {
         for (String tag : gameElementViews.keySet()) {
             if (gameElementViews.get(tag).equals(shape)) {
@@ -71,6 +73,9 @@ public class RoomView extends GridPane {
             }
         }
     }
+
+
+
 
     // ============================== PREDICATS ========================================
     public boolean isAvailablePos(int colIndex, int LigneIndex) { return availablePos[colIndex][LigneIndex]; }
