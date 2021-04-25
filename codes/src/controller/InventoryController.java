@@ -5,6 +5,7 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Shape;
+import model.Characters.NPC;
 import model.Items.Item;
 import model.Utils.Scalar2D;
 
@@ -109,6 +110,9 @@ public class InventoryController {
 
             //On met à jour la vue:
             updateInventory();
+
+            if(gameController.getRoomController().getCurrentRoomModel().getActor(actorTag) instanceof NPC)
+                gameController.getActorController().updateNPCFrame((NPC) gameController.getRoomController().getCurrentRoomModel().getActor(actorTag));
         }
     }
 
