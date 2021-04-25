@@ -225,7 +225,7 @@ public class RoomController {
             if(e.isSecondaryButtonDown())
                 gameController.getPlayerModel().describe();
             else {
-                gameController.getActorController().updatePlayerFrame();
+                gameController.getActorController().resetActorPanel();
                 gameController.getGameView().getActorImageView().setImage(new Image(getClass().getResource("../img/main_character.png").toString(), true));
             }
         });
