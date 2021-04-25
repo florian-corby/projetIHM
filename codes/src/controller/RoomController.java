@@ -225,6 +225,8 @@ public class RoomController {
         });
     }
 
+
+    //====================== UNLOADERS ========================
     public void unloadNPCs(){
         NPC[] npcs = currentRoomModel.getNPCs();
 

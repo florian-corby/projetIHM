@@ -2,7 +2,6 @@ package controller;
 
 import javafx.application.Platform;
 import javafx.concurrent.ScheduledService;
-import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
@@ -11,16 +10,15 @@ import javafx.scene.layout.VBox;
 import model.Characters.NPC;
 import model.Utils.Scalar2D;
 import view.ActorView;
-import view.RoomView;
 
 import static controller.GameController.DEFAULT_ROOMS_SIZE;
 
-/* -----------------------------------------------------------------------------
+/** -----------------------------------------------------------------------------
  * Contrôleur des acteurs du jeu:
  *
  * Rôle: Contrôleur global du jeu qui gère les acteurs (les npcs et le joueur) du
  * jeu ainsi que le panneau qui leur est dédié dans la vue du jeu
- * ----------------------------------------------------------------------------- */
+ * ------------------------------------------------------------------------------ */
 
 public class ActorController {
     private final GameController gameController;
