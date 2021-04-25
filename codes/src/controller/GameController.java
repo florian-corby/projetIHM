@@ -101,6 +101,7 @@ public class GameController {
     // Gestion de la fin du jeu
     public void isGameOver(){
         if(gameModel.isEndGame()){
+            getActorController().getMoveNPCsService().cancel();
             Alert popup = new Alert(Alert.AlertType.INFORMATION);
             popup.setTitle("Félicitations!");
             popup.setContentText("Merci d'avoir joué à Silent In Space! Et tout particulièrement merci à notre bêta-testeuse Ophélie De Sousa Oliveira :) !");

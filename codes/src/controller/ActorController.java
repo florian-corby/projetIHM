@@ -26,6 +26,21 @@ public class ActorController {
 
     //Gestion de l'ordinateur:
     private final VBox initialActorPanel;
+    private final ScheduledService<Void> moveNPCsService = new ScheduledService<>() {
+        @Override
+        protected Task<Void> createTask() {
+            return new Task<>() {
+                @Override
+                protected Void call() {
+                    Platform.runLater(() -> {
+                        gameController.getRoomController().unloadNPCs();
+                        gameController.getRoomController().loadNPCs();
+                    });
+                    return null;
+                }
+            };
+        }
+    };
 
 
     //=============== CONSTRUCTEURS/INITIALISEURS ===============
@@ -35,28 +50,13 @@ public class ActorController {
         initialActorPanel = c.getGameView().getActorVBox();
 
         //Déplacement aléatoire des personnages:
-        ScheduledService<Void> moveNPCsService = new ScheduledService<>() {
-            @Override
-            protected Task<Void> createTask() {
-                return new Task<>() {
-                    @Override
-                    protected Void call() {
-                        Platform.runLater(() -> {
-                            gameController.getRoomController().unloadNPCs();
-                            gameController.getRoomController().loadNPCs();
-                        });
-                        return null;
-                    }
-                };
-            }
-        };
-
         moveNPCsService.setPeriod(Duration.seconds(2));
         moveNPCsService.start();
     }
 
     //====================== GETTERS ==========================
     public VBox getInitialActorPanel() { return initialActorPanel; }
+    public ScheduledService<Void> getMoveNPCsService() { return moveNPCsService; }
 
     public ActorView getNPCView(NPC npc){
         if(npc.isDead())
