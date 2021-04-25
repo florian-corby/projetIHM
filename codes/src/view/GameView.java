@@ -94,7 +94,7 @@ public class GameView extends HBox implements MessageListener
 
     //====================== AUTRES ==========================
     @Override
-    public void update(String message) {
+    public void handle(String message) {
         dialogTextArea.setText(dialogTextArea.getText() + "\n\n" + message);
         dialogTextArea.selectPositionCaret(dialogTextArea.getLength());
         dialogTextArea.deselect();

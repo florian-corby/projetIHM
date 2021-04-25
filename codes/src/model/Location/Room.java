@@ -42,7 +42,7 @@ public class Room implements Lookable, Serializable {
 
 	@Override
 	public void describe() {
-		Message.addGameMessage(this.description);
+		Message.sendGameMessage(this.description);
 
 		if(this.doors.size() == 1 && this.hasLockedDoor())
 			Message.sendGameMessage("Suddenly, the door closed shut behind you! You try opening it... " +

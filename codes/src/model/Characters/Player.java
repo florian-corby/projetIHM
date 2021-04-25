@@ -89,34 +89,34 @@ public class Player extends Actor implements Serializable
 
 	public void help()
 	{
-		Message.addGameMessage("You can interact with the game using textual commands. " +
+		Message.sendGameMessage("You can interact with the game using textual commands. " +
 				"\nHere's an exhaustive list of these commands, their syntaxes and of their effects\n" +
 				"(optional arguments are into brackets): \n");
 
-		Message.addGameMessage("\t- attack <assailable> : attack the designated thing you can hit");
-		Message.addGameMessage("\t- back : quick return to the previous room");
-		Message.addGameMessage("\t- drop <item> : drop the designated item on the floor");
-		Message.addGameMessage("\t- give <object's name> <NPC name>: give of an item (if you are allowed to do it) of your inventory to an NPC.");
-		Message.addGameMessage("\t- go <door name> : go to a neighbour room using the indicated door\n");
+		Message.sendGameMessage("\t- attack <assailable> : attack the designated thing you can hit");
+		Message.sendGameMessage("\t- back : quick return to the previous room");
+		Message.sendGameMessage("\t- drop <item> : drop the designated item on the floor");
+		Message.sendGameMessage("\t- give <object's name> <NPC name>: give of an item (if you are allowed to do it) of your inventory to an NPC.");
+		Message.sendGameMessage("\t- go <door name> : go to a neighbour room using the indicated door\n");
 
-		Message.addGameMessage("\t- help : display this help menu");
-		Message.addGameMessage("\t- info : display the stats of your character");
-		Message.addGameMessage("\t- inventory : display the content of your inventory");
-		Message.addGameMessage("\t- load : load a saved game");
-		Message.addGameMessage("\t- look [<something or somebody>] : display the description of your surroundings or of the indicated parameter\n");
+		Message.sendGameMessage("\t- help : display this help menu");
+		Message.sendGameMessage("\t- info : display the stats of your character");
+		Message.sendGameMessage("\t- inventory : display the content of your inventory");
+		Message.sendGameMessage("\t- load : load a saved game");
+		Message.sendGameMessage("\t- look [<something or somebody>] : display the description of your surroundings or of the indicated parameter\n");
 
-		Message.addGameMessage("\t- quit : leave the game");
-		Message.addGameMessage("\t- save : save the current state of the game");
-		Message.addGameMessage("\t- search <NPC name> : get access to the inventory of a dead NPC");
-		Message.addGameMessage("\t- take <object's name> : take the indicated object");
-		Message.addGameMessage("\t- talk <npc> : talk to the designated npc\n");
+		Message.sendGameMessage("\t- quit : leave the game");
+		Message.sendGameMessage("\t- save : save the current state of the game");
+		Message.sendGameMessage("\t- search <NPC name> : get access to the inventory of a dead NPC");
+		Message.sendGameMessage("\t- take <object's name> : take the indicated object");
+		Message.sendGameMessage("\t- talk <npc> : talk to the designated npc\n");
 
 		Message.sendGameMessage("\t- use <object's name> [<object's name>] : use an object possibly on another indicated object");
 	}
 
 	public void info()
 	{
-		Message.addGameMessage("You have " + this.getHp() + "hp\n");
+		Message.sendGameMessage("You have " + this.getHp() + "hp\n");
 		Message.sendGameMessage("You have " + this.getAttackPower() + " attack power");
 	}
 
@@ -250,6 +250,6 @@ public class Player extends Actor implements Serializable
 
 	@Override
 	public void receive(Actor a, String tag) {
-		System.out.println("You took the " + tag + ".");
+		Message.sendGameMessage("You took the " + tag + ".");
 	}
 }

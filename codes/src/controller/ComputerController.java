@@ -51,7 +51,7 @@ public class ComputerController {
 
             itemView.setOnMousePressed(e -> {
                 if(e.isSecondaryButtonDown()){
-                    gameController.getGameView().update(file.getContent());
+                    gameController.getGameView().handle(file.getContent());
                 }
                 else{
                     computerModel.printFile(item.getTag(), gameController.getPlayerModel());

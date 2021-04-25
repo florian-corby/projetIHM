@@ -51,7 +51,7 @@ public class SIS implements Serializable {
 				this.ship.getNPC("Kilen").setSpeech("You should hurry! I've managed to deal with the guards in the lab but it won't be long before they come back!");
 			}
 		} else {*/
-			Message.addGameMessage("You wake up feeling dizzy. Something is talking to you. Something not human.\n\n");
+			Message.sendGameMessage("You wake up feeling dizzy. Something is talking to you. Something not human.\n\n");
 			ship = new Ship();
 			ship.getNPC("Kilen").talk();
 			ship.getNPC("Kilen").give("passT", ship.getPlayer());
@@ -70,7 +70,7 @@ public class SIS implements Serializable {
 	}
 
 	public void endGame() {
-		Message.addGameMessage("\n\n\t\t ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \n");
+		Message.sendGameMessage("\n\n\t\t ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \n");
 		Message.sendGameMessage("Thanks for playing Silent In Space! And special thanks to our beta-tester Ophélie De Sousa Oliveira :) !\n");
 	}
 
@@ -80,10 +80,10 @@ public class SIS implements Serializable {
 			ObjectInputStream ois = new ObjectInputStream(fileIn);
 			ship = new Ship((Ship) ois.readObject());
 			ois.close();
-			Message.addGameMessage("You successfully loaded the game!\n");
+			Message.sendGameMessage("You successfully loaded the game!\n");
 			Message.sendGameMessage("\t\t ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \n\n");
 		} catch (IOException | ClassNotFoundException e) {
-			Message.addGameMessage("No save data was found! You need to save at least one time before being able to load a save.");
+			Message.sendGameMessage("No save data was found! You need to save at least one time before being able to load a save.");
 			Message.sendGameMessage("\t\t ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \n\n");
 		}
 	}
@@ -110,8 +110,8 @@ public class SIS implements Serializable {
 	}
 
 	public void printHelp() {
-		Message.addGameMessage("--- SILENT IN SPACE --- \n");
-		Message.addGameMessage("""
+		Message.sendGameMessage("--- SILENT IN SPACE --- \n");
+		Message.sendGameMessage("""
 				WELCOME to Silent In Space! This game was developed by Florian Legendre, Alexis Louail
 				and Vincent Tourenne as a universitary project. This is a demo, hence all the features
 				intended to be in the final version aren't there. This game is meant to be played by
