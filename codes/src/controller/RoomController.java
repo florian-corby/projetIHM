@@ -226,6 +226,7 @@ public class RoomController {
                 gameController.getPlayerModel().describe();
             else {
                 gameController.getActorController().resetActorPanel();
+                gameController.getActorController().updatePlayerFrame();
                 gameController.getGameView().getActorImageView().setImage(new Image(getClass().getResource("../img/main_character.png").toString(), true));
             }
         });
