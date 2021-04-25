@@ -13,8 +13,6 @@ import view.ItemView;
 
 import java.io.IOException;
 
-import static controller.GameController.DEFAULT_ROOMS_SIZE;
-
 public class ComputerController {
     private final GameController gameController;
     private ComputerView computerView;
@@ -82,7 +80,6 @@ public class ComputerController {
             computerModel.getEVENT().getE().raise(gameController.getPlayerModel());
             gameController.getRoomController().unloadDoors();
             gameController.getRoomController().loadDoors();
-            //gameController.getRoomController().updateRoomView(DEFAULT_ROOMS_SIZE.getScalar2DCol(), DEFAULT_ROOMS_SIZE.getScalar2DLine());
         });
     }
 
