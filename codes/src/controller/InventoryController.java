@@ -32,8 +32,9 @@ public class InventoryController {
     public void initHandlers(){
         //On initialise le handler du bouton drop():
         gameController.getGameView().getDropButton().setOnAction(e -> {
-            String itemTag = ((ToggleButton) invTG.getSelectedToggle()).getText();
-            drop(itemTag);
+            //Si un objet a effectivement été sélectionné alors on le drop():
+            if(invTG.getSelectedToggle() != null)
+                drop(((ToggleButton) invTG.getSelectedToggle()).getText());
         });
 
         gameController.getGameView().getGiveButton().setOnAction(e -> give());
@@ -79,18 +80,19 @@ public class InventoryController {
 
     // Gestionnaire du drop (Poser un item dans un pièce, en l'enlevant de l'Inventaire)
     public void drop(String itemTag){
-        //On met à jour la vue:
+        //Sinon on met à jour la vue:
         gameController.getGameView().getInventoryVBox().getChildren().remove((ToggleButton) invTG.getSelectedToggle());
         invTG.getToggles().remove(invTG.getSelectedToggle());
         int[] pos = gameController.getRoomController().getCurrentRoomView().getRandPos();
         gameController.getRoomController().addItemInRoom(gameController.getPlayerModel().getInventory().getItem(itemTag), pos[0], pos[1]);
 
-        //On met à jour le modèle:
+        //Puis on met à jour le modèle:
         gameController.getPlayerModel().getInventory().moveItem(itemTag, gameController.getRoomController().getCurrentRoomModel().getInventory());
 
-        //On élimine les handlers() dus à la sélection du bouton:
+        //Enfin on élimine les gestionnaires d'événements générés par la sélection du bouton:
         clearEventHandlers();
     }
+
     // Gestionnaire du give (Donner un item à un PNJ)
     public void give(){
         ToggleButton itemBtn = (ToggleButton) invTG.getSelectedToggle();
