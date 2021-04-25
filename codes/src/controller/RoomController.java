@@ -1,8 +1,6 @@
 package controller;
 
 import javafx.beans.binding.Bindings;
-import javafx.concurrent.Service;
-import javafx.concurrent.Task;
 import javafx.scene.image.Image;
 import model.Characters.NPC;
 import model.Doors.Door;
@@ -11,11 +9,11 @@ import model.Items.Computer;
 import model.Items.HealthStation;
 import model.Items.Item;
 import model.Location.Room;
+import model.Utils.Scalar2D;
 import view.*;
 
 import java.io.IOException;
 import java.util.Set;
-import java.util.Timer;
 
 import static controller.GameController.DEFAULT_ROOMS_SIZE;
 
@@ -41,9 +39,6 @@ public class RoomController {
 
         //On charge la première pièce:
         this.updateRoomView(DEFAULT_ROOMS_SIZE.getScalar2DCol(), DEFAULT_ROOMS_SIZE.getScalar2DLine());
-
-        //On branche ce contrôleur au contrôleur de l'inventaire
-        gameController.getInventoryController().updateRoom(this);
     }
 
 
@@ -52,15 +47,19 @@ public class RoomController {
     public RoomView getCurrentRoomView() { return currentRoomView; }
 
     //====================== UPDATERS =========================
-    public void addContainerInRoom(Item item){
+
+    // Crée le visuel d'un Container dans la piece (Ordinateur, Station de Vie...)
+    public void addContainerInRoom(Item item, int col, int line){
         ContainerView containerView = new ContainerView("HealthStation");
 
         containerView.setOnMousePressed(e -> {
             if (e.isSecondaryButtonDown())
                 item.describe();
             else {
-                if (item instanceof HealthStation)
+                if (item instanceof HealthStation) {
                     item.isUsedOn(gameController.getPlayerModel());
+                    gameController.getActorController().updatePlayerFrame();
+                }
                 else if(item instanceof Computer){
                     Computer computer = (Computer) item;
                     try {
@@ -74,10 +73,10 @@ public class RoomController {
             }
         });
 
-        currentRoomView.addInRoom(containerView, item.getTag(),
-                item.getScalar2D().getScalar2DCol(), item.getScalar2D().getScalar2DLine(), "CENTER");
+        currentRoomView.addInRoom(containerView, item.getTag(), col, line, "CENTER");
     }
 
+    // Ajout un item dans la pièce, et gestion de ses réactions
     public void addItemInRoom(Item item, int col, int line){
         ItemView itemView = new ItemView();
 
@@ -91,6 +90,7 @@ public class RoomController {
         currentRoomView.addInRoom(itemView, item.getTag(), col, line, "CENTER");
     }
 
+    // Mise a jour de la vue de la pièce et des differents composants a l'interieur
     public void updateRoomView(int nbCol, int nbLignes) {
         //À chaque nouvelle pièce chargée on vérifie si le jeu est terminé:
         gameController.isGameOver();
@@ -108,6 +108,10 @@ public class RoomController {
         loadNPCs();
         loadHandlers();
         gameController.getGameView().getMapPane().getChildren().add(currentRoomView);
+
+        //On signale à l'inventaire de mettre à jour la taille du tableau de gestionnaires d'événements utilisé
+        //pour la gestion de la fonction use() des objets (quand on clique gauche sur un objet de la pièce):
+        gameController.getInventoryController().resetUseItemHandlersArray(nbCol, nbLignes);
 
         //"Éteint" l'ordinateur si le joueur quitte la pièce sans appuyer sur le bouton 'quitter':
         gameController.getActorController().resetActorPanel();
@@ -167,16 +171,18 @@ public class RoomController {
                 Bindings.subtract(gameController.getGameView().getMapPane().heightProperty(), currentRoomView.heightProperty()));
     }
 
+    // Gestion de l'affichage des item dans la pièce
     public void loadItems() {
         Item[] items = currentRoomModel.getInventory().getItems();
         for (Item item : items) {
             if(item.isTakable())
                 addItemInRoom(item, item.getScalar2D().getScalar2DCol(), item.getScalar2D().getScalar2DLine());
             else
-                addContainerInRoom(item);
+                addContainerInRoom(item, item.getScalar2D().getScalar2DCol(), item.getScalar2D().getScalar2DLine());
         }
     }
 
+    // Gestion des affichages des NPCs dans la pièce
     public void loadNPCs() {
         NPC[] npcs = currentRoomModel.getNPCs();
 
@@ -184,8 +190,13 @@ public class RoomController {
             return;
 
         for (NPC npc : npcs) {
-            int[] roomPos = currentRoomView.getRandPos();
-            npc.setPos(roomPos[0], roomPos[1]);
+            //On cherche une position disponible dans la pièce et on met à jour la position du modèle:
+            int[] availableRoomPos = currentRoomView.getRandPos();
+            Scalar2D npcPos = new Scalar2D(availableRoomPos[0], availableRoomPos[1]);
+
+            if (!npc.isDead())
+                npc.setPos(npcPos);
+
             ActorView actorView = gameController.getActorController().getNPCView(npc);
             actorView.setOnMousePressed(e -> {
                 if(e.isSecondaryButtonDown())
@@ -197,10 +208,11 @@ public class RoomController {
                 }
 
             });
-            currentRoomView.addInRoom(actorView, npc.getName(), roomPos[0], roomPos[1], "CENTER");
+            currentRoomView.addInRoom(actorView, npc.getName(), npc.getPos().getScalar2DCol(), npc.getPos().getScalar2DLine(), "CENTER");
         }
     }
 
+    // Gestion de l'affichage du joueur dans la pièce
     public void loadPlayer() {
         int nbCol = currentRoomView.getNbCol();
         int nbLignes = currentRoomView.getNbLignes();
@@ -218,5 +230,18 @@ public class RoomController {
                 gameController.getGameView().getActorImageView().setImage(new Image(getClass().getResource("../img/main_character.png").toString(), true));
             }
         });
+    }
+
+
+    //====================== UNLOADERS ========================
+    public void unloadNPCs(){
+        NPC[] npcs = currentRoomModel.getNPCs();
+
+        if(npcs == null)
+            return;
+
+        for (NPC npc : npcs) {
+            currentRoomView.removeFromRoom(npc.getName());
+        }
     }
 }

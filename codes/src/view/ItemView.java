@@ -5,6 +5,7 @@ import javafx.scene.shape.Ellipse;
 
 public class ItemView extends Ellipse
 {
+    // Création visuelle d'un item
     public ItemView()
     {
         setRadiusX(5);

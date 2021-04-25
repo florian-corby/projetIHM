@@ -4,12 +4,8 @@ import javafx.event.EventHandler;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.VBox;
 import javafx.scene.shape.Shape;
-import model.Characters.Player;
-import model.Containers.Inventory;
 import model.Items.Item;
-import view.GameView;
 
 import java.util.LinkedHashMap;
 
@@ -17,25 +13,17 @@ import java.util.LinkedHashMap;
 /* -----------------------------------------------------------------------------
  * Contrôleur de l'inventaire du jeu:
  *
- * Rôle: Contrôleur global du jeu qui gère l'inventaire du joueur et son UI. Il
- * connaît le contrôleur des pièces afin de pouvoir dropper l'item de l'inventaire
- * ou encore d'activer les effets des items en cliquant sur un autre élément de la
- * vue de la pièce du jeu.
+ * Rôle: Contrôleur global du jeu qui gère l'inventaire du joueur et son UI.
  * ----------------------------------------------------------------------------- */
 
 public class InventoryController {
     private final GameController gameController;
-    private final Inventory playerInvModel;
-    private final VBox playerInvView;
     private final ToggleGroup invTG;
     private EventHandler<MouseEvent>[] fireHandlers;
 
     //=============== CONSTRUCTEURS/INITIALISEURS ===============
     public InventoryController(GameController c) {
         gameController = c;
-        Player playerModel = c.getPlayerModel();
-        playerInvModel = playerModel.getInventory();
-        playerInvView = c.getGameView().getInventoryVBox();
         invTG = new ToggleGroup();
         initHandlers();
         initInventory();
@@ -48,31 +36,34 @@ public class InventoryController {
             drop(itemTag);
         });
 
-        gameController.getGameView().getGiveButton().setOnAction(e -> { give(); });
-        gameController.getGameView().getLookButton().setOnAction(e -> { look(); });
+        gameController.getGameView().getGiveButton().setOnAction(e -> give());
+        gameController.getGameView().getLookButton().setOnAction(e -> look());
     }
 
     public void initInventory(){
-        for(Item item : playerInvModel.getItems()){
+        for(Item item : gameController.getPlayerModel().getInventory().getItems()){
             ToggleButton tgBtn = new ToggleButton(item.getTag());
             setTgBtnHandler(tgBtn);
             invTG.getToggles().add(tgBtn);
-            playerInvView.getChildren().add(tgBtn);
+            gameController.getGameView().getInventoryVBox().getChildren().add(tgBtn);
         }
     }
 
     //====================== UPDATERS =========================
     public void addInInventory(Item item){
+        gameController.getPlayerModel().getInventory().showItems();
         //On met à jour le modèle:
-        playerInvModel.addItem(item);
+        gameController.getPlayerModel().getInventory().addItem(item);
         gameController.getRoomController().getCurrentRoomModel().getInventory().removeItem(item.getTag());
 
         //On met à jour la vue:
         ToggleButton tgBtn = new ToggleButton(item.getTag());
         setTgBtnHandler(tgBtn);
         invTG.getToggles().add(tgBtn);
-        playerInvView.getChildren().add(tgBtn);
-        gameController.getRoomController().getCurrentRoomView().removeFromRoom(item.getTag());
+        gameController.getGameView().getInventoryVBox().getChildren().add(tgBtn);
+
+        if(gameController.getRoomController().getCurrentRoomView().getFromRoom(item.getTag()) != null)
+            gameController.getRoomController().getCurrentRoomView().removeFromRoom(item.getTag());
     }
 
     public void clearEventHandlers(){
@@ -86,20 +77,21 @@ public class InventoryController {
         }
     }
 
+    // Gestionnaire du drop (Poser un item dans un pièce, en l'enlevant de l'Inventaire)
     public void drop(String itemTag){
         //On met à jour la vue:
-        playerInvView.getChildren().remove((ToggleButton) invTG.getSelectedToggle());
+        gameController.getGameView().getInventoryVBox().getChildren().remove((ToggleButton) invTG.getSelectedToggle());
         invTG.getToggles().remove(invTG.getSelectedToggle());
-        gameController.getRoomController().addItemInRoom(playerInvModel.getItem(itemTag),
-                playerInvModel.getItem(itemTag).getScalar2D().getScalar2DCol(), playerInvModel.getItem(itemTag).getScalar2D().getScalar2DLine());
+        int[] pos = gameController.getRoomController().getCurrentRoomView().getRandPos();
+        gameController.getRoomController().addItemInRoom(gameController.getPlayerModel().getInventory().getItem(itemTag), pos[0], pos[1]);
 
         //On met à jour le modèle:
-        playerInvModel.moveItem(itemTag, gameController.getRoomController().getCurrentRoomModel().getInventory());
+        gameController.getPlayerModel().getInventory().moveItem(itemTag, gameController.getRoomController().getCurrentRoomModel().getInventory());
 
         //On élimine les handlers() dus à la sélection du bouton:
         clearEventHandlers();
     }
-
+    // Gestionnaire du give (Donner un item à un PNJ)
     public void give(){
         ToggleButton itemBtn = (ToggleButton) invTG.getSelectedToggle();
 
@@ -115,12 +107,13 @@ public class InventoryController {
         }
     }
 
+    // Gestionnaire de look (Envoie dans la boite de dialogue la description d'un objet selectioné)
     public void look(){
         ToggleButton itemBtn = (ToggleButton) invTG.getSelectedToggle();
 
         if(itemBtn != null){
             String itemTag = itemBtn.getText();
-            playerInvModel.getItem(itemTag).describe();
+            gameController.getPlayerModel().getInventory().getItem(itemTag).describe();
         }
     }
 
@@ -138,7 +131,7 @@ public class InventoryController {
             if(gameController.getRoomController().getCurrentRoomModel().getInventory().getItem(btn.getText()) != null)
                 itemUsed = gameController.getRoomController().getCurrentRoomModel().getInventory().getItem(btn.getText());
             else
-                itemUsed = playerInvModel.getItem(btn.getText());
+                itemUsed = gameController.getPlayerModel().getInventory().getItem(btn.getText());
 
             //On parcourt chacun de ces éléments pour leur associer un gestionnaire d'événement:
             int count = 0;
@@ -157,13 +150,14 @@ public class InventoryController {
         });
     }
 
+    // Gestionnaire des modification visuel apporter à l'inventaire du joueur
     public void updateInventory(){
         int nbToggleBtns = invTG.getToggles().size();
 
         for(int i = 0; i < nbToggleBtns; i++){
             //À chaque suppression les Toggles se réarrangent. On supprime donc le premier toggle "n" fois:
             ToggleButton itemBtn = (ToggleButton) invTG.getToggles().get(0);
-            playerInvView.getChildren().remove(itemBtn);
+            gameController.getGameView().getInventoryVBox().getChildren().remove(itemBtn);
             invTG.getToggles().remove(itemBtn);
         }
 
@@ -171,10 +165,9 @@ public class InventoryController {
         initInventory();
     }
 
-    public void updateRoom(RoomController roomController){
-        LinkedHashMap<String, Shape> roomViews = roomController.getCurrentRoomView().getGameElementViews();
-
-        //On va stocker tous les gestionnaires d'événements que la sélection d'un bouton aura créé dans un tableau:
-        fireHandlers = new EventHandler[roomViews.size()];
+    public void resetUseItemHandlersArray(int nbCol, int nbLignes){
+        //On va stocker tous les gestionnaires d'événements que la sélection d'un bouton aura créé dans un tableau.
+        //La taille de ce tableau correspond au nombre maximum d'objets que peut contenir une pièce, ie. 1 objet par case:
+        fireHandlers = new EventHandler[nbCol*nbLignes];
     }
 }

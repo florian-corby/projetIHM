@@ -81,6 +81,7 @@ public class GameController {
         });
     }
 
+    // Gestionnaire des sauvgardes
     public void initSaveLoadHandlers(){
         gameView.getSaveButton().setOnMouseClicked(e -> playerModel.save());
 
@@ -88,12 +89,16 @@ public class GameController {
             gameModel.load();
             playerModel = gameModel.getShip().getPlayer();
             roomController.updateRoomView(DEFAULT_ROOMS_SIZE.getScalar2DCol(), DEFAULT_ROOMS_SIZE.getScalar2DLine());
+            inventoryController.updateInventory();
         });
     }
 
+    // Gestionnaire des attaques
     public void initAttackHandler(){ gameView.getAttackButton().setOnMouseClicked(e-> { actorController.attack(); }); }
 
     //====================== PREDICATS ==========================
+
+    // Gestion de la fin du jeu
     public void isGameOver(){
         if(gameModel.isEndGame()){
             Alert popup = new Alert(Alert.AlertType.INFORMATION);

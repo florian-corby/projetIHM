@@ -18,6 +18,11 @@ public class File extends Item implements Serializable {
         this.CONTENT = content;
     }
 
+    public File(String tag, String description, Scalar2D scalar2D, boolean isTakable, boolean isGivable, String content){
+        super(tag, description, scalar2D, isTakable, isGivable);
+        this.CONTENT = content;
+    }
+
     public File getCopy()
     {
         return new File(getTag(), getDescription(), getScalar2D(), CONTENT);

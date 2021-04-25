@@ -207,7 +207,7 @@ public class Ship implements Serializable {
 				Oh a human! You poor thing, you must be lost... You know, my husband, Vik, is the captain's favorite. He even guards his personal computer! But I wonder, what they are doing to you poor things?
 				...
 				You know what? Bring me some evidence of what they are doing to your species, and I'll give you the code to the Captain's laptop!""");
-		File CaptainCode = new File("CaptainCode", "The code to the the Captain's laptop", "The code is: iwanttoeradicateallhumans");
+		File CaptainCode = new File("CaptainCode", "The code to the the Captain's laptop", new Scalar2D(3, 6), true, false,"The code is: iwanttoeradicateallhumans");
 		umhon.getInventory().addItem(CaptainCode);
 		this.npcs.put(umhon.getName(), umhon);
 
@@ -225,7 +225,7 @@ public class Ship implements Serializable {
 
 		// ~~~~~~~~~~~~~~~~ Ajouts d'objets dans la pièce 14:
 
-		File journal = new File("journal", "a DataPad, belonging to the family from room 14.",
+		File journal = new File("journal", "a journale belonging to the family from room 14.",
 				"""
 						All the files on this DataPad have the name dairy on it.
 						It looks like Eelhoir's journal. She talks about her family, and how they escaped from the destruction of their planet.

@@ -18,7 +18,7 @@ public abstract class Actor implements Attackable, Attacker, UsableBy, Serializa
 	private Room room;
 	private Room previousRoom;
 	private final Inventory INVENTORY;
-	private Scalar2D pos ;
+	private Scalar2D pos;
 
 	private static final int DEFAULT_ATTACKPOWER = 25;
 	private static final int DEFAULT_HP = 100;
@@ -33,6 +33,20 @@ public abstract class Actor implements Attackable, Attacker, UsableBy, Serializa
 		this.room = r;
 		this.previousRoom = r;
 		this.INVENTORY = new Inventory();
+
+		r.addActor(this);
+	}
+
+	public Actor(String name, String description, Room r, Scalar2D pos)
+	{
+		this.NAME = name;
+		this.DESCRIPTION = description;
+		this.hp = DEFAULT_HP;
+		this.ATTACKPOWER = DEFAULT_ATTACKPOWER;
+		this.room = r;
+		this.previousRoom = r;
+		this.INVENTORY = new Inventory();
+		this.pos = pos;
 
 		r.addActor(this);
 	}
@@ -84,6 +98,8 @@ public abstract class Actor implements Attackable, Attacker, UsableBy, Serializa
 		return this.NAME;
 	}
 
+	public Scalar2D getPos() { return this.pos; }
+
 	public Room getPreviousRoom()
 	{
 		return this.previousRoom;
@@ -93,8 +109,6 @@ public abstract class Actor implements Attackable, Attacker, UsableBy, Serializa
 	{
 		return this.room;
 	}
-
-	public Scalar2D getPos() {return this.pos;}
 
 	public void setPos(int x, int y) {this.pos = new Scalar2D(x, y);}
 
@@ -172,4 +186,6 @@ public abstract class Actor implements Attackable, Attacker, UsableBy, Serializa
 	}
 
 	public abstract void receive(Actor a, String tag);
+
+	public void setPos(Scalar2D pos) { this.pos = pos; }
 }

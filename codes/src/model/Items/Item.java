@@ -14,8 +14,7 @@ public abstract class Item implements Usable, UsableBy, UsableOn, Serializable, 
 	private boolean ISGIVABLE;
 	private Scalar2D scalar2D;
 
-	public Item(String tag, String description, Scalar2D scalar2D)
-	{
+	public Item(String tag, String description, Scalar2D scalar2D) {
 		this.TAG = tag;
 		this.DESCRIPTION = description;
 		this.ISTAKABLE = false;
@@ -23,8 +22,7 @@ public abstract class Item implements Usable, UsableBy, UsableOn, Serializable, 
 		this.scalar2D = scalar2D;
 	}
 
-	public Item(String tag, String description, Scalar2D scalar2D, boolean isTakable, boolean isGivable)
-	{
+	public Item(String tag, String description, Scalar2D scalar2D, boolean isTakable, boolean isGivable) {
 		this(tag, description, scalar2D);
 		this.ISTAKABLE = isTakable;
 		this.ISGIVABLE = isGivable;

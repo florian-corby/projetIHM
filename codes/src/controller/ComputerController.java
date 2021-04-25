@@ -13,12 +13,12 @@ import view.ItemView;
 
 import java.io.IOException;
 
+import static controller.GameController.DEFAULT_ROOMS_SIZE;
+
 public class ComputerController {
-    //====================== ATTRIBUTS ==========================
+    private final GameController gameController;
     private ComputerView computerView;
     private final Computer computerModel;
-    private final GameController gameController;
-    private final VBox actorPanel;
 
     //=============== CONSTRUCTEURS/INITIALISEURS ===============
     public ComputerController(Computer computerModel, GameController gameController) throws IOException {
@@ -29,7 +29,6 @@ public class ComputerController {
 
         this.computerModel = computerModel;
         this.gameController = gameController;
-        this.actorPanel = gameController.getGameView().getActorVBox();
 
         initFiles();
         initHandlers();
@@ -38,6 +37,7 @@ public class ComputerController {
         updateGameView(computerView.getComputer());
     }
 
+    // Initialisation des différents documents dans un ordinateur
     private void initFiles(){
         GridPane computerDesk = computerView.getComputerDesk();
         int nbCols = computerDesk.getColumnCount();
@@ -54,7 +54,8 @@ public class ComputerController {
                     gameController.getGameView().update(file.getContent());
                 }
                 else{
-                    gameController.getInventoryController().addInInventory(item);
+                    computerModel.printFile(item.getTag(), gameController.getPlayerModel());
+                    gameController.getInventoryController().updateInventory();
                 }
             });
 
@@ -73,14 +74,13 @@ public class ComputerController {
             }
         }
     }
-
+    // Initialisation des handlers
     private void initHandlers(){
-        computerView.getQuitBtn().setOnAction(e -> {
-            updateGameView(actorPanel);
-        });
+        computerView.getQuitBtn().setOnAction(e -> updateGameView(gameController.getActorController().getInitialActorPanel()));
 
         computerView.getEventBtn().setOnAction(e -> {
             computerModel.getEVENT().getE().raise(gameController.getPlayerModel());
+            gameController.getRoomController().updateRoomView(DEFAULT_ROOMS_SIZE.getScalar2DCol(), DEFAULT_ROOMS_SIZE.getScalar2DLine());
         });
     }
 
