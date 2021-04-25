@@ -233,14 +233,20 @@ public class RoomController {
 
 
     //====================== UNLOADERS ========================
+    public void unloadDoors() {
+        Set<Door> doors = currentRoomModel.getDoors().keySet();
+
+        for(Door d : doors)
+            currentRoomView.removeFromRoom(d.getTag());
+    }
+
     public void unloadNPCs(){
         NPC[] npcs = currentRoomModel.getNPCs();
 
         if(npcs == null)
             return;
 
-        for (NPC npc : npcs) {
+        for (NPC npc : npcs)
             currentRoomView.removeFromRoom(npc.getName());
-        }
     }
 }

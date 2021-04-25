@@ -80,7 +80,9 @@ public class ComputerController {
 
         computerView.getEventBtn().setOnAction(e -> {
             computerModel.getEVENT().getE().raise(gameController.getPlayerModel());
-            gameController.getRoomController().updateRoomView(DEFAULT_ROOMS_SIZE.getScalar2DCol(), DEFAULT_ROOMS_SIZE.getScalar2DLine());
+            gameController.getRoomController().unloadDoors();
+            gameController.getRoomController().loadDoors();
+            //gameController.getRoomController().updateRoomView(DEFAULT_ROOMS_SIZE.getScalar2DCol(), DEFAULT_ROOMS_SIZE.getScalar2DLine());
         });
     }
 
