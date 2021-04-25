@@ -1,11 +1,17 @@
 package controller;
 
+import javafx.application.Platform;
+import javafx.concurrent.ScheduledService;
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
 import javafx.scene.paint.Color;
+import javafx.util.Duration;
 import model.Characters.Actor;
 import javafx.scene.layout.VBox;
 import model.Characters.NPC;
 import model.Utils.Scalar2D;
 import view.ActorView;
+import view.RoomView;
 
 import static controller.GameController.DEFAULT_ROOMS_SIZE;
 
@@ -26,6 +32,26 @@ public class ActorController {
     public ActorController(GameController c) {
         gameController = c;
         initialActorPanel = c.getGameView().getActorVBox();
+
+        //Déplacement aléatoire des personnages:
+        ScheduledService<Void> moveNPCsService = new ScheduledService<>() {
+            @Override
+            protected Task<Void> createTask() {
+                return new Task<>() {
+                    @Override
+                    protected Void call() {
+                        Platform.runLater(() -> {
+                            gameController.getRoomController().unloadNPCs();
+                            gameController.getRoomController().loadNPCs();
+                        });
+                        return null;
+                    }
+                };
+            }
+        };
+        
+        moveNPCsService.setPeriod(Duration.seconds(2));
+        moveNPCsService.start();
     }
 
     //====================== GETTERS ==========================

@@ -2,6 +2,7 @@ package controller;
 
 import javafx.beans.binding.Bindings;
 import javafx.scene.image.Image;
+import javafx.util.Duration;
 import model.Characters.NPC;
 import model.Doors.Door;
 import model.Doors.LockedDoor;
@@ -220,5 +221,16 @@ public class RoomController {
                 gameController.getGameView().getActorImageView().setImage(new Image(getClass().getResource("../img/main_character.png").toString(), true));
             }
         });
+    }
+
+    public void unloadNPCs(){
+        NPC[] npcs = currentRoomModel.getNPCs();
+
+        if(npcs == null)
+            return;
+
+        for (NPC npc : npcs) {
+            currentRoomView.removeFromRoom(npc.getName());
+        }
     }
 }
