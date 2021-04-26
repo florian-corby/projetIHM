@@ -187,7 +187,7 @@ public class Ship implements Serializable {
 		// ~~~~~~~~~~~~~~~~ Ajouts d'acteurs dans la pièce 21:
 		//Kilen:
 		List<Item> kilenItems = new ArrayList<>();
-		Pass p = new Pass("passT", "It looks like a pass... There's some kind of letter looking like\n\ta T written on it.", PassType.T);
+		Pass p = new Pass("passT", "It looks like a pass... There's some kind of letter looking like a T written on it.", PassType.T);
 		kilenItems.add(p);
 		NPC kilen = new NPC("Kilen", "With his white clothes, Kilen looks like a scientist. As of the " +
 				"rest, it's beyond\nwhat any human has ever imagined about what aliens look like.", false, true, kilenItems, room21);

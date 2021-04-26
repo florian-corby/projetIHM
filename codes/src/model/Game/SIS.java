@@ -27,7 +27,9 @@ public class SIS implements Serializable {
 	}
 
 	public void initGame() {
-		/*Scanner scan = new Scanner(System.in);
+		this.printGameIntro();
+
+		/* Scanner scan = new Scanner(System.in);
 		Message.sendGameMessage("Load an existing game?\n(Type \"yes\" if you have a save file. Press Enter for a new game.)");
 		Message.sendGameMessage("\nCommand :> ");
 		String userChoice = scan.nextLine();
@@ -70,7 +72,7 @@ public class SIS implements Serializable {
 	}
 
 	public void endGame() {
-		Message.sendGameMessage("\n\n\t\t ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \n");
+		Message.sendGameMessage("\n\n\t\t ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \n");
 		Message.sendGameMessage("Thanks for playing Silent In Space! And special thanks to our beta-tester Ophélie De Sousa Oliveira :) !\n");
 	}
 
@@ -109,8 +111,8 @@ public class SIS implements Serializable {
 		ship.getPlayer().call();
 	}
 
-	public void printHelp() {
-		Message.sendGameMessage("--- SILENT IN SPACE --- \n");
+	public void printGameIntro()
+	{
 		Message.sendGameMessage("""
 				WELCOME to Silent In Space! This game was developed by Florian Legendre, Alexis Louail
 				and Vincent Tourenne as a universitary project. This is a demo, hence all the features
@@ -118,16 +120,15 @@ public class SIS implements Serializable {
 				textual commands. Meaning that you must input valid commands with your keyboard and
 				the game will react accordingly. For a thorough listing of commands, their syntaxes
 				and effects, type help! Enjoy!
-
-				""");
-		Message.sendGameMessage("""
+				
 				SCENARIO: You wake up in an alien ship. You understand that you've been abducted and
 				you must escape. Yet, you can't use the escape pods of the ship without a code.
 				Umhon, an important alien person, can give you this code (OR you can take it from her
 				body) but you have to bring her the proof of the abominable experiments being conducted
 				on humans. This proof is what will end the abductions and possibly the end of humanity.
 				The escape room is ROOM 13. Good luck human!
-
+				
+				~~~~~~~~~~~~~~~~~~~~~
 				""");
 	}
 }
