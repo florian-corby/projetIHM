@@ -122,7 +122,9 @@ public abstract class Actor implements Attackable, Attacker, UsableBy, Serializa
 				Message.sendGameMessage("You tried giving a " + tag + " to " + a.getName() + ", but somehow it seems that a dead body cannot grab an item. Strange, huh?");
 			else {
 				if(item != null) {
-					this.INVENTORY.moveItem(item.getTag(), a.getInventory());
+					if((a instanceof NPC && !((NPC) a).isHostile()) || a instanceof Player)
+						this.INVENTORY.moveItem(item.getTag(), a.getInventory());
+
 					a.receive(this, item.getTag());
 				}
 

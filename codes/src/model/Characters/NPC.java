@@ -61,7 +61,10 @@ public class NPC extends Actor implements Serializable, Lookable
 
 	@Override
 	public void receive(Actor a, String tag) {
-		Message.sendGameMessage(this.getName() + " wonders why you gave him this item, but takes it anyway.");
+		if(!this.isHostile())
+			Message.sendGameMessage(this.getName() + " wonders why you gave him this item, but takes it anyway.");
+		else
+			Message.sendGameMessage(this.getName() + " doesn't trust you and refuses your item.");
 	}
 
 	public void setAlly(boolean b) { this.isAlly = b; }

@@ -15,7 +15,7 @@ public class Umhon extends NPC implements Serializable {
     @Override
     public void receive(Actor a, String tag) {
 
-        if(tag.equals("doctorLog")) {
+        if(tag.equals("doctorLog") && !this.isHostile()) {
             Message.sendGameMessage("Oh, this is a file from the lab? Thank you sweetheart! Let me take a look at this...\n" +
                     "...Oh. Oh, my." +
                     "I'm... so sorry. Here, have this. I'm going to have a serious talk with my husband tonight. Best of luck.");
