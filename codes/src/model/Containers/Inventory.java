@@ -74,7 +74,7 @@ public class Inventory implements Serializable {
 	{
 		for (Item i : this.ITEMS.values())
 		{
-			Message.sendGameMessage("\t- " + i.getTag() + " : " + i.getDescription());
+			System.out.print("\t- " + i.getTag() + " : " + i.getDescription());
 		}
 	}
 

@@ -47,8 +47,6 @@ public class Room implements Lookable, Serializable {
 		if(this.doors.size() == 1 && this.hasLockedDoor())
 			Message.sendGameMessage("Suddenly, the door closed shut behind you! You try opening it... " +
 					"But it is hopeless, you are trapped in this room.");
-
-		Message.sendGameMessage("");
 		this.scanRoom();
 	}
 
