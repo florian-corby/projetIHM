@@ -54,10 +54,8 @@ public class InventoryController {
 
     //====================== UPDATERS =========================
     public void addInInventory(Item item){
-        gameController.getPlayerModel().getInventory().showItems();
         //On met à jour le modèle:
-        gameController.getPlayerModel().getInventory().addItem(item);
-        gameController.getRoomController().getCurrentRoomModel().getInventory().removeItem(item.getTag());
+        gameController.getPlayerModel().take(item);
 
         //On met à jour la vue:
         ToggleButton tgBtn = new ToggleButton(item.getTag());
