@@ -92,9 +92,6 @@ public class RoomController {
 
     // Mise a jour de la vue de la pièce et des differents composants a l'interieur
     public void updateRoomView(int nbCol, int nbLignes) {
-        //À chaque nouvelle pièce chargée on vérifie si le jeu est terminé:
-        gameController.isGameOver();
-
         //On met à jour le modèle:
         currentRoomModel = gameController.getPlayerModel().getRoom();
 
@@ -115,6 +112,9 @@ public class RoomController {
 
         //"Éteint" l'ordinateur si le joueur quitte la pièce sans appuyer sur le bouton 'quitter':
         gameController.getActorController().resetActorPanel();
+
+        //À chaque nouvelle pièce chargée on vérifie si le jeu est terminé:
+        gameController.isGameOver();
     }
 
 
