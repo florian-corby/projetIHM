@@ -35,10 +35,6 @@ public class GameController {
     private final RoomController roomController;
     private final InventoryController inventoryController;
 
-    //Gestion du manuel d'aide:
-    private String previousDialog;
-    private Boolean isHelpManualOn = false;
-
     //=============== CONSTRUCTEURS/INITIALISEURS ===============
     public GameController() throws IOException {
         //On charge la vue:
@@ -65,19 +61,29 @@ public class GameController {
 
     //Le manuel d'aide:
     public void initHelpManual() {
-        previousDialog = gameView.getDialogTextArea().getText();
-        gameView.getHelpButton().setOnAction(e -> {
-            if (isHelpManualOn) {
-                isHelpManualOn = false;
-                gameView.getHelpButton().setText("?");
-                gameView.getDialogTextArea().setText(previousDialog);
-            } else {
-                isHelpManualOn = true;
-                previousDialog = gameView.getDialogTextArea().getText();
-                gameView.getDialogTextArea().setText("");
-                gameView.getHelpButton().setText("Back to the Game");
-                gameModel.printHelp();
-            }
+        getGameView().getHelpButton().setOnAction(e -> {
+            Alert popup = new Alert(Alert.AlertType.INFORMATION);
+            popup.setTitle("Help Manual");
+            popup.setHeaderText("Game controls");
+            popup.getDialogPane().setPrefWidth(600);
+            popup.setContentText("""
+                              General controls:
+                              ------------------------
+                              - Left Click to talk to characters / use doors / use room equipments
+                              - Right Click to bring up a description of the clicked element
+                              
+                              Inventory controls:
+                              --------------------------
+                              - Use an item: left click on the toggle button + left click on an element in the room
+                              
+                              - Give an item: left click on an NPC 
+                                            + left click on the toggle button 
+                                            + left click on the give button below
+                                            
+                              - Drop an item: left click on the toggle button + left click on the drop button below
+                              - Look an item: left click on the toggle button + left click on the look button below
+                              """);
+            popup.show();
         });
     }
 
