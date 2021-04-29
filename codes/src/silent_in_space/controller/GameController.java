@@ -110,7 +110,8 @@ public class GameController {
             getActorController().getMoveNPCsService().cancel();
             Alert popup = new Alert(Alert.AlertType.INFORMATION);
             popup.setTitle("Félicitations!");
-            popup.setContentText("Merci d'avoir joué à Silent In Space! Et tout particulièrement merci à notre bêta-testeuse Ophélie De Sousa Oliveira :) !");
+            popup.setContentText("Merci d'avoir joué à Silent In Space! Nous tenons tout particulièrement à remercier notre " +
+                    "bêta-testeuse Ophélie De Sousa Oliveira et notre dessinatrice Stéphane Louis :) !");
             popup.showAndWait();
             Platform.exit();
         }
