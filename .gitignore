@@ -35,3 +35,4 @@ codes/.idea/libraries/*
 *.vpp~*
 *.txt
 *javafx*
+*build/

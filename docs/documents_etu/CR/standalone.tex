@@ -1,0 +1,89 @@
+% ===================================================== %
+% ===================  PREAMBULE ====================== %
+% ===================================================== %
+
+\documentclass[a4paper, french]{report}
+\usepackage{config}
+
+% ===================================================== %
+% ===================================================== %
+% ===================================================== %
+
+\begin{document}
+
+% Page de titre standarde
+\begin{titlepage}
+    \begin{flushleft}
+        \includegraphics[width=5cm]{UP.png}\par
+        \centering
+        
+        \vspace{13\baselineskip}       
+        \HRule \\[0.4cm]
+
+        {\Huge 
+        Projet \textit{Interface d'un jeu d'exploration}\\ (Rapport)\par}
+        \vspace{0.4cm}
+        \HRule
+        \vfill
+      
+        Auteur(s): Florian Legendre, Alexis Louail,\\Vincent Tourenne\medskip \par
+        
+        \includegraphics[scale=0.7]{creative_commons.png}\par
+    \end{flushleft}
+\end{titlepage}
+
+% Explication des légendes et abbréviations Standard
+\newpage
+\begin{LARGE}
+Légendes et Abbréviations utilisées\\\\\\\\
+\end{LARGE}
+\textbf{Question:} Ceci est une question de l'enseignant\\
+\textbf{Réponse:} Ceci est une réponse de l'enseignant ou validée par l'enseignant\\
+\textbf{Réponse:} \textit{Ceci est une réponse du ou d'un des auteurs non validée par l'enseignant}\\\\
+
+\begin{lstlisting}[style=C, caption=Exemple de code source]
+Ceci est du code source.
+Selon les langages, différents mots seront colorés selon 
+si ce sont des mots clefs ou non (comme int, char, etc.).
+\end{lstlisting}
+
+\begin{mdframed}[style=Bash]
+\begin{lstlisting}[style=Bash, caption=Exemple d'une pseudo capture d'écran Bash]
+Ceci est un formattage automatique Latex d'un texte copié-collé
+directement depuis un terminal Bash ayant valeur de capture
+d'écran. La coloration correspond à une coloration quelconque 
+d'un terminal Bash (les chemins étant habituellement coloré et 
+le nom de l'utilisateur aussi comme crex@crex:~$ ...)
+\end{lstlisting}
+\end{mdframed}
+
+\begin{mdframed}[style=Bash]
+\begin{lstlisting}[style=Bash_pedago, caption=Exemple d'une capture formaté en style 'Tutoriel de Commande Bash' ou TCB]
+Ceci est un formattage automatique Latex d'un texte copié-collé
+directement depuis un terminal Bash et dont la coloration a été
+revisitée pour mettre en relief les commandes natives de Bash
+comme cp en cyan, les alias ou scripts faits par l'utilisateur 
+en jaune (Ex. mygcc), les options en magenta (comme -i ), les 
+opérateurs de redirection en rouge (comme > | < ) et l'invite de
+commande $ en vert.
+\end{lstlisting}
+\end{mdframed}
+
+% Sommaire Standard
+\newpage
+\pagestyle{empty}
+\tableofcontents
+\addtocontents{toc}{\protect\thispagestyle{empty} 
+                    \protect\pagestyle{empty}}
+\pagestyle{plain}
+
+\newpage
+
+
+
+%%% ---------------------------------------------- %%%
+%%% ------------------ Début TP ------------------ %%%
+%%% ---------------------------------------------- %%%
+
+\subfile{./content.tex}
+\end{document}
