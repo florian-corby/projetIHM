@@ -10,11 +10,26 @@
 
 % Section:
 \section{Qu'est-ce que Silent In Space?}
-Silent In Space (abrégé : “SIS”) est un jeu Point \& Click dans la veine des Monkey Island. Dans ce jeu, vous vous réveillez dans un vaisseau alien et avez pour but de vous en échapper. Faites vous des alliés ou des ennemis sur votre chemin et découvrez pourquoi vous êtes ici ! 
+Silent In Space (abrégé : “SIS”) est un jeu Point \& Click s'inspirant des Monkey Island. Dans ce jeu, vous vous réveillez dans un vaisseau alien et avez pour but de vous en échapper. Faites-vous des alliés ou des ennemis sur votre chemin et découvrez pourquoi vous êtes ici! 
 
 % Section:
 \section{Lancer le jeu}
+Le jeu se lance dans un IDE de type Intellij IDEA ou NetBeans. Il nécessite Java 15 et JavaFX 16.\\ 
 
+Si vous choisissez de le lancer dans un IDE Intellij vous devez:
+\begin{enumerate}
+	\item Aller dans la structure du projet (File > Project Structure)
+	\item Ajouter la librairie - ie. le dossier lib/ - de  JavaFX (Libraries > + > Java > lib/)
+	\item Aller dans les paramètres d'exécution (Run > Edit Configurations)
+	\item Cliquer sur l'application "Main" et ajouter dans le champ \textit{VM options} : $--$module-path "../librairies/javafx/lib" $--$add-modules=javafx.controls,javafx.fxml
+\end{enumerate}
+
+\begin{center}
+	\begin{figure}[h!]
+	\includegraphics[scale=0.4]{images/vm_options.png}
+	\caption{Configuration du Runner d'Intellij pour JavaFx}
+	\end{figure}
+\end{center}
 
 \newpage
 
@@ -174,13 +189,53 @@ L'objectif dans le choix de ces outils était de nous permettre de travailler le
 
 % Section:
 \section{Analyse des possibilités d’extension de l’application}
+\medskip
 
+\paragraph{Les axes d'amélioration\\}
+Le présent rendu est un travail inachevé. Les premiers points d'achèvement que nous souhaiterions aborder sont:
 
+\begin{itemize}
+	\item Davantage clarifier la responsabilité de chaque contrôleur
+	\item Renforcer la modularité du code
+	\item Éliminer les quelques données laissées en dur dans le code
+	\item Optimiser certaines méthodes en évitant de mettre à jour toute la pièce mais seulement quelques éléments de la pièce par le biais de méthodes \textit{load()} et de méthodes \textit{unload()}
+	\item Revoir le système de conversion des objets du modèle en leurs vues\\ respectives\\
+\end{itemize}
+
+Dans l'état actuel des choses nous pensons pouvoir produire le jeu final que nous espérions. En effet:
+
+\begin{itemize}
+	\item Le chargement des pièces est automatique aussi l'ajout d'une pièce dans le modèle provoque l'ajout d'une pièce dans la vue
+	\item La vue est abonnée aux messages du jeu aussi l'ajout de dialogues dans le jeu sont automatiquement restranscrits dans la vue
+	\item 100\% des fonctions du modèles sont implantées et ont leurs équivalents dans la présente interface\\
+\end{itemize}
+
+Mais développer l'application finale sans retravailler les points énoncées ci-dessus nous amènerait probablement à produire un code lourd (notamment si on ajoute de nouveaux objets) dans son exécution et pas très lisible.\\
+
+De plus, il faudrait renforcer le nombre de cas possibles: il est prévu dans le modèle des pièces qui ne comportent pas nécessairement 4 portes. Pour l'ordinateur nous n'avons pas prévu de comportement dans le cas où le nombre de fichiers excéderaient la capacité de la vue, etc.\\
+
+\paragraph{Les fonctionnalités futures envisagées\\}
+En dernier lieu, quand tous ces points trouveront leurs implantations dans l'applications, nous pensions améliorer le visuel du jeu en utilisant de nouveaux \textit{assets}, en utilisant des services qui modifieraient la couleur des pièces selon un gradient qui donnerait un effet de pulsation lumineuses au vaisseau, peut-être même en préchargeant les pièces voisines pour aider le joueur à s'orienter, etc.\\
+
+D'autres éléments d'ergonomie peuvent être reconsidérés: le bouton \textit{Give} n'est pas très pratique à utiliser, les boutons de ZOOM+ et de ZOOM- pourraient être remplacés par un \textit{binding} sur la molette de la souris du joueur, les sliders pourraient être remplacés par un drag \& drop de la pièce avec la souris, etc.
 
 \newpage
 
 % Section:
 \section{Erreurs détectées et commentaires}
+
+Au cours du développement nous avons détecté de nombreuses erreurs que nous avons corrigé en nous répartissant le travail par le biais de tickets:
+
+\begin{center}
+	\begin{figure}[h!]
+	\includegraphics[scale=0.25]{images/tickets.png}
+	\caption{Des tickets de bug sous GitHub}
+	\end{figure}
+\end{center}
+
+Ces erreurs étaient détectées soit au cours de nos propres tests de l'application, soit en laissant l'application aux mains de nos proches. Ces-derniers sont en remerciement dans la fenêtre popup de fin de partie.\\
+
+Au moment du rendu de cette application nous n'avons pas détecté de nouveaux bugs.
 
 
 \newpage
