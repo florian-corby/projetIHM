@@ -90,9 +90,9 @@ public class RoomController {
         currentRoomView.addInRoom(itemView, item.getTag(), col, line, "CENTER");
     }
 
-    // Mise a jour de la vue de la pièce et des differents composants a l'interieur
+    // Mise à jour de la vue de la pièce:
     public void updateRoomView(int nbCol, int nbLignes) {
-        //On met à jour le modèle:
+        //On récupère le modèle:
         currentRoomModel = gameController.getPlayerModel().getRoom();
 
         //On met à jour la vue:

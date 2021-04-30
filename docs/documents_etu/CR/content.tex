@@ -14,7 +14,7 @@ Silent In Space (abrégé : “SIS”) est un jeu Point \& Click s'inspirant des
 
 % Section:
 \section{Lancer le jeu}
-Le jeu se lance dans un IDE de type Intellij IDEA ou NetBeans. Il nécessite Java 15 et JavaFX 16.\\ 
+Le jeu se lance dans un IDE de type Intellij IDEA ou NetBeans. Il nécessite \color{red}Java 15 \color{black} et \color{red}JavaFX 16\color{black}.\\ 
 
 Si vous choisissez de le lancer dans un IDE Intellij vous devez:
 \begin{enumerate}
@@ -101,6 +101,36 @@ Vous pouvez sélectionner un personnage en faisant un clic gauche sur son icône
         
 \paragraph{Boutons Look et Drop\\}
     Pour utiliser ces boutons, il suffit de sélectionner l’item dans l’inventaire \textbf{(12)} puis de cliquer sur le bouton voulu.
+\newpage
+    
+% Subsection:
+\section{Carte du jeu et Solution}
+\begin{center}
+	\includegraphics[scale=0.5]{images/v4.png}
+\end{center}
+
+Commencez par utiliser le passT sur la porte T et sortez de la pièce de départ. Rendez-vous en salle 30, puis récupérez le pass A. Vous pouvez maintenant vous rendre en pièce 18, et débloquer l’aile résidentielle du vaisseau.\\
+ 
+Pour finir le jeu, vous aurez besoin de récupérer le code de l’ordinateur du capitaine. Il se trouve que la personne qui le possède n’est autre qu’Umhon, en salle 24. Cependant elle ne vous l’échangera uniquement que contre une preuve des expériences faites sur les humains sur le vaisseau. Vous avez alors deux option pour l’obtenir :
+\begin{itemize}
+	\item Tuer Umhon, et récupérer le code sur son cadavre
+	\item Aller en salle 23. La porte se fermera automatiquement derrière vous. Utilisez l’ordinateur pour la débloquer, ainsi que pour imprimer le document “doctorLog”. Retournez voir Umhon et donnez-lui ce document.\\
+\end{itemize}
+
+Vous devez ensuite vous rendre dans la salle 13 pour déclencher la fin du jeu.
+
+
+% Subsection:
+\section{Recommandations pour le confort du jeu}
+Une carte du jeu sans les solutions vous est fournie. Vous pouvez partager votre écran en deux parties comme dans l’image ci-dessous. Ainsi il sera plus facile de vous orienter dans le vaisseau spatial et de compléter les objectifs !
+
+\begin{center}
+	\begin{figure}[h!]
+	\includegraphics[scale=0.24]{images/conseils_utilisation.png}
+	\caption{Entourés en rouge sont les indicateurs qui vous aideront à vous orienter à tout moment dans le jeu}
+	\end{figure}
+\end{center}
+
 
 \newpage
 % --------------------- %
@@ -108,6 +138,28 @@ Vous pouvez sélectionner un personnage en faisant un clic gauche sur son icône
 % --------------------- %
 \part{Manuel du développeur}
 
+% Section:
+\section{Diagramme de classe du modèle}
+
+Bien que le modèle ne soit pas le coeur de ce projet nous pensons que présenter ce-dernier vous permettra de mieux comprendre les quelques adaptations que nous avons dû y apporter pour l'application actuelle.\\
+
+Ce diagramme de classe représente la hiérarchie des classes du modèle dans son état final lors de la remise du semestre dernier. Il ne s'agit pas de la hiérarchie actuelle! Bien que peu de choses ont changé.\\
+
+\begin{flushleft}
+	\begin{figure}[h!]
+	\advance\leftskip-2.2cm
+	\includegraphics[scale=0.19]{images/SIS.jpg}
+	\caption{Le diagramme en taille originale est fournie dans le dossier docs/ de l'archive du projet}
+	\end{figure}
+\end{flushleft}
+
+Ainsi, nous avons rajouté un nouveau package: le package \textit{Utils}, qui n'est pas représenté sur ce schéma et dont l'unique classe \textit{Scalar2D} est composé dans les classes \textit{Actor}, \textit{Item} et \textit{Door}. Cette classe sert à indiquer des positions proportionnelles (aucune unité de mesure ne leurs sont associées) des objets/acteurs/portes les uns par rapport aux autres.\\
+
+Une interface et une classe abstraite statique ont été ajoutée au package \textit{Game}: l'interface \textit{MessageListener} et la classe abstraite statique \textit{Message}.\\
+
+La classe abstraite statique \textit{Message} a été conçue en nous inspirant de la fonction \textit{System.out.print()}: accessible partout et non instantiable. L'interface \textit{MessageListener} est inspirée des écouteurs de javaFX. Nous avons ainsi notre propre système d'écoute des messages du modèle: s'y abonnent les classes qui lui souhaitent, peu importe si elles sont dans un modèle ou une vue ou encore ce qu'elles font de ces messages.
+
+\newpage
 
 % Section:
 \section{Structuration de l'application}
@@ -124,7 +176,7 @@ Le but du \textit{GameController} est d'initialiser les gestionnaires d'événem
 
 Aussi, les trois autres contrôleurs ont tous la main sur la vue du jeu (\textit{GameView}) et sur d'autres éléments visuels dont ils sont spécialistes (comme la vue des pièces et des portes - respectivement \textit{RoomView} et \textit{DoorView} - pour le \textit{RoomController})\\
 
-Enfin, ces trois contrôleurs peuvent avoir besoin de communiquer entre eux (flèches violettes sur le schéma). Ceci est le cas, par exemple, pour les fonctions \textit{drop()} et \textit{take()} de l'\textit{InventoryController} qui doit nécessairement connaître la pièce dans laquelle il doit ajouter ou retirer un élément visuel.\\
+Enfin, ces trois contrôleurs peuvent avoir besoin de communiquer entre eux (flèches violettes sur le schéma). Ceci est le cas, par exemple, pour les fonctions \textit{drop()} et \textit{take()} de l'\textit{InventoryController} qui doivent nécessairement connaître la pièce dans laquelle il doivent ajouter ou retirer un élément visuel.\\
 
 Quand ils communiquent ils le font toujours en passant par le \textit{GameController} afin d'avoir les données les plus à jour du modèle et de la vue.\\
 
@@ -138,7 +190,7 @@ Pour terminer, nous noterons l'abonnement de la vue du jeu (\textit{GameView}) a
 \section{Notre démarche dans la construction de cette application}
 \medskip
 
-Nous avons commencé le développement dès le lancement du projet le 20 Mars. Ayant un modèle que nous avions beaucoup testé le semestre précédent et qui ne comportait pas de bugs (à notre connaissance), nous avons débuté sur le développement de la vue générale du jeu. Nous avons choisi FXML car nous pensions que c'était l'outil le plus simple pour gérer la création d'une vue aussi complexe.\\
+Nous avons commencé le développement dès le lancement du projet le 20 Mars. Ayant un modèle que nous avions beaucoup testé le semestre précédent et qui ne comportait pas de bugs à notre connaissance, nous avons débuté sur le développement de la vue générale du jeu. Nous avons choisi FXML car nous pensions que c'était l'outil le plus simple pour gérer la création d'une vue aussi complexe, mais aussi parce que ce choix répondait au cahier des charges.\\
 
 Nous avons ensuite longuement hésité sur la marche à suivre. Nous pensions que le contrôleur associé au document FXML était un "véritable" contrôleur. Aussi nous avions commencé à diviser la vue en 6 FXML différents (un pour la carte du jeu, un autre pour le panneau des acteurs, etc.)\\
 
@@ -163,12 +215,12 @@ Cependant, certaines difficultés dont nous faisons la liste ci-après, nous ont
 
 Durant le développement de ce projet nous avons dû faire face à de nombreuses difficultés:
 \begin{itemize}
-	\item Les examens de fin d'année
-	\item Les autres projets
+	\item Les examens de fin d'année et les autres projets
 	\item Un début de stage en 35h dès le 12 Avril pour Florian Legendre
-	\item Des difficultés personnelles, des déplacements réguliers et des difficultés matérielles pour Alexis Louail
+	\item Des difficultés personnelles pour Florian Legendre (deuil de son chien)
+	\item Des déplacements réguliers ainsi que des difficultés personnelles et matérielles pour Alexis Louail
 	\item Des difficultés liées au partage du code sur l'IDE Intellij et aux différentes versions de Java/JavaFx avec Git (fichiers de configuration .idea/)
-	\item Nos incompréhensions et fausses routes\\
+	\item Nos incompréhensions et fausses routes propres au travail d'un étudiant\\
 \end{itemize}
 
 \paragraph{Outils utilisés pour le développent et la gestion de ce projet\\}
@@ -183,7 +235,111 @@ L'objectif dans le choix de ces outils était de nous permettre de travailler le
 
 % Section:
 \section{Résolution des problèmes de conception}
+Au cours du développement de cette application nous avons dû résoudre un nombre important de problèmes de conception. Certains d'entre eux ont déjà été détaillé ci-dessus et donc nous ne faisons que les mentionner ici:
 
+\begin{itemize}
+	\item Conception du modèle (semestre précédent)
+	\item Adaptation du modèle (positions relatives des objets/acteurs/portes du modèle et abonnements aux messages du jeu)
+	\item Structuration globale de l'architecture de l'application en nous basant sur l'architecture MVC tout en essayant d'avoir un code le plus modulaire possible (éviter d'avoir un seul gros contrôleur et plusieurs sous-contrôleurs spécialisés dont les méthodes sont des briques à utilisables pour construire des méthodes plus complexes)\\
+\end{itemize}
+
+Parmi les autres problèmes de conception les plus notables que nous avons eu à résoudre et que nous n'avons pas eu le temps encore d'expliquer il y a:
+
+\begin{enumerate}
+	\item Le chargement automatique des pièces
+	\item La gestion de l'utilisation des objets
+	\item La gestion du don d'objet
+	\item La gestion de l'ordinateur du jeu
+\end{enumerate}
+
+\paragraph{Chargement automatique des pièces\\}
+\noindent
+\begin{lstlisting}[style=Java, caption={Méthode de mise à jour de la vue des pièces extraite du \textit{RoomController}}]
+    public void updateRoomView(int nbCol, int nbLignes) {
+        //On récupère le modèle:
+        currentRoomModel = gameController.getPlayerModel().getRoom();
+
+        //On met à jour la vue:
+        gameController.getGameView().getMapPane().getChildren().remove(currentRoomView);
+        currentRoomView = new RoomView(nbCol, nbLignes);
+        gameController.getGameView().getRoomLabel().setText("Room " + currentRoomModel.getID());
+        loadDoors();
+        loadItems();
+        loadPlayer();
+        loadNPCs();
+        loadHandlers();
+        gameController.getGameView().getMapPane().getChildren().add(currentRoomView);
+
+        //On signale à l'inventaire de mettre à jour la taille du tableau 
+        //de gestionnaires d'événements utilisé pour la gestion de la
+        //fonction use() des objets (quand on clique gauche sur un objet):
+        gameController.getInventoryController().resetUseItemHandlersArray(nbCol, nbLignes);
+
+        //"Éteint" l'ordinateur si le joueur quitte la pièce sans appuyer 
+        //sur le bouton 'quitter':
+        gameController.getActorController().resetActorPanel();
+
+        //À chaque nouvelle pièce chargée on vérifie si le jeu est terminé:
+        gameController.isGameOver();
+    }
+\end{lstlisting}
+\newpage
+On peut remarquer plusieurs problèmes à cette conception du chargement automatique:
+
+\begin{itemize}
+	\item La vue n'est pas vraiment mise à jour: elle est détruite par l'initialisation d'une toute nouvelle vue
+	\item Certaines méthodes normalement du ressort de l'\textit{InventoryController} ou encore de l'\textit{ActorController} ou \textit{GameController} sont laissées à la charge du \textit{RoomController} dans cette méthode de mise à jour de la vue. Bien qu'il s'agissait de solutions 'simples' pour résoudre certains problème, nous avons conscience que nous ne pouvons pas résoudre tous les problèmes du jeu en réinitialisant tout à chaque changement de pièce.
+\end{itemize}
+
+\paragraph{Gestion de l'utilisation des objets\\}
+
+Pour la gestion de l'utilisation des objets, deux options ont été considérées:
+\begin{enumerate}
+	\item Un bouton \textit{Use} présent aux côtés du bouton \textit{Give}, \textit{Drop} et \textit{Look}. Quand le joueur sélectionne un des \textit{ToggleButton} de l'inventaire, le \textit{string} du label de ce dernier est stocké dans un tableau. Le joueur aurait ensuite cliqué sur un élément visuel de la pièce ce qui aurait ajouté un second \textit{string} dans le tableau. Lorsque le joueur aurait ensuite cliqué sur le bouton \textit{Use}, ce bouton aurait appelé la fonction \textit{use()} du modèle en cherchant les éléments du modèle associés aux \textit{strings} stockés dans le tableau
+	\item Nous n'utilisons pas de bouton \textit{Use}. Lorsque le joueur sélectionne un des \textit{ToggleButton} de l'inventaire, des gestionnaires d'événements sont attachés à tous les éléments visuels présents dans la pièce. Ces gestionnaires d'événements appellent la fonction \textit{use()} du modèle avec le \textit{string} de l'objet sélectionné en paramètre. Afin de gérer ces gestionnaires d'événements temporaires nous avons utilisé un tableau nommé \textit{fireHandlers} qu'on nettoyait dès que l'objet était déselectionné ou utilisé ou que le joueur changeait de pièce\\
+\end{enumerate}
+
+La dernière solution, plus complexe, a été choisie car elle nous semblait plus ergonomique et que le défi nous semblait intéressant. Cependant, elle a aussi introduit de la complexité dans notre code et une gestion d'un tableau que l'on retrouve notamment dans la méthode de mise à jour de la vue des pièces présentées ci-dessus.
+\begin{center}
+	\begin{figure}[h!]
+	\includegraphics[scale=1]{images/fireHandlers.png}
+	\caption{Le tableau \textit{fireHandlers} permettant de gérer les gestionnaires d'événements temporaires}
+	\end{figure}
+\end{center}
+
+\paragraph{Gestion du don d'objet\\}
+
+La gestion du don d'objet utilise deux informations:
+\begin{enumerate}
+	\item L'acteur sélectionné (cf. élément \textbf{(6)} de l'UI présentée au début de ce rapport)
+	\item L'objet sélectionné (le \textit{ToggleButton} dans le panneau de l'inventaire, élément \textbf{(12)} de l'UI)
+\end{enumerate}
+
+L'étiquette du personnage est récupéré dans la vue de l'acteur sélectionné, l'étiquette de l'objet dans le \textit{ToggleButton} sélectionné de l'inventaire. Un gestionnaire d'événement est alors associé au bouton \textit{Give} qui fait appel à la méthode \textit{give()} du modèle avec ces deux informations.\\
+
+Aussi notre solution ressemble beaucoup à la première solution envisagée pour l'utilisation des objets, le tableau de stockage des étiquettes en moins car n'étant pas nécessaire à la résolution de ce problème.
+\newpage
+
+\paragraph{Gestion de l'ordinateur du jeu\\}
+Enfin, notre jeu présentait un élément spécial: un ordinateur. Dans le modèle, cet ordinateur se comportait comme un terminal de commande dans le terminal de commande. L'ordinateur contient des fichiers que le joueur peut consulter ou emporter des copies et certains de ses "programmes" permettent de déclencher des événements dans le jeu (comme l'ouverture de la porte dans la pièce 23)\\
+
+Étant donné que dans le modèle la "vue" choisie était celle d'un terminal dans le terminal, il nous a paru naturel de lui donner une traduction graphique "d'ordinateur dans l'ordinateur" pour cette application.\\
+
+Aussi l'ordinateur a son propre mini-MVC. Lorsque l'ordinateur est utilisé par le joueur, le contrôleur de ce mini-MVC est appelé et remplace le panneau de l'acteur comme illustré dans l'image ci-dessous:
+
+\begin{center}
+	\begin{figure}[h!]
+	\advance\leftskip-0.6cm
+	\includegraphics[scale=0.25]{images/ordinateur.png}
+	\caption{Illustration de la vue de l'ordinateur dans le jeu, les fichiers réutilisent la vue des items du jeu et sont représentés par des ellipses noires}
+	\end{figure}
+\end{center}
+
+La solution de la fenêtre popup a été considérée et aurait permise de simplifier la gestion de la fermeture de l'ordinateur lorsque le joueur quitte une pièce sans avoir cliqué sur le bouton 'quitter'. Cette gestion est actuellement assuré par la méthode \textit{updateRoomView} du \textit{RoomController} présenté précédemment.\\
+
+Cependant, nous tenions à éviter l'utilisation des fenêtres popups car nous jugions qu'elles cassaient un peu le rythme du jeu.\\
+
+La gestion complète de l'ordinateur est inachevée et fait partie des axes d'amélioration et des possibilités d'extension de l'application dont nous voulons maintenant faire l'état dans la section suivante de ce rapport.
 
 \newpage
 
